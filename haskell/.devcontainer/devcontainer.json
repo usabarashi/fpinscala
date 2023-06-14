@@ -12,6 +12,6 @@
         "haskell.haskell"
       ]
     }
-  },
+  }
   // Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
 }
