@@ -1,7 +1,7 @@
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Assertions._
 
-class Exercise21Suite extends munit.FunSuite {
+class GettingStartedSuite extends munit.FunSuite {
   test("EXERSISE 2.1") {
     assertEquals(fib(0), 0)
     assertEquals(fib(1), 1)
@@ -14,7 +14,7 @@ class Exercise21Suite extends munit.FunSuite {
     assertEquals(fib(8), 21)
     assertEquals(fib(9), 34)
     assertThrows[IllegalArgumentException] {
-      fib(-1)
+      fib(-42)
     }
   }
 }

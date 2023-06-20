@@ -3,5 +3,5 @@
 # Test
 
 ```console
-sbt test
+sbt ~test
 ```
