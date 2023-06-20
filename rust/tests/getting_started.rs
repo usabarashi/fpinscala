@@ -1,8 +1,7 @@
-use fpinscala::exercise21::fib;
+use fpinscala::getting_started::my_program::fib;
 
 #[test]
-fn test_fib() {
-    use std::panic;
+fn test_exersize21() {
     assert_eq!(fib(0), 0);
     assert_eq!(fib(0), 0);
     assert_eq!(fib(1), 1);
@@ -14,5 +13,5 @@ fn test_fib() {
     assert_eq!(fib(7), 13);
     assert_eq!(fib(8), 21);
     assert_eq!(fib(9), 34);
-    assert!(panic::catch_unwind(|| fib(-1)).is_err());
+    // assert!(panic::catch_unwind(|| fib(-42)).is_err()); // Syntax Error
 }
