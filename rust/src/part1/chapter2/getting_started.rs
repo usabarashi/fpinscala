@@ -17,17 +17,6 @@ pub mod my_program {
     }
 
     pub fn fuctorial(n: u32) -> u32 {
-        /*
-        fn go(n: u32, acc: u32) -> u32 {
-            if n <= 0 {
-                acc
-            } else {
-                go(n - 1, n * acc)
-            }
-        }
-        go(n, 1)
-        */
-
         let mut result = 1;
         for i in 1..=n {
             result *= i;
@@ -36,25 +25,6 @@ pub mod my_program {
     }
 
     pub fn fib(n: u32) -> u32 {
-        /*
-        match n {
-            0 => 0,
-            1 => 1,
-            _  => fib(n - 2) + fib(n - 1),
-        }
-        */
-
-        /*
-        fn go(number: u32, current: u32, next: u32) -> u32 {
-            if number <= 0 {
-                current
-            } else {
-                go(number - 1, next, current + next)
-            }
-        }
-        go(n, 0, 1)
-        */
-
         let mut current = 0;
         let mut next = 1;
         for _ in 0..n {
@@ -63,5 +33,25 @@ pub mod my_program {
             next = accumulator + next;
         }
         current
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    #[test]
+    fn test_exercise21() {
+        assert_eq!(my_program::fib(0), 0);
+        assert_eq!(my_program::fib(0), 0);
+        assert_eq!(my_program::fib(1), 1);
+        assert_eq!(my_program::fib(2), 1);
+        assert_eq!(my_program::fib(3), 2);
+        assert_eq!(my_program::fib(4), 3);
+        assert_eq!(my_program::fib(5), 5);
+        assert_eq!(my_program::fib(6), 8);
+        assert_eq!(my_program::fib(7), 13);
+        assert_eq!(my_program::fib(8), 21);
+        assert_eq!(my_program::fib(9), 34);
+        // assert!(panic::catch_unwind(|| fib(-42)).is_err()); // Syntax Error
     }
 }
