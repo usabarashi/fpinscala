@@ -19,6 +19,18 @@ object MyProgram:
 
     go(n, 1)
 
+  private def formatFactorial(n: Int): String =
+    val msg = "The factorial of %d is %d."
+    msg.format(n, factorial(n))
+
+  def printAbsAndFactorial: Unit =
+    println(formatAbs(-42))
+    println(formatFactorial(7))
+
+  def formatResult(name: String, n: Int, f: Int => Int): String =
+    val msg = "The %s of %d is %d."
+    msg.format(name, n, f(n))
+
 def fib(n: Int): Int =
   if (n < 0) throw new IllegalArgumentException(s"$n")
   @tailrec
