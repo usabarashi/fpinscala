@@ -1,9 +1,9 @@
-module FpInScalaSpec.Exercise21Spec where
+module FpInScalaSpec.Part1.Chapter2.GettingStartedSpec where
 
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Exercise21 (fib)
+import FpInScala.Part1.Chapter2.GettingStarted (fib)
 
 spec :: Spec
 spec = do
@@ -30,5 +30,5 @@ spec = do
             fib 9 `shouldBe` 34
 
     describe "Invalid number" $ do
-        it "case -1" $ do
-            evaluate (fib (-1)) `shouldThrow` anyException
+        it "case -42" $ do
+            evaluate (fib (-42)) `shouldThrow` anyException

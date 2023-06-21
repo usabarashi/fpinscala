@@ -13,7 +13,7 @@ common warnings
 
 library
     import:           warnings
-    exposed-modules:  FpInScala.Exercise21
+    exposed-modules:  FpInScala.Part1.Chapter2.GettingStarted
     build-depends:    base ^>=4.17.1.0
     hs-source-dirs:   lib
     default-language: Haskell2010
@@ -24,7 +24,7 @@ test-suite fpinscala-test
     type:             exitcode-stdio-1.0
     hs-source-dirs:   test
     main-is:          Main.hs
-    other-modules:    FpInScalaSpec.Exercise21Spec
+    other-modules:    FpInScalaSpec.Part1.Chapter2.GettingStartedSpec
     build-depends:
         base ^>=4.17.1.0,
         hspec,
