@@ -16,7 +16,7 @@ pub mod my_program {
         print!("{}", format_abs(-42));
     }
 
-    pub fn fuctorial(n: u32) -> u32 {
+    pub fn factorial(n: u32) -> u32 {
         let mut result = 1;
         for i in 1..=n {
             result *= i;
@@ -24,16 +24,29 @@ pub mod my_program {
         result
     }
 
-    pub fn fib(n: u32) -> u32 {
-        let mut current = 0;
-        let mut next = 1;
-        for _ in 0..n {
-            let accumulator = current;
-            current = next;
-            next = accumulator + next;
-        }
-        current
+    fn format_factorial(n: u32) -> String {
+        format!("The factorial of {} is {}.", n, factorial(n))
     }
+
+    pub fn print_abs_and_factorial() -> () {
+        println!("{}", format_abs(-42));
+        println!("{}", format_factorial(7));
+    }
+
+    pub fn format_result(name: &str, n: u32, f: fn(u32) -> u32) -> String {
+        format!("The {} of {} is {}.", name, n, f(n))
+    }
+}
+
+pub fn fib(n: u32) -> u32 {
+    let mut current = 0;
+    let mut next = 1;
+    for _ in 0..n {
+        let accumulator = current;
+        current = next;
+        next = accumulator + next;
+    }
+    current
 }
 
 #[cfg(test)]
@@ -41,17 +54,17 @@ mod tests {
     use super::*;
     #[test]
     fn test_exercise21() {
-        assert_eq!(my_program::fib(0), 0);
-        assert_eq!(my_program::fib(0), 0);
-        assert_eq!(my_program::fib(1), 1);
-        assert_eq!(my_program::fib(2), 1);
-        assert_eq!(my_program::fib(3), 2);
-        assert_eq!(my_program::fib(4), 3);
-        assert_eq!(my_program::fib(5), 5);
-        assert_eq!(my_program::fib(6), 8);
-        assert_eq!(my_program::fib(7), 13);
-        assert_eq!(my_program::fib(8), 21);
-        assert_eq!(my_program::fib(9), 34);
+        assert_eq!(fib(0), 0);
+        assert_eq!(fib(0), 0);
+        assert_eq!(fib(1), 1);
+        assert_eq!(fib(2), 1);
+        assert_eq!(fib(3), 2);
+        assert_eq!(fib(4), 3);
+        assert_eq!(fib(5), 5);
+        assert_eq!(fib(6), 8);
+        assert_eq!(fib(7), 13);
+        assert_eq!(fib(8), 21);
+        assert_eq!(fib(9), 34);
         // assert!(panic::catch_unwind(|| fib(-42)).is_err()); // Syntax Error
     }
 }
