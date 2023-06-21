@@ -1,4 +1,4 @@
-module FpInScala.Part1.Chapter2.GettingStarted (abs', printAbs, factorial, fib) where
+module FpInScala.Part1.Chapter2.GettingStarted (abs', printAbs, factorial, fib, printAbsAndFactorial, formatResult) where
 
 abs' :: Int -> Int
 abs' n = if n < 0 then (-n) else n
@@ -15,6 +15,18 @@ factorial n
     | n < 0 = error $ "Invalid number: " ++ (show n)
     | n == 0 = 1
     | otherwise = n * factorial (n - 1)
+
+formatFactorial :: Int -> String
+formatFactorial n = "The factorial of " ++ (show n) ++ " is " ++ (show (factorial n)) ++ "."
+
+printAbsAndFactorial :: IO ()
+printAbsAndFactorial = do
+    putStrLn (show (formatAbs (-42)))
+    putStrLn (show (formatFactorial 7))
+
+formatResult :: String -> Int -> (Int -> Int) -> String
+formatResult name n f = "The " ++ name ++ " of " ++ (show n) ++ " is " ++ (show (f n)) ++ "."
+
 
 fib :: Int -> Int
 fib n
