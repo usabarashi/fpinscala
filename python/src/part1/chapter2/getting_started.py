@@ -1,4 +1,6 @@
-from typing import Callable
+from typing import Callable, TypeVar, overload
+
+A = TypeVar("A")
 
 
 class MyProgram:
@@ -36,10 +38,41 @@ class MyProgram:
     def format_result(name: str, n: int, f: Callable[[int], int]) -> str:
         return f"The {name} of {n} is {f(n)}."
 
+    @overload
+    @staticmethod
+    def find_first(as_: list[str], key: str) -> int:
+        raise NotImplementedError()
 
-@staticmethod
+    @overload
+    @staticmethod
+    def find_first(as_: list[A], p: Callable[[A], bool]) -> int:
+        raise NotImplementedError()
+
+    @staticmethod
+    def find_first(as_: list[str | A], key_p: str | Callable[[A], bool]) -> int:
+        if isinstance(key_p, str):
+            for index, element in  enumerate(as_):
+                if element == key_p:
+                    return index
+            return -1
+        elif callable(key_p):
+            for index, element in enumerate(as_):
+                if key_p(element):
+                    return index
+            return -1
+        else:
+            return -1
+
+
 def fib(n: int) -> int:
     mut_current, mut_next = 0, 1
     for _ in range(n):
         mut_current, mut_next = mut_next, mut_current + mut_next
     return mut_current
+
+
+def is_sorted(as_: list[A], gt: Callable[[A, A], bool]) -> bool:
+    for current, next in zip(as_, as_[1:]):
+        if gt(current, next):
+            return False
+    return True

@@ -1,4 +1,4 @@
-from part1.chapter2.getting_started import fib
+from part1.chapter2.getting_started import is_sorted, fib
 
 
 def test_exercise21():
@@ -18,3 +18,10 @@ def test_exercise21():
         assert True
     except Exception:
         assert False
+
+
+def test_exercise22():
+    assert True == is_sorted([1, 2, 3], lambda current, next: current > next)
+    assert False == is_sorted([1, 2, 1], lambda current, next: current > next)
+    assert True == is_sorted([3, 2, 1], lambda current, next: current < next)
+    assert False == is_sorted([1, 2, 3], lambda current, next: current < next)
