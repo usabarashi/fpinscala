@@ -2,7 +2,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Assertions._
 
 class GettingStartedSuite extends munit.FunSuite {
-  test("EXERSISE 2.1") {
+  test("Exercise 2.1") {
     assertEquals(fib(0), 0)
     assertEquals(fib(1), 1)
     assertEquals(fib(2), 1)
@@ -16,5 +16,12 @@ class GettingStartedSuite extends munit.FunSuite {
     assertThrows[IllegalArgumentException] {
       fib(-42)
     }
+  }
+
+  test("Exercise 2.2") {
+    assertEquals(isSorted(Array(1, 2, 3), _ > _), true)
+    assertEquals(isSorted(Array(1, 2, 1), _ > _), false)
+    assertEquals(isSorted(Array(3, 2, 1), _ < _), true)
+    assertEquals(isSorted(Array(1, 2, 3), _ < _), false)
   }
 }

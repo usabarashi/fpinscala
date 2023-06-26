@@ -42,3 +42,31 @@ def fib(n: Int): Int =
     if number <= 0 then current
     else go(number=number - 1, current=next, next=current + next)
   go(number=n, current=0, next=1)
+
+def findFirst(ss: Array[String], key: String): Int =
+  @tailrec
+  def loop(n: Int): Int =
+    if ss.length <= n then -1
+    else if ss(n) == key then n
+    else loop (n + 1)
+
+  loop(0)
+
+def findFirst[A](as: Array[A], p: A => Boolean): Int =
+  @tailrec
+  def loop(n: Int): Int =
+    if as.length <= n then -1
+    else if p(as(n)) then n
+    else loop(n + 1)
+
+  loop(0)
+
+def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+  @tailrec
+  def loop(n: Int): Boolean =
+    if as.length <= n + 1 then true
+    else if gt(as(n), as(n + 1)) then false
+    else loop(n + 1)
+
+  loop(0)
+}
