@@ -1,4 +1,4 @@
-import { fib } from 'src/part1/chapter2/getting_started'
+import { isSorted, fib } from 'src/part1/chapter2/getting_started'
 
 describe("Exercise 2.1", () => {
     test("case 0", () => expect(fib(0)).toBe(0))
@@ -12,4 +12,11 @@ describe("Exercise 2.1", () => {
     test("case 8", () => expect(fib(8)).toBe(21))
     test("case 9", () => expect(fib(9)).toBe(34))
     test("case -42", () => expect(() => fib(-42)).toThrow(`Invalid number: ${-42}`))
+})
+
+describe("Exercise 2.2", () => {
+    test("case [1, 2, 3] > true", () => expect(isSorted([1, 2, 3], (arg1, arg2) => arg1 > arg2)).toBe(true))
+    test("case [1, 2, 1] > false", () => expect(isSorted([1, 2, 1], (arg1, arg2) => arg1 > arg2)).toBe(false))
+    test("case [3, 2, 1] < true", () => expect(isSorted([3, 2, 1], (arg1, arg2) => arg1 < arg2)).toBe(true))
+    test("case [1, 2, 3] < false", () => expect(isSorted([1, 2, 3], (arg1, arg2) => arg1 < arg2)).toBe(false))
 })
