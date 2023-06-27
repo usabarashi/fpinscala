@@ -5,5 +5,5 @@
 ```console
 cabal update
 cabal build --enable-tests
-cabal test
+cabal test --test-show-details=always
 ```

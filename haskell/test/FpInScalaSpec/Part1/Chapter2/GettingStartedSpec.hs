@@ -3,10 +3,10 @@ module FpInScalaSpec.Part1.Chapter2.GettingStartedSpec where
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Part1.Chapter2.GettingStarted (fib)
+import FpInScala.Part1.Chapter2.GettingStarted (isSorted, fib)
 
-spec :: Spec
-spec = do
+exercise21Spec :: Spec
+exercise21Spec = do
     describe "Valid number" $ do
         it "case 0" $
             fib 0 `shouldBe` 0
@@ -32,3 +32,15 @@ spec = do
     describe "Invalid number" $ do
         it "case -42" $ do
             evaluate (fib (-42)) `shouldThrow` anyException
+
+exercise22Spec :: Spec
+exercise22Spec = do
+    describe "Higher-order Function" $ do
+        it "case [1, 2, 3] > True" $
+            isSorted [1 :: Int, 2, 3] (\current next -> current > next) `shouldBe` True
+        it "case [1, 2, 1] > False" $
+            isSorted [1 :: Int, 2, 1] (\current next -> current > next) `shouldBe` False
+        it "case [3, 2, 1] < True" $
+            isSorted [3 :: Int, 2, 1] (\current next -> current < next) `shouldBe` True
+        it "case [1, 2, 3] < False" $
+            isSorted [1 :: Int, 2, 3] (\current next -> current < next) `shouldBe` False
