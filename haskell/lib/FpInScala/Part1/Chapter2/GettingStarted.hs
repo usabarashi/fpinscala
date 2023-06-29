@@ -56,3 +56,6 @@ isSorted [_] _                  = True
 isSorted (current:next:rest) f
     | f current next == True = False
     | otherwise              = isSorted (next:rest) f
+
+curry :: (a -> b -> c) -> a -> (b -> c)
+curry f a b = f a b
