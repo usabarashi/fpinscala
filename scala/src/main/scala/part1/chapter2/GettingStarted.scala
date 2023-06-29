@@ -61,7 +61,7 @@ def findFirst[A](as: Array[A], p: A => Boolean): Int =
 
   loop(0)
 
-def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
+def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean =
   @tailrec
   def loop(n: Int): Boolean =
     if as.length <= n + 1 then true
@@ -69,4 +69,6 @@ def isSorted[A](as: Array[A], gt: (A, A) => Boolean): Boolean = {
     else loop(n + 1)
 
   loop(0)
-}
+
+def curry[A, B, C](f: (A, B) => C): A => (B => C) =
+  a => b => f(a, b)
