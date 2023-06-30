@@ -1,6 +1,8 @@
 from typing import Callable, TypeVar, overload
 
 A = TypeVar("A")
+B = TypeVar("B")
+C = TypeVar("C")
 
 
 class MyProgram:
@@ -51,7 +53,7 @@ class MyProgram:
     @staticmethod
     def find_first(as_: list[str | A], key_p: str | Callable[[A], bool]) -> int:
         if isinstance(key_p, str):
-            for index, element in  enumerate(as_):
+            for index, element in enumerate(as_):
                 if element == key_p:
                     return index
             return -1
@@ -76,3 +78,13 @@ def is_sorted(as_: list[A], gt: Callable[[A, A], bool]) -> bool:
         if gt(current, next):
             return False
     return True
+
+
+def curry(f: Callable[[A, B], C]) -> Callable[[A], Callable[[B], C]]:
+    def partial_application_1(arg1: A) -> Callable[[B], C]:
+        def partial_application_2(arg2: B) -> C:
+            return f(arg1, arg2)
+
+        return partial_application_2
+
+    return partial_application_1
