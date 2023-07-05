@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 pub mod my_program {
 
     pub fn abs(n: i32) -> u32 {
@@ -75,6 +77,22 @@ pub fn is_sorted<A>(as_: &Vec<A>, gt: fn(&A, &A) -> bool) -> bool {
         }
     }
     true
+}
+
+pub fn curry<'a: 'b, 'b, A, B, C, F>(
+    f: F,
+) -> Box<dyn Fn(&'a A) -> Box<dyn Fn(&'b B) -> C + 'b> + 'a>
+where
+    F: Fn(&A, &B) -> C + 'static,
+    A: 'a,
+    B: 'b,
+    C: 'static,
+{
+    let f = Rc::new(f);
+    Box::new(move |a: &'a A| {
+        let f = Rc::clone(&f);
+        Box::new(move |b: &'b B| f(a, b))
+    })
 }
 
 #[cfg(test)]
