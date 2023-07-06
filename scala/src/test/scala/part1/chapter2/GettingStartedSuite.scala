@@ -24,4 +24,9 @@ class GettingStartedSuite extends munit.FunSuite {
     assertEquals(isSorted(Array(3, 2, 1), _ < _), true)
     assertEquals(isSorted(Array(1, 2, 3), _ < _), false)
   }
+
+  test("Exercise 2.3") {
+    val func = (a: Int, b: Int) => a + b
+    assertEquals(curry(func)(42)(42), func(42, 42))
+  }
 }
