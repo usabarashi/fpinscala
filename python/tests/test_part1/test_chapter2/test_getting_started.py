@@ -1,4 +1,4 @@
-from part1.chapter2.getting_started import is_sorted, fib
+from part1.chapter2.getting_started import curry, fib, is_sorted
 
 
 def test_exercise21():
@@ -25,3 +25,9 @@ def test_exercise22():
     assert False == is_sorted([1, 2, 1], lambda current, next: current > next)
     assert True == is_sorted([3, 2, 1], lambda current, next: current < next)
     assert False == is_sorted([1, 2, 3], lambda current, next: current < next)
+
+def test_exercise23():
+    def func(a: int, b: int) -> int:
+        return a + b
+
+    assert func(a=42, b=42) == curry(func)(42)(42)
