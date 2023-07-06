@@ -47,8 +47,8 @@ exercise22Spec = do
 
 exercise23Spec :: Spec
 exercise23Spec = do
-    let func :: Int -> Int -> Int
-        func a b = a + b
+    let func :: (Int, Int) -> Int
+        func (a, b) = a + b
     describe "Curry" $ do
         it "curry" $
-            (curry' func 42 42) `shouldBe` (func 42 42)
+            (curry' func 42 42) `shouldBe` (func (42, 42))
