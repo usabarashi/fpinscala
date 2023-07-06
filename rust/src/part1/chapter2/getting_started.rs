@@ -133,4 +133,10 @@ mod tests {
             false
         );
     }
+
+    #[test]
+    fn test_exercise23() {
+        let func = |a: &i32, b: &i32| a + b;
+        assert_eq!(func(&42, &42), curry(func)(&42)(&42))
+    }
 }
