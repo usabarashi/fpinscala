@@ -88,3 +88,10 @@ def curry(f: Callable[[A, B], C]) -> Callable[[A], Callable[[B], C]]:
         return partial_application_2
 
     return partial_application_1
+
+
+def uncurry(f: Callable[[A], Callable[[B], C]]) -> Callable[[A, B], C]:
+    def application(arg1: A, arg2: B) -> C:
+        return f(arg1)(arg2)
+
+    return application

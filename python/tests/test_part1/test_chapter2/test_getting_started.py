@@ -1,4 +1,6 @@
-from part1.chapter2.getting_started import curry, fib, is_sorted
+from part1.chapter2.getting_started import curry, fib, is_sorted, uncurry
+
+from typing import Callable
 
 
 def test_exercise21():
@@ -26,8 +28,19 @@ def test_exercise22():
     assert True == is_sorted([3, 2, 1], lambda current, next: current < next)
     assert False == is_sorted([1, 2, 3], lambda current, next: current < next)
 
+
 def test_exercise23():
     def func(a: int, b: int) -> int:
         return a + b
 
     assert func(a=42, b=42) == curry(func)(42)(42)
+
+
+def test_exercise24():
+    def func(a: int) -> Callable[[int], int]:
+        def partial_application(b: int) -> int:
+            return a + b
+
+        return partial_application
+
+    assert func(42)(42) == uncurry(func)(42, 42)

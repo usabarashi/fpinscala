@@ -3,5 +3,5 @@
 # Test
 
 ```console
-pytest
+pytest -v
 ```
