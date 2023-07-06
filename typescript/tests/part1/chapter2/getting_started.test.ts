@@ -1,4 +1,4 @@
-import { isSorted, fib } from 'src/part1/chapter2/getting_started'
+import { isSorted, fib, curry } from 'src/part1/chapter2/getting_started'
 
 describe("Exercise 2.1", () => {
     test("case 0", () => expect(fib(0)).toBe(0))
@@ -19,4 +19,9 @@ describe("Exercise 2.2", () => {
     test("case [1, 2, 1] > false", () => expect(isSorted([1, 2, 1], (arg1, arg2) => arg1 > arg2)).toBe(false))
     test("case [3, 2, 1] < true", () => expect(isSorted([3, 2, 1], (arg1, arg2) => arg1 < arg2)).toBe(true))
     test("case [1, 2, 3] < false", () => expect(isSorted([1, 2, 3], (arg1, arg2) => arg1 < arg2)).toBe(false))
+})
+
+describe("Exercise 2.3", () => {
+    const func = (a: number, b: number) => a + b
+    test("curry", () => expect(func(42, 42) === curry(func)(42)(42)).toBe(true))
 })
