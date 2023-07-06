@@ -3,7 +3,7 @@ module FpInScalaSpec.Part1.Chapter2.GettingStartedSpec where
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Part1.Chapter2.GettingStarted (curry', fib, isSorted)
+import FpInScala.Part1.Chapter2.GettingStarted (curry', fib, isSorted, uncurry')
 
 exercise21Spec :: Spec
 exercise21Spec = do
@@ -52,3 +52,11 @@ exercise23Spec = do
     describe "Curry" $ do
         it "curry" $
             (curry' func 42 42) `shouldBe` (func (42, 42))
+
+exercise24Spec :: Spec
+exercise24Spec = do
+    let func :: Int -> Int -> Int
+        func a b = a + b
+    describe "Uncurry" $ do
+        it "uncurry" $
+            (uncurry' func (42, 42)) `shouldBe` (func 42 42)
