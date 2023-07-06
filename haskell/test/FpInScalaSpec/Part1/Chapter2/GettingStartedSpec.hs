@@ -3,7 +3,7 @@ module FpInScalaSpec.Part1.Chapter2.GettingStartedSpec where
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Part1.Chapter2.GettingStarted (isSorted, fib)
+import FpInScala.Part1.Chapter2.GettingStarted (curry', fib, isSorted)
 
 exercise21Spec :: Spec
 exercise21Spec = do
@@ -44,3 +44,11 @@ exercise22Spec = do
             isSorted [3 :: Int, 2, 1] (\current next -> current < next) `shouldBe` True
         it "case [1, 2, 3] < False" $
             isSorted [1 :: Int, 2, 3] (\current next -> current < next) `shouldBe` False
+
+exercise23Spec :: Spec
+exercise23Spec = do
+    let func :: Int -> Int -> Int
+        func a b = a + b
+    describe "Curry" $ do
+        it "curry" $
+            (curry' func 42 42) `shouldBe` (func 42 42)
