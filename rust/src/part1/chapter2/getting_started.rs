@@ -95,6 +95,16 @@ where
     })
 }
 
+pub fn uncurry<'a, 'b, A, B, C, F>(f: F) -> Box<dyn Fn(&'a A, &'b B) -> C + 'a>
+where
+    F: Fn(&'a A) -> Box<dyn Fn(&'b B) -> C + 'b> + 'a,
+    A: 'a,
+    B: 'b,
+    C: 'static,
+{
+    Box::new(move |a: &'a A, b: &'b B| f(a)(b))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -138,5 +148,13 @@ mod tests {
     fn test_exercise23() {
         let func = |a: &i32, b: &i32| a + b;
         assert_eq!(func(&42, &42), curry(func)(&42)(&42))
+    }
+
+    #[test]
+    fn test_exercise24() {
+        let func = |a: &'static i32| -> Box<dyn Fn(&'static i32) -> i32> {
+            Box::new(move |b: &'static i32| *a + *b)
+        };
+        assert_eq!(func(&42)(&42), uncurry(func)(&42, &42));
     }
 }
