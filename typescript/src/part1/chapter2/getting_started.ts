@@ -61,3 +61,5 @@ export const uncurry = <A, B, C>(f: (a: A) => (b: B) => C): (a: A, b: B) => C =>
         return f(a)(b)
     }
 }
+
+export const compose = <A, B, C>(f: (b: B) => C, g: (a: A) => B): (a: A) => C => (a: A) => f(g(a))

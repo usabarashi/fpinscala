@@ -1,4 +1,4 @@
-import { curry, fib, isSorted, uncurry } from 'src/part1/chapter2/getting_started'
+import { compose, curry, fib, isSorted, uncurry } from 'src/part1/chapter2/getting_started'
 
 describe("Exercise 2.1", () => {
     test("case 0", () => expect(fib(0)).toBe(0))
@@ -29,4 +29,10 @@ describe("Exercise 2.3", () => {
 describe("Exercise 2.4", () => {
     const func = (a: number) => (b: number) => a + b
     test("uncurry", () => expect(func(42)(42) === uncurry(func)(42, 42)).toBe(true))
+})
+
+describe("Exercise 2.5", () => {
+    const f = (x: number) => 42 * x
+    const g = (x: string) => 42 * parseInt(x, 10)
+    test("compose", () => expect((42 * 42 * 42) === compose(f, g)("42")).toBe(true))
 })
