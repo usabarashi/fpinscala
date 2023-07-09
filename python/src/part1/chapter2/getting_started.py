@@ -81,20 +81,12 @@ def is_sorted(as_: list[A], gt: Callable[[A, A], bool]) -> bool:
 
 
 def curry(f: Callable[[A, B], C]) -> Callable[[A], Callable[[B], C]]:
-    def partial_application_1(arg1: A) -> Callable[[B], C]:
-        def partial_application_2(arg2: B) -> C:
-            return f(arg1, arg2)
-
-        return partial_application_2
-
-    return partial_application_1
+    return lambda a: lambda b: f(a, b)
 
 
 def uncurry(f: Callable[[A], Callable[[B], C]]) -> Callable[[A, B], C]:
-    def application(arg1: A, arg2: B) -> C:
-        return f(arg1)(arg2)
+    return lambda a, b: f(a)(b)
 
-    return application
 
 def compose(f: Callable[[B], C], g: Callable[[A], B]) -> Callable[[A], C]:
     return lambda a:  f(g(a))
