@@ -48,18 +48,8 @@ export const isSorted = <A>(as: Array<A>, gt: (arg1: A, arg2: A) => boolean): bo
     return true
 }
 
-export const curry = <A, B, C>(f: (a: A, b: B) => C): (a: A) => (b: B) => C => {
-    return (a: A): (b: B) => C => {
-        return (b: B): C => {
-            return f(a, b)
-        }
-    }
-}
+export const curry = <A, B, C>(f: (a: A, b: B) => C) => (a: A) => (b: B) => f(a, b)
 
-export const uncurry = <A, B, C>(f: (a: A) => (b: B) => C): (a: A, b: B) => C => {
-    return (a: A, b: B): C => {
-        return f(a)(b)
-    }
-}
+export const uncurry = <A, B, C>(f: (a: A) => (b: B) => C) => (a: A, b: B) => f(a)(b)
 
-export const compose = <A, B, C>(f: (b: B) => C, g: (a: A) => B): (a: A) => C => (a: A) => f(g(a))
+export const compose = <A, B, C>(f: (b: B) => C, g: (a: A) => B) => (a: A) => f(g(a))
