@@ -1,4 +1,4 @@
-module FpInScala.Part1.Chapter2.GettingStarted (abs', printAbs, factorial, fib, printAbsAndFactorial, formatResult, isSorted, curry', uncurry') where
+module FpInScala.Part1.Chapter2.GettingStarted (abs', printAbs, factorial, fib, printAbsAndFactorial, formatResult, isSorted, curry', uncurry', compose) where
 
 abs' :: Int -> Int
 abs' n = if n < 0 then (-n) else n
@@ -62,3 +62,6 @@ curry' f a b = f (a, b)
 
 uncurry' :: (a -> b -> c) -> (a, b) -> c
 uncurry' f (a, b) = f a b
+
+compose :: (b -> c) -> (a -> b) -> a -> c
+compose f g x = f (g x)
