@@ -105,6 +105,15 @@ where
     Box::new(move |a: &'a A, b: &'b B| f(a)(b))
 }
 
+pub fn compose<A, B, C, F, G>(f: F, g: G) -> impl Fn(&A) -> C
+where
+    A: ?Sized,
+    F: Fn(&B) -> C,
+    G: Fn(&A) -> B,
+{
+    move |a: &A| f(&g(a))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -156,5 +165,12 @@ mod tests {
             Box::new(move |b: &'static i32| *a + *b)
         };
         assert_eq!(func(&42)(&42), uncurry(func)(&42, &42));
+    }
+
+    #[test]
+    fn test_exercise25() {
+        let f = |x: &i32| 42 * x;
+        let g = |x: &str| 42 * x.parse::<i32>().unwrap();
+        assert_eq!((42 * 42 * 42), compose(f, g)(&"42"));
     }
 }
