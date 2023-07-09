@@ -34,4 +34,10 @@ class GettingStartedSuite extends munit.FunSuite {
     val func: Int => Int => Int = a => b => a + b
     assertEquals(uncurry(func)(42, 42), func(42)(42))
   }
+
+  test("Exercise 2.5") {
+    val f = (x: Int) => 42 * x
+    val g = (x: String) => 42 * x.toInt
+    assertEquals(42 * 42 * 42, compose(f, g)("42"))
+  }
 }
