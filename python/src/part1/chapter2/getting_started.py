@@ -95,3 +95,6 @@ def uncurry(f: Callable[[A], Callable[[B], C]]) -> Callable[[A, B], C]:
         return f(arg1)(arg2)
 
     return application
+
+def compose(f: Callable[[B], C], g: Callable[[A], B]) -> Callable[[A], C]:
+    return lambda a:  f(g(a))

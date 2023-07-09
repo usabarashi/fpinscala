@@ -44,3 +44,11 @@ def test_exercise24():
         return partial_application
 
     assert func(42)(42) == uncurry(func)(42, 42)
+
+def test_exercise25():
+    def f(x: int) -> int:
+        return 42 * x
+    def g(x: str) -> int:
+        return 42 * int(x)
+
+    assert (42 * 42 * 42) == f(g("42"))
