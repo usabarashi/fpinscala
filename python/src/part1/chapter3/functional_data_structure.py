@@ -1,4 +1,4 @@
-"""List."""
+"""Functional data structure."""
 from __future__ import annotations
 
 from typing import Generic, TypeVar, TypeAlias
@@ -15,7 +15,6 @@ class List(Generic[Tp]):
             case ():
                 return Nil[Tp]()
             case (x,):
-                print("Nil")
                 return Cons[Tp](head=x, tail=Nil[Tp]())
             case (x, *xs):
                 return Cons[Tp](head=x, tail=List[Tp].apply(*xs))
@@ -24,11 +23,15 @@ class List(Generic[Tp]):
         return List.apply(*args)
 
     def sum(self) -> int:
-        match self:
+        match self.pattern:
             case Nil():
                 return 0
             case Cons(head=x, tail=xs):
                 return x + xs.sum()
+
+    @property
+    def pattern(self) -> SubType[Tp]:
+        raise NotImplementedError()
 
 
 class Nil(List[Tp]):
@@ -38,6 +41,10 @@ class Nil(List[Tp]):
         if not hasattr(cls, "_singleton"):
             cls._singleton = object.__new__(cls)
         return cls._singleton
+
+    @property
+    def pattern(self) -> SubType[Tp]:
+        return self
 
 
 class Cons(List[Tp]):
@@ -50,3 +57,10 @@ class Cons(List[Tp]):
         instance.head = head
         instance.tail = tail
         return instance
+
+    @property
+    def pattern(self) -> SubType[Tp]:
+        return self
+
+
+SubType: TypeAlias = Nil[Tp] | Cons[Tp]
