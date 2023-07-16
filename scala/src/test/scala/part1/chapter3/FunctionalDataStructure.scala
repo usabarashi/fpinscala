@@ -29,7 +29,7 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
   }
 
   test("Exercise 3.4") {
-    assertEquals(List.drop(List(), 1), List())
+    assertEquals(List.drop(List(), 42), List())
     assertEquals(List.drop(List(1,2,3,4,5), 3), List(4,5))
   }
 
