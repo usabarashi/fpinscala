@@ -3,7 +3,7 @@ module FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec where
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Part1.Chapter3.FunctionalDataStructure (List(Nil, Cons), sumList, list)
+import FpInScala.Part1.Chapter3.FunctionalDataStructure (List(Nil, Cons), sumList, list, tail')
 
 exercise31Spec :: Spec
 exercise31Spec = do
@@ -17,3 +17,11 @@ exercise31Spec = do
     describe "List" $ do
         it "Pattern matching" $
             result `shouldBe` 3
+
+exercise32Spec :: Spec
+exercise32Spec = do
+    describe "List" $ do
+        it "Nil tail" $ do
+            evaluate (tail' (list ([] :: [Int]))) `shouldThrow` anyException
+        it "Cons tail" $
+            tail' (list ([1, 2, 3] :: [Int])) `shouldBe` (list [2, 3] :: List Int)
