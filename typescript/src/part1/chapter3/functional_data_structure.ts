@@ -38,3 +38,8 @@ export const drop = <T>(ts: List<T>, n: number): List<T> =>
         .with({ type: 'Nil' }, () => ts)
         .with({ type: 'Cons' }, (cons) => n <= 0 ? cons : drop(cons.tail, n - 1))
         .exhaustive()
+
+export const dropWhile = <T>(ts: List<T>, f: (n: T) => boolean): List<T> =>
+    match(ts)
+        .with({ type: 'Cons' }, (cons) => f(cons.head) ? dropWhile(cons.tail, f) : cons)
+        .otherwise(() => ts)
