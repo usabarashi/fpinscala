@@ -39,3 +39,9 @@ object List:
     as match
       case Cons(head, tail) if f(head) => dropWhile(tail, f)
       case _ => as
+
+  def init[A](as: List[A]): List[A] =
+    as match
+      case Nil => sys.error("Does not have tail.")
+      case Cons(_, Nil) => Nil
+      case Cons(head, tail) => Cons(head, init(tail))

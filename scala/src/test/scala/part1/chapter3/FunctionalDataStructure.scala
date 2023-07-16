@@ -35,6 +35,13 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
 
   test("Exercise 3.5") {
     assertEquals(List.dropWhile(List(), (n: Int) => n < 3), List())
-    assertEquals(List.dropWhile(List(1,2,3,4,5), (n: Int) => n < 3), List(3, 4,5))
+    assertEquals(List.dropWhile(List(1,2,3,4,5), (n: Int) => n < 3), List(3, 4, 5))
+  }
+
+  test("Exercise 3.6") {
+    assertThrows[Exception] {
+      List.init(List())
+    }
+    assertEquals(List.init(List(1,2,3,4,5)), List(1, 2, 3, 4))
   }
 }
