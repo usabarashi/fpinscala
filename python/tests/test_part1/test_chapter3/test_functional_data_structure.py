@@ -23,3 +23,9 @@ def test_exercise32():
     with pytest.raises(EOFError):
         List[int]().tail
     assert List[int](2, 3) == List[int](1, 2, 3).tail
+
+
+def test_exercise33():
+    with pytest.raises(Exception):
+        List[int]().set_head(42)
+    assert List[int](42, 2, 3) == List[int](1, 2, 3).set_head(42)

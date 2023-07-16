@@ -34,12 +34,19 @@ class List(Generic[Tp]):
             ):
                 return left_head == right_head and left_tail == right_tail
 
-    def sum(self) -> int:
+    def sum(self: List[int]) -> int:
         match self.pattern:
             case Nil():
                 return 0
             case Cons(head=x, tail=xs):
                 return x + xs.sum()
+
+    def set_head(self, a: Tp) -> List[Tp]:
+        match self.pattern:
+            case Nil():
+                raise Exception(self)
+            case Cons(head=x, tail=xs):
+                return Cons(head=a, tail=xs)
 
     @property
     def tail(self) -> List[Tp]:
