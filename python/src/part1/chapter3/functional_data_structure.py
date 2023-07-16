@@ -1,7 +1,7 @@
 """Functional data structure."""
 from __future__ import annotations
 
-from typing import Generic, TypeVar, TypeAlias
+from typing import Callable, Generic, TypeVar, TypeAlias
 
 Tp = TypeVar("Tp", covariant=True)
 
@@ -56,6 +56,13 @@ class List(Generic[Tp]):
                 return self
             case Cons(_, tail):
                 return tail.drop(n - 1)
+
+    def drop_while(self, f: Callable[[Tp], bool]) -> List[Tp]:
+        match self.pattern:
+            case Cons(head, tail) if f(head):
+                return tail.drop_while(f)
+            case _:
+                return self
 
     @property
     def tail(self) -> List[Tp]:

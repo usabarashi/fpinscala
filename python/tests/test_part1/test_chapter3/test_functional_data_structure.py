@@ -34,3 +34,8 @@ def test_exercise33():
 def test_exercise34():
     assert List[int]() == List[int]().drop(42)
     assert List[int](4, 5) == List[int](1, 2, 3, 4, 5).drop(3)
+
+
+def test_exercise35():
+    assert List[int]() == List[int]().drop_while(lambda n: n < 42)
+    assert List[int](4, 5) == List[int](1, 2, 3, 4, 5).drop_while(lambda n: n < 4)
