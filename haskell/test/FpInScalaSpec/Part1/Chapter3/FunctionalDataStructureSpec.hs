@@ -3,7 +3,13 @@ module FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec where
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Part1.Chapter3.FunctionalDataStructure (List(Nil, Cons), sumList, list, tail')
+import FpInScala.Part1.Chapter3.FunctionalDataStructure
+  ( List(Nil, Cons)
+  , sumList
+  , list
+  , tail'
+  , setHead
+  )
 
 exercise31Spec :: Spec
 exercise31Spec = do
@@ -25,3 +31,11 @@ exercise32Spec = do
             evaluate (tail' (list ([] :: [Int]))) `shouldThrow` anyException
         it "Cons tail" $
             tail' (list ([1, 2, 3] :: [Int])) `shouldBe` (list [2, 3] :: List Int)
+
+exercise33Spec :: Spec
+exercise33Spec = do
+    describe "List" $ do
+        it "Nil tail" $ do
+            evaluate (setHead (list ([] :: [Int])) 42) `shouldThrow` anyException
+        it "Cons tail" $
+            (setHead (list ([1, 2, 3] :: [Int])) 42) `shouldBe` (list [42, 2, 3] :: List Int)

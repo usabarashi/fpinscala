@@ -3,6 +3,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , sumList
   , list
   , tail'
+  , setHead
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -32,3 +33,7 @@ list (x:xs) = Cons x (list xs)
 tail' :: List a -> List a
 tail' Nil = error "Nil"
 tail' (Cons _ xs) = xs
+
+setHead :: List a -> a -> List a
+setHead Nil _ = error "Nil"
+setHead (Cons _ xs) x = Cons x xs
