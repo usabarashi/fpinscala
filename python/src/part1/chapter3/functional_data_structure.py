@@ -62,6 +62,15 @@ class List(Generic[Tp]):
             case _:
                 return self
 
+    def init(self) -> List[Tp]:
+        match self.pattern:
+            case Nil():
+                raise EOFError(self)
+            case Cons(_, Nil()):
+                return Nil[Tp]()
+            case Cons(head, tail):
+                return Cons(head=head, tail=tail.init())
+
     @property
     def tail(self) -> List[Tp]:
         raise NotImplementedError(self)
