@@ -1,6 +1,5 @@
 import { match, P } from 'ts-pattern'
 import { sum, apply, tail, setHead, drop, dropWhile } from 'src/part1/chapter3/functional_data_structure'
-import { boolean } from 'ts-pattern/dist/patterns'
 
 describe("Exercise 3.1", () => {
     const result = (): number =>
