@@ -50,12 +50,10 @@ class List(Generic[Tp]):
 
     def drop(self, n: int) -> List[Tp]:
         match self.pattern:
-            case Nil():
-                return self
-            case Cons() if n <= 0:
-                return self
-            case Cons(_, tail):
+            case Cons(_, tail) if 0 < n:
                 return tail.drop(n - 1)
+            case _:
+                return self
 
     def drop_while(self, f: Callable[[Tp], bool]) -> List[Tp]:
         match self.pattern:
