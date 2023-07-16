@@ -1,3 +1,5 @@
+use std::fmt;
+
 enum List<A> {
     Nil,
     Cons { head: A, tail: Box<List<A>> },
@@ -7,37 +9,78 @@ impl<A> List<A>
 where
     A: Clone,
 {
-    fn sum(ints: &List<i32>) -> i32 {
-        match ints {
-            List::Nil => 0,
-            List::Cons { head, tail } => head + Self::sum(tail),
-        }
-    }
-
-    fn product(doubles: &List<f64>) -> f64 {
-        match doubles {
-            List::Nil => 1.0,
-            List::Cons { head, tail: _ } if *head == 0.0 => 0.0,
-            List::Cons { head, tail } => head * Self::product(tail),
-        }
-    }
-
-    fn apply(as_: &[A]) -> List<A> {
+    fn new(as_: &[A]) -> List<A> {
         if as_.is_empty() {
             List::Nil
         } else {
             List::Cons {
                 head: as_[0].clone(),
-                tail: Box::new(Self::apply(&as_[1..])),
+                tail: Box::new(Self::new(&as_[1..])),
             }
+        }
+    }
+
+    fn tail(&self) -> &List<A> {
+        match self {
+            List::Nil => panic!("Nil"),
+            List::Cons { head, tail } => tail,
+        }
+    }
+}
+
+impl List<i32> {
+    fn sum(&self) -> i32 {
+        match self {
+            List::Nil => 0,
+            List::Cons { head, tail } => head + tail.sum(),
+        }
+    }
+}
+
+impl List<f64> {
+    fn product(&self) -> f64 {
+        match self {
+            List::Nil => 1.0,
+            List::Cons { head, tail: _ } if *head == 0.0 => 0.0,
+            List::Cons { head, tail } => head * tail.product(),
+        }
+    }
+}
+
+impl<T: fmt::Debug> fmt::Debug for List<T> {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        match self {
+            List::Nil => write!(f, "Nil"),
+            List::Cons { head, tail } => write!(f, "Cons {{ head: {:?}, tail: {:?} }}", head, tail),
+        }
+    }
+}
+
+impl<T: PartialEq> PartialEq for List<T> {
+    fn eq(&self, other: &Self) -> bool {
+        match (self, other) {
+            (List::Nil, List::Nil) => true,
+            (List::Nil, List::Cons { .. }) | (List::Cons { .. }, List::Nil) => false,
+            (
+                List::Cons {
+                    head: self_head,
+                    tail: self_tail,
+                },
+                List::Cons {
+                    head: other_head,
+                    tail: other_tail,
+                },
+            ) => self_head == other_head && self_tail == other_tail,
         }
     }
 }
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
-    fn exercise31() {
+    fn test_exercise31() {
         fn result() -> usize {
             match [1, 2, 3, 4, 5] {
                 [x, 2, 4, _, _] => x,
@@ -48,5 +91,13 @@ mod tests {
             }
         }
         assert_eq!(result(), 3)
+    }
+
+    #[test]
+    fn test_exercise32() {
+        assert_eq!(
+            List::<i32>::new(&[1, 2, 3]).tail(),
+            &List::<i32>::new(&[2, 3])
+        )
     }
 }
