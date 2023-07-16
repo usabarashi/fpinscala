@@ -5,6 +5,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , tail'
   , setHead
   , drop'
+  , dropWhile'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -44,3 +45,9 @@ drop' Nil _ = Nil
 drop' list'@(Cons _ xs) n
   | n <= 0 = list'
   | otherwise = drop' xs (n - 1)
+
+dropWhile' :: List a -> (a -> Bool) -> List a
+dropWhile' Nil _ = Nil
+dropWhile' list'@(Cons x xs) f
+  | f x = dropWhile' xs f
+  | otherwise = list'
