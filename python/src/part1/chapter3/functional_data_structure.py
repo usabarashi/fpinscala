@@ -48,6 +48,15 @@ class List(Generic[Tp]):
             case Cons(head=x, tail=xs):
                 return Cons(head=a, tail=xs)
 
+    def drop(self, n: int) -> List[Tp]:
+        match self.pattern:
+            case Nil():
+                return self
+            case Cons() if n <= 0:
+                return self
+            case Cons(_, tail):
+                return tail.drop(n - 1)
+
     @property
     def tail(self) -> List[Tp]:
         raise NotImplementedError(self)

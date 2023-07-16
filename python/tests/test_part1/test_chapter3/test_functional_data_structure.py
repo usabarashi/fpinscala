@@ -29,3 +29,8 @@ def test_exercise33():
     with pytest.raises(Exception):
         List[int]().set_head(42)
     assert List[int](42, 2, 3) == List[int](1, 2, 3).set_head(42)
+
+
+def test_exercise34():
+    assert List[int]() == List[int]().drop(42)
+    assert List[int](4, 5) == List[int](1, 2, 3, 4, 5).drop(3)
