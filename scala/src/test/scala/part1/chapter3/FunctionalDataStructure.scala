@@ -13,4 +13,11 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
         case _ => 101
     assertEquals(result, 3)
   }
+
+  test("Exercise 3.2") {
+    assertThrows[Exception] {
+      List.tail(List())
+    }
+    assertEquals(List.tail(List(1,2,3)), List(2,3))
+  }
 }

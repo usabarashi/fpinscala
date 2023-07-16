@@ -17,3 +17,7 @@ object List:
   def apply[A](as: A*): List[A] =
     if as.isEmpty then Nil
     else Cons(as.head, apply(as.tail*))
+
+  def tail[A](list: List[A]): List[A] = list match
+    case Nil => sys.error("Does not have tail.")
+    case Cons(_, tail) => tail
