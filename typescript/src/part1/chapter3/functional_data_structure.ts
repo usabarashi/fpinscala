@@ -32,3 +32,9 @@ export const setHead = <T>(ts: List<T>, t: T): List<T> =>
         .with({ type: 'Nil' }, () => { throw new Error('Nil') })
         .with({ type: 'Cons' }, (cons) => ({ ...cons, head: t }))
         .exhaustive();
+
+export const drop = <T>(ts: List<T>, n: number): List<T> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => ts)
+        .with({ type: 'Cons' }, (cons) => n <= 0 ? cons : drop(cons.tail, n - 1))
+        .exhaustive()

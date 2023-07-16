@@ -1,5 +1,5 @@
 import { match, P } from 'ts-pattern'
-import { sum, apply, tail, setHead } from 'src/part1/chapter3/functional_data_structure'
+import { sum, apply, tail, setHead, drop } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
     const result = (): number =>
@@ -20,4 +20,9 @@ describe("Exercise 3.2", () => {
 describe("Exercise 3.3", () => {
     test("Nil setHead", () => expect(() => tail(apply())).toThrow(`Nil`))
     test("Cons setHead", () => expect(setHead(apply(1, 2, 3), 42)).toEqual(apply(42, 2, 3)))
+})
+
+describe("Exercise 3.4", () => {
+    test("Nil drop", () => expect(drop(apply(), 42)).toEqual(apply()))
+    test("Cons drop", () => expect(drop(apply(1, 2, 3, 4, 5), 3)).toEqual(apply(4, 5)))
 })
