@@ -11,6 +11,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , setHead
   , drop'
   , dropWhile'
+  , init'
   )
 
 exercise31Spec :: Spec
@@ -57,3 +58,11 @@ exercise35Spec = do
             (dropWhile' (list ([] :: [Int])) (\n -> n < 42)) `shouldBe` (list [] :: List Int)
         it "Cons dropWhile" $
             (dropWhile' (list ([1, 2, 3, 4, 5] :: [Int])) (\n -> n < 4)) `shouldBe` (list [4, 5] :: List Int)
+
+exercise36Spec :: Spec
+exercise36Spec = do
+    describe "List" $ do
+        it "Nil init" $ do
+            evaluate (init' (list ([] :: [Int]))) `shouldThrow` anyException
+        it "Cons init" $
+            (init' (list ([1, 2, 3, 4, 5] :: [Int]))) `shouldBe` (list [1, 2, 3, 4] :: List Int)

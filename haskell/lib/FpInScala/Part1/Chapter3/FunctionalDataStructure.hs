@@ -6,6 +6,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , setHead
   , drop'
   , dropWhile'
+  , init'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -51,3 +52,8 @@ dropWhile' Nil _ = Nil
 dropWhile' list'@(Cons x xs) f
   | f x = dropWhile' xs f
   | otherwise = list'
+
+init' :: List a -> List a
+init' Nil = error "Nil"
+init' (Cons x Nil) = Nil
+init' (Cons x xs) = Cons x (init' xs)
