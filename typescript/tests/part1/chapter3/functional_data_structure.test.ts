@@ -1,5 +1,5 @@
 import { match, P } from 'ts-pattern'
-import { sum, apply, tail, setHead, drop, dropWhile } from 'src/part1/chapter3/functional_data_structure'
+import { sum, apply, tail, setHead, drop, dropWhile, init } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
     const result = (): number =>
@@ -30,4 +30,9 @@ describe("Exercise 3.4", () => {
 describe("Exercise 3.5", () => {
     test("Nil dropWhile", () => expect(dropWhile(apply<number>(), (n: number) => n < 42)).toEqual(apply()))
     test("Cons dropWhile", () => expect(dropWhile(apply(1, 2, 3, 4, 5), (n: number) => n < 4)).toEqual(apply(4, 5)))
+})
+
+describe("Exercise 3.6", () => {
+    test("Nil tail", () => expect(() => init(apply())).toThrow(`Nil`))
+    test("Cons init", () => expect(init(apply(1, 2, 3, 4, 5))).toEqual(apply(1, 2, 3, 4)))
 })

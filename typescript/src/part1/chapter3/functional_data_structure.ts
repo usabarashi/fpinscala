@@ -31,7 +31,7 @@ export const setHead = <T>(ts: List<T>, t: T): List<T> =>
     match(ts)
         .with({ type: 'Nil' }, () => { throw new Error('Nil') })
         .with({ type: 'Cons' }, (cons) => ({ ...cons, head: t }))
-        .exhaustive();
+        .exhaustive()
 
 export const drop = <T>(ts: List<T>, n: number): List<T> =>
     match(ts)
@@ -42,3 +42,10 @@ export const dropWhile = <T>(ts: List<T>, f: (n: T) => boolean): List<T> =>
     match(ts)
         .with({ type: 'Cons' }, (cons) => f(cons.head) ? dropWhile(cons.tail, f) : cons)
         .otherwise(() => ts)
+
+export const init = <T>(ts: List<T>): List<T> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => { throw new Error('Nil') })
+        .with({ type: 'Cons', tail: { type: 'Nil' } }, () => apply<T>())
+        .with({ type: 'Cons' }, (cons) => ({ ...cons, tail: init(cons.tail) }))
+        .exhaustive()
