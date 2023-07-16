@@ -18,6 +18,10 @@ object List:
     if as.isEmpty then Nil
     else Cons(as.head, apply(as.tail*))
 
-  def tail[A](list: List[A]): List[A] = list match
+  def tail[A](as: List[A]): List[A] = as match
     case Nil => sys.error("Does not have tail.")
     case Cons(_, tail) => tail
+
+  def setHead[A](as: List[A], a: A): List[A] = as match
+    case Nil => sys.error("Does not have head.")
+    case Cons(_, tail) => Cons(head=a, tail=tail)

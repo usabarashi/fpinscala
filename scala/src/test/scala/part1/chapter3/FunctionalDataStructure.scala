@@ -20,4 +20,11 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
     }
     assertEquals(List.tail(List(1,2,3)), List(2,3))
   }
+
+  test("Exercise 3.3") {
+    assertThrows[Exception] {
+      List.setHead(List[Int](), 42)
+    }
+    assertEquals(List.setHead(List(1,2,3), 42), List(42, 2,3))
+  }
 }
