@@ -21,8 +21,14 @@ export const apply = <T>(...args: Array<T>): List<T> =>
         ? { type: 'Nil' }
         : { type: 'Cons', head: args[0], tail: apply(...args.slice(1)) }
 
-export const tail = <T>(list: List<T>): List<T> =>
-    match(list)
+export const tail = <T>(ts: List<T>): List<T> =>
+    match(ts)
         .with({ type: 'Nil' }, () => { throw new Error(`Nil`) })
         .with({ type: 'Cons' }, (cons) => cons.tail)
         .exhaustive()
+
+export const setHead = <T>(ts: List<T>, t: T): List<T> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => { throw new Error('Nil') })
+        .with({ type: 'Cons' }, (cons) => ({ ...cons, head: t }))
+        .exhaustive();
