@@ -45,6 +45,13 @@ where
             List::Cons { head, tail } => tail.drop_(n - 1),
         }
     }
+
+    fn drop_while(&self, f: &dyn Fn(&A) -> bool) -> &List<A> {
+        match self {
+            List::Cons { head, tail } if f(head) => tail.drop_while(f),
+            _ => self,
+        }
+    }
 }
 
 impl List<i32> {
@@ -132,5 +139,17 @@ mod tests {
     fn test_exercise34() {
         assert_eq!(List::<i32>::new(&[]).drop_(42), &List::<i32>::new(&[]));
         assert_eq!(List::new(&[1, 2, 3, 4, 5]).drop_(3), &List::new(&[4, 5]));
+    }
+
+    #[test]
+    fn test_exercise35() {
+        assert_eq!(
+            List::<i32>::new(&[]).drop_while(&|&n| n < 42),
+            &List::<i32>::new(&[])
+        );
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).drop_while(&|&n| n < 4),
+            &List::new(&[4, 5])
+        );
     }
 }
