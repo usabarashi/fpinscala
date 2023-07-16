@@ -4,6 +4,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , list
   , tail'
   , setHead
+  , drop'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -37,3 +38,9 @@ tail' (Cons _ xs) = xs
 setHead :: List a -> a -> List a
 setHead Nil _ = error "Nil"
 setHead (Cons _ xs) x = Cons x xs
+
+drop' :: List a -> Int -> List a
+drop' Nil _ = Nil
+drop' list'@(Cons _ xs) n
+  | n <= 0 = list'
+  | otherwise = drop' xs (n - 1)
