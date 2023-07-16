@@ -25,3 +25,8 @@ object List:
   def setHead[A](as: List[A], a: A): List[A] = as match
     case Nil => sys.error("Does not have head.")
     case Cons(_, tail) => Cons(head=a, tail=tail)
+
+  def drop[A](as: List[A], n: Int): List[A] = as match
+    case Nil => List()
+    case Cons(_, _) if n <= 0 => as
+    case Cons(_, tail) => drop(tail, n-1)
