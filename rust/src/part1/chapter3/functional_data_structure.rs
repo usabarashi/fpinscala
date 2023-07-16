@@ -1,8 +1,9 @@
 use std::fmt;
+use std::rc::Rc;
 
 enum List<A> {
     Nil,
-    Cons { head: A, tail: Box<List<A>> },
+    Cons { head: A, tail: Rc<List<A>> },
 }
 
 impl<A> List<A>
@@ -15,7 +16,7 @@ where
         } else {
             List::Cons {
                 head: as_[0].clone(),
-                tail: Box::new(Self::new(&as_[1..])),
+                tail: Rc::new(Self::new(&as_[1..])),
             }
         }
     }
@@ -24,6 +25,16 @@ where
         match self {
             List::Nil => panic!("Nil"),
             List::Cons { head, tail } => tail,
+        }
+    }
+
+    fn set_head(&self, a: A) -> List<A> {
+        match self {
+            List::Nil => panic!("Nil"),
+            List::Cons { head, tail } => List::Cons {
+                head: a,
+                tail: Rc::clone(&tail),
+            },
         }
     }
 }
@@ -98,6 +109,14 @@ mod tests {
         assert_eq!(
             List::<i32>::new(&[1, 2, 3]).tail(),
             &List::<i32>::new(&[2, 3])
+        )
+    }
+
+    #[test]
+    fn test_exercise33() {
+        assert_eq!(
+            List::<i32>::new(&[1, 2, 3]).set_head(42),
+            List::<i32>::new(&[42, 2, 3])
         )
     }
 }
