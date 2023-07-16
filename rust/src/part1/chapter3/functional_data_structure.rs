@@ -52,6 +52,22 @@ where
             _ => self,
         }
     }
+
+    fn init(&self) -> List<A> {
+        match self {
+            List::Nil => panic!("Nil"),
+            List::Cons {
+                head: source_head,
+                tail: source_tail,
+            } => match Rc::as_ref(source_tail) {
+                List::Nil => List::Nil {},
+                List::Cons { .. } => List::Cons {
+                    head: source_head.clone(),
+                    tail: Rc::new(source_tail.init()),
+                },
+            },
+        }
+    }
 }
 
 impl List<i32> {
@@ -151,5 +167,16 @@ mod tests {
             List::new(&[1, 2, 3, 4, 5]).drop_while(&|&n| n < 4),
             &List::new(&[4, 5])
         );
+    }
+
+    #[test]
+    fn test_exercise36() {
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).init(), List::new(&[1, 2, 3, 4]));
+    }
+
+    #[test]
+    #[should_panic]
+    fn test_exercise36_panic() {
+        List::new(&[1]).init().init();
     }
 }
