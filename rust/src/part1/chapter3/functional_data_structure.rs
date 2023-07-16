@@ -37,6 +37,14 @@ where
             },
         }
     }
+
+    fn drop_(&self, n: u32) -> &List<A> {
+        match self {
+            List::Nil => self,
+            List::Cons { .. } if n <= 0 => self,
+            List::Cons { head, tail } => tail.drop_(n - 1),
+        }
+    }
 }
 
 impl List<i32> {
@@ -101,7 +109,7 @@ mod tests {
                 // _ => 101,
             }
         }
-        assert_eq!(result(), 3)
+        assert_eq!(result(), 3);
     }
 
     #[test]
@@ -109,7 +117,7 @@ mod tests {
         assert_eq!(
             List::<i32>::new(&[1, 2, 3]).tail(),
             &List::<i32>::new(&[2, 3])
-        )
+        );
     }
 
     #[test]
@@ -117,6 +125,12 @@ mod tests {
         assert_eq!(
             List::<i32>::new(&[1, 2, 3]).set_head(42),
             List::<i32>::new(&[42, 2, 3])
-        )
+        );
+    }
+
+    #[test]
+    fn test_exercise34() {
+        assert_eq!(List::<i32>::new(&[]).drop_(42), &List::<i32>::new(&[]));
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).drop_(3), &List::new(&[4, 5]));
     }
 }
