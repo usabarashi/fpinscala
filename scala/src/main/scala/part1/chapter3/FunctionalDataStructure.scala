@@ -30,3 +30,9 @@ object List:
     case Nil => List()
     case Cons(_, _) if n <= 0 => as
     case Cons(_, tail) => drop(tail, n-1)
+
+  def dropWhile[A](as: List[A], f: A => Boolean): List[A] =
+    as match
+      case Nil => List()
+      case Cons(head, tail) if f(head) => dropWhile(tail, f)
+      case Cons(_, _) => as
