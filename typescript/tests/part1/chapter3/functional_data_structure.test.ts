@@ -1,5 +1,5 @@
 import { match, P } from 'ts-pattern'
-import { sum, apply } from 'src/part1/chapter3/functional_data_structure'
+import { sum, apply, tail } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
     const result = (): number =>
@@ -10,4 +10,9 @@ describe("Exercise 3.1", () => {
             .with({ type: 'Cons', head: P.select("h"), tail: P.select("t") }, (params) => params.h + sum(params.t))
             .otherwise(() => 101)
     test("List pattern matching", () => expect(result()).toBe(3))
+})
+
+describe("Exercise 3.2", () => {
+    test("Nil", () => expect(() => tail(apply())).toThrow(`Nil`))
+    test("Cons", () => expect(tail(apply(1, 2, 3))).toEqual(apply(2, 3)))
 })
