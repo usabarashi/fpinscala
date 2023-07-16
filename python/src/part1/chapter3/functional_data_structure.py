@@ -22,12 +22,28 @@ class List(Generic[Tp]):
     def __new__(cls, *args: * tuple[Tp, ...]) -> List[Tp]:
         return List.apply(*args)
 
+    def __eq__(self, other: List[Tp]) -> bool:
+        match (self, other):
+            case (Nil(), Nil()):
+                return True
+            case (Nil(), Cons()) | (Cons(), Nil()):
+                return False
+            case (
+                Cons(head=left_head, tail=left_tail),
+                Cons(head=right_head, tail=right_tail),
+            ):
+                return left_head == right_head and left_tail == right_tail
+
     def sum(self) -> int:
         match self.pattern:
             case Nil():
                 return 0
             case Cons(head=x, tail=xs):
                 return x + xs.sum()
+
+    @property
+    def tail(self) -> List[Tp]:
+        raise NotImplementedError(self)
 
     @property
     def pattern(self) -> SubType[Tp]:
@@ -43,6 +59,10 @@ class Nil(List[Tp]):
         return cls._singleton
 
     @property
+    def tail(self) -> List[Tp]:
+        raise EOFError(self)
+
+    @property
     def pattern(self) -> SubType[Tp]:
         return self
 
@@ -55,8 +75,12 @@ class Cons(List[Tp]):
     def __new__(cls, *, head: Tp, tail: List[Tp]) -> Cons[Tp]:
         instance = object.__new__(cls)
         instance.head = head
-        instance.tail = tail
+        instance._tail = tail
         return instance
+
+    @property
+    def tail(self) -> List[Tp]:
+        return self._tail
 
     @property
     def pattern(self) -> SubType[Tp]:

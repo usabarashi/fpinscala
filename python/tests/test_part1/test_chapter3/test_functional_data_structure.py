@@ -1,3 +1,4 @@
+import pytest
 from part1.chapter3.functional_data_structure import List, Nil, Cons
 
 
@@ -16,3 +17,9 @@ def test_exercise31():
                 return 101
 
     assert 3 == result()
+
+
+def test_exercise32():
+    with pytest.raises(EOFError):
+        List[int]().tail
+    assert List[int](2, 3) == List[int](1, 2, 3).tail
