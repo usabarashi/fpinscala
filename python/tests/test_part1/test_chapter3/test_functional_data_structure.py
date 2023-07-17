@@ -51,3 +51,8 @@ def test_exercise38():
     assert List[int](1, 2, 3, 4, 5) == List[int](1, 2, 3, 4, 5).fold_right(
         Nil(), lambda head, tail: Cons(head=head, tail=tail)
     )
+
+
+def test_exercise39():
+    assert Nil[int]().length == 0
+    assert List[int](1, 2, 3).length == 3

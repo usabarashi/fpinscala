@@ -80,6 +80,10 @@ class List(Generic[Tp]):
                 return f(head, tail.fold_right(accumulator, f))
 
     @property
+    def length(self) -> int:
+        return self.fold_right(0, lambda _, b: b + 1)
+
+    @property
     def tail(self) -> List[Tp]:
         raise NotImplementedError(self)
 
