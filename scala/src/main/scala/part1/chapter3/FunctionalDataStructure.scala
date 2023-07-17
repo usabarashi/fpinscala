@@ -60,11 +60,11 @@ object List:
       case Nil => acc
       case Cons(head, tail) => foldLeft(tail, f(acc, head), f)
 
-  def sum_left(l: List[Int]): Int =
+  def sumLeft(l: List[Int]): Int =
     foldLeft[Int, Int](l, 0, _ + _)
 
-  def product_left(l: List[Double]): Double =
+  def productLeft(l: List[Double]): Double =
     foldLeft[Double, Double](l, 1.0, _ * _)
 
-  def length_left[A](l: List[A]): Int =
+  def lengthLeft[A](l: List[A]): Int =
     foldLeft[A, Int](l, 0, (b, _) => b + 1)
