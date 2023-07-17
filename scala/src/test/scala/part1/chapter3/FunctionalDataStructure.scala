@@ -2,6 +2,7 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Assertions._
 
 import part1.chapter3.*
+import part1.chapter3.List.apply
 
 class FunctionalDataStructureSuite extends munit.FunSuite {
   test("Exercise 3.1") {
@@ -52,5 +53,9 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
   test("Exercise 3.9") {
     assertEquals(List.length(List.Nil), 0)
     assertEquals(List.length(List(1, 2, 3)), 3)
+  }
+
+  test("Exercise 3.10") {
+    assertEquals(List.foldLeft(List(1, 2, 3), 0, _ + _), 6)
   }
 }
