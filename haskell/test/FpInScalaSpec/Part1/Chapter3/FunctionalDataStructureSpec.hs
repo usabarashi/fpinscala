@@ -14,6 +14,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , init'
   , foldRight
   , length'
+  , foldLeft
   )
 
 exercise31Spec :: Spec
@@ -89,3 +90,10 @@ exercise39Spec = do
             (length' (list ([] :: [Int]))) `shouldBe` 0
         it "Cons length'" $
             (length' (list ([1, 2, 3] :: [Int]))) `shouldBe` 3
+
+
+exercise310Spec :: Spec
+exercise310Spec = do
+    describe "List" $ do
+        it "foldLeft'" $
+            (foldLeft (list ([1, 2, 3] :: [Int])) 0 (\a b -> a + b)) `shouldBe` 6
