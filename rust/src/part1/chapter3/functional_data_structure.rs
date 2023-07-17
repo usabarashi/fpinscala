@@ -82,6 +82,19 @@ where
     fn length(&self) -> usize {
         self.fold_right(&0, &|&_, &b| b + 1)
     }
+
+    fn fold_left<B>(&self, accumulator: &B, f: &dyn Fn(&B, &A) -> B) -> B
+    where
+        B: Clone,
+    {
+        let mut list = self;
+        let mut state = accumulator.clone();
+        while let List::Cons { head, tail } = list {
+            state = f(&state, head);
+            list = tail;
+        }
+        state
+    }
 }
 
 impl List<i32> {
@@ -223,5 +236,10 @@ mod tests {
     fn test_exercise39() {
         assert_eq!(List::<i32>::Nil.length(), 0);
         assert_eq!(List::new(&[1, 2, 3]).length(), 3);
+    }
+
+    #[test]
+    fn test_exercise310() {
+        assert_eq!(List::new(&[1, 2, 3]).fold_left(&0, &|a, b| a + b), 6);
     }
 }
