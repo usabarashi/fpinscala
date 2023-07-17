@@ -1,4 +1,4 @@
-import { match, P } from "ts-pattern";
+import { match } from "ts-pattern";
 
 export type List<T> = Nil<T> | Cons<T>
 export interface Nil<T> {
@@ -58,3 +58,14 @@ export const foldRight = <T, B>(ts: List<T>, accumulator: B, f: (head: T, tail: 
 
 export const length = <T>(ts: List<T>): number =>
     foldRight(ts, 0, (_, b) => b + 1)
+
+export const foldLeft = <T, B>(ts: List<T>, accumulator: B, f: (a: B, b: T) => B): B => {
+    const isCons = <T>(list: List<T>): list is Cons<T> => list.type === 'Cons'
+    let mut_state = accumulator
+    let mut_list = ts
+    while (isCons(mut_list)) {
+        mut_state = f(mut_state, mut_list.head)
+        mut_list = mut_list.tail
+    }
+    return mut_state
+}
