@@ -50,3 +50,6 @@ object List:
     as match
       case Nil => acc
       case Cons(x, xs) => f(x, foldRight(xs, acc, f))
+
+  def length[A](as: List[A]): Int =
+    foldRight(as, 0, (_, b) => b + 1)

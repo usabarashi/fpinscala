@@ -48,4 +48,9 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
   test("Exercise 3.8") {
     assertEquals(List.foldRight(List(1, 2, 3), List.Nil, (l, r: List[Int] ) => List.Cons(l, r)), List(1, 2, 3))
   }
+
+  test("Exercise 3.9") {
+    assertEquals(List.length(List.Nil), 0)
+    assertEquals(List.length(List(1, 2, 3)), 3)
+  }
 }
