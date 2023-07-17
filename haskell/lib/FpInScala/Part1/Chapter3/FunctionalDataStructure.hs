@@ -8,6 +8,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , dropWhile'
   , init'
   , foldRight
+  , length'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -62,3 +63,6 @@ init' (Cons x xs) = Cons x (init' xs)
 foldRight :: List a -> b -> ((a, b) -> b) -> b
 foldRight Nil b _ = b
 foldRight (Cons x xs) b f = f (x, (foldRight xs b f))
+
+length' :: List a -> Int
+length' xs = foldRight xs 0 (\(_, b) -> b + 1)

@@ -13,6 +13,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , dropWhile'
   , init'
   , foldRight
+  , length'
   )
 
 exercise31Spec :: Spec
@@ -80,3 +81,11 @@ exercise38Spec = do
                 f = \(head, tail) -> Cons head tail
             in
             (foldRight xs b f) `shouldBe` (list ([1, 2, 3] :: [Int]))
+
+exercise39Spec :: Spec
+exercise39Spec = do
+    describe "List" $ do
+        it "Nil length'" $
+            (length' (list ([] :: [Int]))) `shouldBe` 0
+        it "Cons length'" $
+            (length' (list ([1, 2, 3] :: [Int]))) `shouldBe` 3
