@@ -49,3 +49,9 @@ export const init = <T>(ts: List<T>): List<T> =>
         .with({ type: 'Cons', tail: { type: 'Nil' } }, () => apply<T>())
         .with({ type: 'Cons' }, (cons) => ({ ...cons, tail: init(cons.tail) }))
         .exhaustive()
+
+export const foldRight = <T, B>(ts: List<T>, accumulator: B, f: (head: T, tail: B) => B): B =>
+    match(ts)
+        .with({ type: 'Nil' }, () => accumulator)
+        .with({ type: 'Cons' }, (cons) => f(cons.head, foldRight(cons.tail, accumulator, f)))
+        .exhaustive()
