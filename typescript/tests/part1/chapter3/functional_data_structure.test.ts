@@ -1,5 +1,5 @@
 import { match, P } from 'ts-pattern'
-import { List, Nil, Cons, sum, apply, tail, setHead, drop, dropWhile, init, foldRight } from 'src/part1/chapter3/functional_data_structure'
+import { List, Nil, Cons, sum, apply, tail, setHead, drop, dropWhile, init, foldRight, length } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
     const result = (): number =>
@@ -39,4 +39,9 @@ describe("Exercise 3.6", () => {
 
 describe("Exercise 3.8", () => {
     test("foldRight", () => expect(foldRight(apply(1, 2, 3, 4, 5), { type: 'Nil' } as List<number>, (head, tail) => ({ type: 'Cons', head: head, tail: tail } as List<number>))).toEqual(apply(1, 2, 3, 4, 5)))
+})
+
+describe("Exercise 3.9", () => {
+    test("Nil length", () => expect(length(apply())).toEqual(0))
+    test("Cons length", () => expect(length(apply(1, 2, 3))).toEqual(3))
 })

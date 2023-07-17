@@ -55,3 +55,6 @@ export const foldRight = <T, B>(ts: List<T>, accumulator: B, f: (head: T, tail: 
         .with({ type: 'Nil' }, () => accumulator)
         .with({ type: 'Cons' }, (cons) => f(cons.head, foldRight(cons.tail, accumulator, f)))
         .exhaustive()
+
+export const length = <T>(ts: List<T>): number =>
+    foldRight(ts, 0, (_, b) => b + 1)
