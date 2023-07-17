@@ -10,6 +10,9 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , foldRight
   , length'
   , foldLeft
+  , sumLeft
+  , productLeft
+  , lengthLeft
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -71,3 +74,12 @@ length' xs = foldRight xs 0 (\a b -> b + 1)
 foldLeft :: List a -> b -> (b -> a -> b) -> b
 foldLeft Nil b _ = b
 foldLeft (Cons x xs) b f = foldLeft xs (f b x) f
+
+sumLeft :: List Int -> Int
+sumLeft xs = foldLeft xs 0 (\a x -> a + x)
+
+productLeft :: List Double -> Double
+productLeft xs = foldLeft xs 1.0 (\a x -> a * x)
+
+lengthLeft :: List a -> Int
+lengthLeft xs = foldLeft xs 0 (\a _ -> a + 1)

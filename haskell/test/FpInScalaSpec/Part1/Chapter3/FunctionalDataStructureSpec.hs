@@ -15,6 +15,9 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , foldRight
   , length'
   , foldLeft
+  , sumLeft
+  , productLeft
+  , lengthLeft
   )
 
 exercise31Spec :: Spec
@@ -97,3 +100,13 @@ exercise310Spec = do
     describe "List" $ do
         it "foldLeft'" $
             (foldLeft (list ([1, 2, 3] :: [Int])) 0 (\a b -> a + b)) `shouldBe` 6
+
+exercise311Spec :: Spec
+exercise311Spec = do
+    describe "List" $ do
+        it "sumLeft" $
+            (sumLeft (list ([1, 2, 3] :: [Int]))) `shouldBe` 6
+        it "productLeft" $
+            (productLeft (list ([1.0, 2.0, 3.0] :: [Double]))) `shouldBe` 6.0
+        it "lengthLeft" $
+            (lengthLeft (list ([1, 2, 3] :: [Int]))) `shouldBe` 3
