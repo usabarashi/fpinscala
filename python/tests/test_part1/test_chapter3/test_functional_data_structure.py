@@ -45,3 +45,9 @@ def test_exercise36():
     with pytest.raises(EOFError):
         List[int]().init()
     assert List[int](1, 2, 3, 4) == List[int](1, 2, 3, 4, 5).init()
+
+
+def test_exercise38():
+    assert List[int](1, 2, 3, 4, 5) == List[int](1, 2, 3, 4, 5).fold_right(
+        Nil(), lambda head, tail: Cons(head=head, tail=tail)
+    )

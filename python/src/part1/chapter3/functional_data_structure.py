@@ -4,6 +4,7 @@ from __future__ import annotations
 from typing import Callable, Generic, TypeVar, TypeAlias
 
 Tp = TypeVar("Tp", covariant=True)
+Bp = TypeVar("Bp", covariant=True)
 
 
 class List(Generic[Tp]):
@@ -70,6 +71,13 @@ class List(Generic[Tp]):
                 return Nil[Tp]()
             case Cons(head, tail):
                 return Cons(head=head, tail=tail.init())
+
+    def fold_right(self, accumulator: Bp, f: Callable[[Tp, Bp], Bp]) -> Bp:
+        match self.pattern:
+            case Nil():
+                return accumulator
+            case Cons(head, tail):
+                return f(head, tail.fold_right(accumulator, f))
 
     @property
     def tail(self) -> List[Tp]:
