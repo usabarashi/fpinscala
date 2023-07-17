@@ -61,12 +61,12 @@ init' Nil = error "Nil"
 init' (Cons x Nil) = Nil
 init' (Cons x xs) = Cons x (init' xs)
 
-foldRight :: List a -> b -> ((a, b) -> b) -> b
+foldRight :: List a -> b -> (a -> b -> b) -> b
 foldRight Nil b _ = b
-foldRight (Cons x xs) b f = f (x, (foldRight xs b f))
+foldRight (Cons x xs) b f = f x (foldRight xs b f)
 
 length' :: List a -> Int
-length' xs = foldRight xs 0 (\(_, b) -> b + 1)
+length' xs = foldRight xs 0 (\a b -> b + 1)
 
 foldLeft :: List a -> b -> (b -> a -> b) -> b
 foldLeft Nil b _ = b

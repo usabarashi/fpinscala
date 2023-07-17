@@ -78,8 +78,8 @@ exercise38Spec = do
                 xs = list [1, 2, 3]
                 b :: List Int
                 b =  Nil
-                f :: (Int, List Int) -> List Int
-                f = \(head, tail) -> Cons head tail
+                f :: Int -> List Int -> List Int
+                f head tail = Cons head tail
             in
             (foldRight xs b f) `shouldBe` (list ([1, 2, 3] :: [Int]))
 
