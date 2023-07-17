@@ -1,13 +1,15 @@
 """Functional data structure."""
 from __future__ import annotations
 
+from collections.abc import Generator, Iterable
+from functools import reduce
 from typing import Callable, Generic, TypeVar, TypeAlias
 
 Tp = TypeVar("Tp", covariant=True)
 Bp = TypeVar("Bp", covariant=True)
 
 
-class List(Generic[Tp]):
+class List(Generic[Tp], Iterable):
     """List"""
 
     @staticmethod
@@ -34,6 +36,12 @@ class List(Generic[Tp]):
                 Cons(head=right_head, tail=right_tail),
             ):
                 return left_head == right_head and left_tail == right_tail
+
+    def __iter__(self) -> Generator[Tp, None, None]:
+        mut_state = self
+        while isinstance(mut_state, Cons):
+            yield mut_state.head
+            mut_state = mut_state.tail
 
     def sum(self: List[int]) -> int:
         match self.pattern:
@@ -78,6 +86,9 @@ class List(Generic[Tp]):
                 return accumulator
             case Cons(head, tail):
                 return f(head, tail.fold_right(accumulator, f))
+
+    def fold_left(self, accumulator: Bp, f: Callable[[Bp, Tp], Bp]) -> Bp:
+        return reduce(f, self, accumulator)
 
     @property
     def length(self) -> int:

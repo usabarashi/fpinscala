@@ -56,3 +56,7 @@ def test_exercise38():
 def test_exercise39():
     assert Nil[int]().length == 0
     assert List[int](1, 2, 3).length == 3
+
+
+def test_exercise310():
+    assert 6 == List[int](1, 2, 3).fold_left(0, lambda a, b: a + b)
