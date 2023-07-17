@@ -69,18 +69,18 @@ where
         }
     }
 
-    fn fold_right<B>(&self, accumulator: &B, f: &dyn Fn(&A, &B) -> B) -> B
+    fn fold_right<B>(&self, accumulator: B, f: &dyn Fn(&A, B) -> B) -> B
     where
         B: Clone,
     {
         match self {
             List::Nil => accumulator.clone(),
-            List::Cons { head, tail } => f(head, &tail.fold_right(accumulator, f)),
+            List::Cons { head, tail } => f(head, tail.fold_right(accumulator, f)),
         }
     }
 
     fn length(&self) -> usize {
-        self.fold_right(&0, &|&_, &b| b + 1)
+        self.fold_right(0, &|&_, b| b + 1)
     }
 
     fn fold_left<B>(&self, accumulator: B, f: &dyn Fn(B, &A) -> B) -> B
@@ -241,13 +241,11 @@ mod tests {
     #[test]
     fn test_exercise38() {
         assert_eq!(
-            List::new(&[1, 2, 3]).fold_right(&Rc::new(List::Nil), &|head, tail| Rc::new(
-                List::Cons {
-                    head: head.clone(),
-                    tail: Rc::clone(tail)
-                }
-            )),
-            Rc::new(List::new(&[1, 2, 3]))
+            List::new(&[1, 2, 3]).fold_right(List::Nil, &|head, tail| List::Cons {
+                head: head.clone(),
+                tail: Rc::new(tail)
+            }),
+            List::new(&[1, 2, 3])
         );
     }
 
