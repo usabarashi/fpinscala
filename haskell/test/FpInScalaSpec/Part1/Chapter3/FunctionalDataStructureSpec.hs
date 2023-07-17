@@ -12,6 +12,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , drop'
   , dropWhile'
   , init'
+  , foldRight
   )
 
 exercise31Spec :: Spec
@@ -66,3 +67,16 @@ exercise36Spec = do
             evaluate (init' (list ([] :: [Int]))) `shouldThrow` anyException
         it "Cons init" $
             (init' (list ([1, 2, 3, 4, 5] :: [Int]))) `shouldBe` (list [1, 2, 3, 4] :: List Int)
+
+exercise38Spec :: Spec
+exercise38Spec = do
+    describe "List" $ do
+        it "foldRight" $
+            let xs :: List Int
+                xs = list [1, 2, 3]
+                b :: List Int
+                b =  Nil
+                f :: (Int, List Int) -> List Int
+                f = \(head, tail) -> Cons head tail
+            in
+            (foldRight xs b f) `shouldBe` (list ([1, 2, 3] :: [Int]))
