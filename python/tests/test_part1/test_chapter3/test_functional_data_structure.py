@@ -60,3 +60,9 @@ def test_exercise39():
 
 def test_exercise310():
     assert 6 == List[int](1, 2, 3).fold_left(0, lambda a, b: a + b)
+
+
+def test_exercise311():
+    assert 6 == List[int](1, 2, 3).sum_left()
+    assert 6.0 == List[int](1.0, 2.0, 3.0).product_left()
+    assert 3 == List[int](1, 2, 3).length_left

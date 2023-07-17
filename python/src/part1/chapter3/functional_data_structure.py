@@ -50,6 +50,13 @@ class List(Generic[Tp], Iterable):
             case Cons(head=x, tail=xs):
                 return x + xs.sum()
 
+    def product(self: List[float]) -> float:
+        match self.pattern:
+            case Nil():
+                return 1.0
+            case Cons(head=x, tail=xs):
+                return x * xs.product()
+
     def set_head(self, a: Tp) -> List[Tp]:
         match self.pattern:
             case Nil():
@@ -89,6 +96,16 @@ class List(Generic[Tp], Iterable):
 
     def fold_left(self, accumulator: Bp, f: Callable[[Bp, Tp], Bp]) -> Bp:
         return reduce(f, self, accumulator)
+
+    def sum_left(self) -> int:
+        return reduce(lambda accumulator, head: accumulator + head, self, 0)
+
+    def product_left(self) -> float:
+        return reduce(lambda accumulator, head: accumulator * head, self, 1.0)
+
+    @property
+    def length_left(self) -> int:
+        return reduce(lambda accumulator, _: accumulator + 1, self, 0)
 
     @property
     def length(self) -> int:
