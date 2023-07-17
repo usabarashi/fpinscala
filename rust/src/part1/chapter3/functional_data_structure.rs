@@ -68,6 +68,16 @@ where
             },
         }
     }
+
+    fn fold_right<B>(&self, accumulator: &B, f: &dyn Fn(&A, &B) -> B) -> B
+    where
+        B: Clone,
+    {
+        match self {
+            List::Nil => accumulator.clone(),
+            List::Cons { head, tail } => f(head, &tail.fold_right(accumulator, f)),
+        }
+    }
 }
 
 impl List<i32> {
@@ -113,6 +123,18 @@ impl<T: PartialEq> PartialEq for List<T> {
                     tail: other_tail,
                 },
             ) => self_head == other_head && self_tail == other_tail,
+        }
+    }
+}
+
+impl<A: Clone> Clone for List<A> {
+    fn clone(&self) -> Self {
+        match self {
+            List::Nil => List::Nil,
+            List::Cons { head, tail } => List::Cons {
+                head: head.clone(),
+                tail: Rc::clone(tail),
+            },
         }
     }
 }
@@ -178,5 +200,18 @@ mod tests {
     #[should_panic]
     fn test_exercise36_panic() {
         List::new(&[1]).init().init();
+    }
+
+    #[test]
+    fn test_exercise38() {
+        assert_eq!(
+            List::new(&[1, 2, 3]).fold_right(&Rc::new(List::Nil), &|head, tail| Rc::new(
+                List::Cons {
+                    head: head.clone(),
+                    tail: Rc::clone(tail)
+                }
+            )),
+            Rc::new(List::new(&[1, 2, 3]))
+        );
     }
 }
