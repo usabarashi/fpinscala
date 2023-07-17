@@ -16,6 +16,12 @@ export const sum = (numbers: List<number>): number =>
         .with({ type: 'Cons' }, (cons) => cons.head + sum(cons.tail))
         .exhaustive()
 
+export const product = (numbers: List<number>): number =>
+    match(numbers)
+        .with({ type: 'Nil' }, () => 0)
+        .with({ type: 'Cons' }, (cons) => cons.head * product(cons.tail))
+        .exhaustive()
+
 export const apply = <T>(...args: Array<T>): List<T> =>
     args.length === 0
         ? { type: 'Nil' }
@@ -69,3 +75,12 @@ export const foldLeft = <T, B>(ts: List<T>, accumulator: B, f: (a: B, b: T) => B
     }
     return mut_state
 }
+
+export const sumLeft = (ts: List<number>): number =>
+    foldLeft(ts, 0, (accumulator, t) => accumulator + t)
+
+export const productLeft = (ts: List<number>): number =>
+    foldLeft(ts, 1.0, (accumulator, t) => accumulator * t)
+
+export const lengthLeft = <T>(ts: List<T>): number =>
+    foldLeft(ts, 0, (accumulator, _) => accumulator + 1)
