@@ -18,6 +18,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , sumLeft
   , productLeft
   , lengthLeft
+  , reverse'
   )
 
 exercise31Spec :: Spec
@@ -110,3 +111,9 @@ exercise311Spec = do
             (productLeft (list ([1.0, 2.0, 3.0] :: [Double]))) `shouldBe` 6.0
         it "lengthLeft" $
             (lengthLeft (list ([1, 2, 3] :: [Int]))) `shouldBe` 3
+
+exercise312Spec :: Spec
+exercise312Spec = do
+    describe "List" $ do
+        it "reverse" $
+            (reverse' (list ([1, 2, 3] :: [Int]))) `shouldBe` (list ([3, 2, 1] :: [Int]))
