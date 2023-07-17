@@ -54,11 +54,11 @@ object List:
   def length[A](as: List[A]): Int =
     foldRight(as, 0, (_, b) => b + 1)
 
-
   @annotation.tailrec
-  def foldLeft[A, B](l: List[A], acc: B, f: (B, A) => B): B = l match
-    case Nil => acc
-    case Cons(head, tail) => foldLeft(tail, f(acc, head), f)
+  def foldLeft[A, B](l: List[A], acc: B, f: (B, A) => B): B =
+    l match
+      case Nil => acc
+      case Cons(head, tail) => foldLeft(tail, f(acc, head), f)
 
   def sum_left(l: List[Int]): Int =
     foldLeft[Int, Int](l, 0, _ + _)
