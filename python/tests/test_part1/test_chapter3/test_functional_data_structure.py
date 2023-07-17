@@ -54,8 +54,8 @@ def test_exercise38():
 
 
 def test_exercise39():
-    assert Nil[int]().length == 0
-    assert List[int](1, 2, 3).length == 3
+    assert 0 == Nil[int]().length
+    assert 3 == List[int](1, 2, 3).length
 
 
 def test_exercise310():
