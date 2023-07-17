@@ -95,6 +95,10 @@ where
         }
         state
     }
+
+    fn length_left(&self) -> usize {
+        self.fold_left(&0, &|a, _| a + 1)
+    }
 }
 
 impl List<i32> {
@@ -103,6 +107,10 @@ impl List<i32> {
             List::Nil => 0,
             List::Cons { head, tail } => head + tail.sum(),
         }
+    }
+
+    fn sum_left(&self) -> i32 {
+        self.fold_left(&0, &|a, t| a + t)
     }
 }
 
@@ -113,6 +121,10 @@ impl List<f64> {
             List::Cons { head, tail: _ } if *head == 0.0 => 0.0,
             List::Cons { head, tail } => head * tail.product(),
         }
+    }
+
+    fn product_left(&self) -> f64 {
+        self.fold_left(&1.0, &|a, t| a * t)
     }
 }
 
@@ -241,5 +253,12 @@ mod tests {
     #[test]
     fn test_exercise310() {
         assert_eq!(List::new(&[1, 2, 3]).fold_left(&0, &|a, b| a + b), 6);
+    }
+
+    #[test]
+    fn test_exercise311() {
+        assert_eq!(List::new(&[1, 2, 3]).sum_left(), 6);
+        assert_eq!(List::new(&[1.0, 2.0, 3.0]).product_left(), 6.0);
+        assert_eq!(List::new(&[1, 2, 3]).length(), 3);
     }
 }
