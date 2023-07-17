@@ -78,6 +78,10 @@ where
             List::Cons { head, tail } => f(head, &tail.fold_right(accumulator, f)),
         }
     }
+
+    fn length(&self) -> usize {
+        self.fold_right(&0, &|&_, &b| b + 1)
+    }
 }
 
 impl List<i32> {
@@ -213,5 +217,11 @@ mod tests {
             )),
             Rc::new(List::new(&[1, 2, 3]))
         );
+    }
+
+    #[test]
+    fn test_exercise39() {
+        assert_eq!(List::<i32>::Nil.length(), 0);
+        assert_eq!(List::new(&[1, 2, 3]).length(), 3);
     }
 }
