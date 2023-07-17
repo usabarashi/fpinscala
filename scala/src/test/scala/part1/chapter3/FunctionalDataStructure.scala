@@ -58,4 +58,10 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
   test("Exercise 3.10") {
     assertEquals(List.foldLeft(List(1, 2, 3), 0, _ + _), 6)
   }
+
+  test("Exercise 3.11") {
+    assertEquals(List.sum_left(List(1, 2, 3)), 6)
+    assertEquals(List.product_left(List(1.0, 2.0, 3.0)), 6.0)
+    assertEquals(List.length_left(List(1, 2, 3)), 3)
+  }
 }

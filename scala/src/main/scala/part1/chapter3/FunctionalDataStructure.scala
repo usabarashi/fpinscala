@@ -59,3 +59,12 @@ object List:
   def foldLeft[A, B](l: List[A], acc: B, f: (B, A) => B): B = l match
     case Nil => acc
     case Cons(head, tail) => foldLeft(tail, f(acc, head), f)
+
+  def sum_left(l: List[Int]): Int =
+    foldLeft[Int, Int](l, 0, _ + _)
+
+  def product_left(l: List[Double]): Double =
+    foldLeft[Double, Double](l, 1.0, _ * _)
+
+  def length_left[A](l: List[A]): Int =
+    foldLeft[A, Int](l, 0, (b, _) => b + 1)
