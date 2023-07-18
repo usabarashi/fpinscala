@@ -46,7 +46,7 @@ where
         }
     }
 
-    fn drop_while(&self, f: &dyn Fn(&A) -> bool) -> &List<A> {
+    fn drop_while(&self, f: fn(&A) -> bool) -> &List<A> {
         match self {
             List::Cons { head, tail } if f(head) => tail.drop_while(f),
             _ => self,
@@ -69,26 +69,26 @@ where
         }
     }
 
-    fn fold_right<B>(&self, accumulator: B, f: &dyn Fn(&A, B) -> B) -> B
+    fn fold_right<B, F>(&self, accumulator: B, f: F) -> B
     where
-        B: Clone,
+        F: Fn(&A, B) -> B + Copy, // 環境をキャプチャしない純粋関数はCopy可能
     {
         match self {
-            List::Nil => accumulator.clone(),
+            List::Nil => accumulator,
             List::Cons { head, tail } => f(head, tail.fold_right(accumulator, f)),
         }
     }
 
     fn length(&self) -> usize {
-        self.fold_right(0, &|&_, b| b + 1)
+        self.fold_right(0, |&_, b| b + 1)
     }
 
-    fn fold_left<B>(&self, accumulator: B, f: &dyn Fn(B, &A) -> B) -> B
+    fn fold_left<B, F>(&self, accumulator: B, f: F) -> B
     where
-        B: Clone,
+        F: Fn(B, &A) -> B,
     {
         let mut list = self;
-        let mut state = accumulator.clone();
+        let mut state = accumulator;
         while let List::Cons { head, tail } = list {
             state = f(state, head);
             list = tail;
@@ -97,14 +97,28 @@ where
     }
 
     fn length_left(&self) -> usize {
-        self.fold_left(0, &|a, _| a + 1)
+        self.fold_left(0, |a, _| a + 1)
     }
 
     fn reverse(&self) -> List<A> {
-        self.fold_left(List::<A>::Nil, &|accumulator, head| List::Cons {
+        self.fold_left(List::<A>::Nil, |accumulator, head| List::Cons {
             head: head.clone(),
             tail: Rc::new(accumulator),
         })
+    }
+
+    fn fold_left_from_right<B, F>(&self, accumulator: B, f: F) -> B
+    where
+        F: Fn(B, &A) -> B,
+    {
+        self.fold_right(accumulator, |b, a| f(a, b))
+    }
+
+    fn fold_right_from_left<B, F>(&self, accumulator: B, f: F) -> B
+    where
+        F: Fn(&A, B) -> B,
+    {
+        self.fold_left(accumulator, |a, b| f(b, a))
     }
 }
 
@@ -117,7 +131,7 @@ impl List<i32> {
     }
 
     fn sum_left(&self) -> i32 {
-        self.fold_left(0, &|a, t| a + t)
+        self.fold_left(0, |a, t| a + t)
     }
 }
 
@@ -131,7 +145,7 @@ impl List<f64> {
     }
 
     fn product_left(&self) -> f64 {
-        self.fold_left(1.0, &|a, t| a * t)
+        self.fold_left(1.0, |a, t| a * t)
     }
 }
 
@@ -218,11 +232,11 @@ mod tests {
     #[test]
     fn test_exercise35() {
         assert_eq!(
-            List::<i32>::new(&[]).drop_while(&|&n| n < 42),
+            List::<i32>::new(&[]).drop_while(|&n| n < 42),
             &List::<i32>::new(&[])
         );
         assert_eq!(
-            List::new(&[1, 2, 3, 4, 5]).drop_while(&|&n| n < 4),
+            List::new(&[1, 2, 3, 4, 5]).drop_while(|&n| n < 4),
             &List::new(&[4, 5])
         );
     }
@@ -241,7 +255,7 @@ mod tests {
     #[test]
     fn test_exercise38() {
         assert_eq!(
-            List::new(&[1, 2, 3]).fold_right(List::Nil, &|head, tail| List::Cons {
+            List::new(&[1, 2, 3]).fold_right(List::Nil, |head, tail| List::Cons {
                 head: head.clone(),
                 tail: Rc::new(tail)
             }),
@@ -257,7 +271,7 @@ mod tests {
 
     #[test]
     fn test_exercise310() {
-        assert_eq!(List::new(&[1, 2, 3]).fold_left(0, &|a, b| a + b), 6);
+        assert_eq!(List::new(&[1, 2, 3]).fold_left(0, |a, b| a + b), 6);
     }
 
     #[test]
@@ -270,5 +284,17 @@ mod tests {
     #[test]
     fn test_exercise312() {
         assert_eq!(List::new(&[1, 2, 3]).reverse(), List::new(&[3, 2, 1]));
+    }
+
+    #[test]
+    fn test_exercise313() {
+        assert_eq!(
+            List::new(&[1, 2, 3]).fold_left_from_right(0, |a, b| a + b),
+            6
+        );
+        assert_eq!(
+            List::new(&[1, 2, 3]).fold_right_from_left(0, |b, a| b + a),
+            6
+        );
     }
 }
