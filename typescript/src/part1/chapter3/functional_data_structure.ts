@@ -87,3 +87,9 @@ export const lengthLeft = <T>(ts: List<T>): number =>
 
 export const reverse = <T>(ts: List<T>): List<T> =>
     foldLeft(ts, { type: 'Nil' } as List<T>, (accumlator, head) => ({ type: 'Cons', head: head, tail: accumlator }))
+
+export const foldLeftFromRight = <T, B>(ts: List<T>, accumulator: B, f: (a: B, b: T) => B): B =>
+    foldRight(ts, accumulator, (b, a) => f(a, b))
+
+export const foldRightFromLeft = <T, B>(ts: List<T>, accumulator: B, f: (B: T, a: B) => B): B =>
+    foldLeft(ts, accumulator, (a, b) => f(b, a))

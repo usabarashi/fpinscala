@@ -17,6 +17,8 @@ import {
     , productLeft
     , lengthLeft
     , reverse
+    , foldLeftFromRight
+    , foldRightFromLeft
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -76,4 +78,9 @@ describe("Exercise 3.11", () => {
 
 describe("Exercise 3.12", () => {
     test("reverse", () => expect(reverse(apply(1, 2, 3))).toEqual(apply(3, 2, 1)))
+})
+
+describe("Exercise 3.13", () => {
+    test("foldLeft from foldRight", () => expect(foldLeftFromRight(apply(1, 2, 3), 0, (a, b) => a + b)).toEqual(6))
+    test("foldRight from foldLEft", () => expect(foldRightFromLeft(apply(1, 2, 3), 0, (b, a) => b + a)).toEqual(6))
 })
