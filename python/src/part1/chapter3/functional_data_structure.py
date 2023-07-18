@@ -103,6 +103,11 @@ class List(Generic[Tp], Iterable):
     def product_left(self) -> float:
         return reduce(lambda accumulator, head: accumulator * head, self, 1.0)
 
+    def reverse(self) -> List[Tp]:
+        return self.fold_left(
+            Nil[Tp](), lambda accumulator, head: Cons[Tp](head=head, tail=accumulator)
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
