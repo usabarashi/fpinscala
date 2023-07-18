@@ -118,6 +118,11 @@ class List(Generic[Tp], Iterable):
             accumulator, lambda accumulator_, head: f(head, accumulator_)
         )
 
+    def append_right(self, a2: List[Tp]) -> List[Tp]:
+        return self.fold_right(
+            a2, lambda head, accumulator: Cons[Tp](head=head, tail=accumulator)
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)

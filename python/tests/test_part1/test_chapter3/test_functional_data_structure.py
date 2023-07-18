@@ -75,3 +75,9 @@ def test_exercise312():
 def test_exercise313():
     assert 6 == List[int](1, 2, 3).fold_left_from_right(0, lambda b, a: b + a)
     assert 6 == List[int](1, 2, 3).fold_right_from_left(0, lambda a, b: b + a)
+
+
+def test_exercise313():
+    assert List[int](1, 2, 3, 4, 5, 6) == List[int](1, 2, 3).append_right(
+        List[int](4, 5, 6)
+    )
