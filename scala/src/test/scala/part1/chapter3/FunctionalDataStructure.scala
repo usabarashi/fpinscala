@@ -68,4 +68,10 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
   test("Exercise 3.12") {
     assertEquals(List.reverse(List(1, 2, 3)), List(3, 2, 1))
   }
+
+  test("Exercise 3.13") {
+    assertEquals(List.foldLeftFromRight(List(1, 2, 3), 0, _ + _), 6)
+    assertEquals(List.foldRightFromLeft(List(1, 2, 3), 0, _ + _), 6)
+  }
+
 }
