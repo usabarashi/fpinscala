@@ -53,6 +53,16 @@ where
         }
     }
 
+    fn append(&self, a2: List<A>) -> List<A> {
+        match self {
+            List::Nil => a2,
+            List::Cons { head, tail } => List::Cons {
+                head: head.clone(),
+                tail: Rc::new(tail.append(a2)),
+            },
+        }
+    }
+
     fn init(&self) -> List<A> {
         match self {
             List::Nil => panic!("Nil"),
@@ -153,6 +163,15 @@ impl List<f64> {
 
     fn product_left(&self) -> f64 {
         self.fold_left(1.0, |a, t| a * t)
+    }
+}
+
+impl<A> List<List<A>>
+where
+    A: Clone,
+{
+    fn concat(&self) -> List<A> {
+        self.fold_right(List::<A>::Nil, |head, accumulator| head.append(accumulator))
     }
 }
 
@@ -309,6 +328,16 @@ mod tests {
     fn test_exercise314() {
         assert_eq!(
             List::new(&[1, 2, 3]).append_right(List::new(&[4, 5, 6])),
+            List::new(&[1, 2, 3, 4, 5, 6])
+        );
+    }
+
+    #[test]
+    fn test_exercise315() {
+        let l1 = List::new(&[1, 2, 3]);
+        let l2 = List::new(&[4, 5, 6]);
+        assert_eq!(
+            List::new(&[l1, l2]).concat(),
             List::new(&[1, 2, 3, 4, 5, 6])
         );
     }
