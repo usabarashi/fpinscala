@@ -78,6 +78,13 @@ class List(Generic[Tp], Iterable):
             case _:
                 return self
 
+    def append(self, a2: List[Tp]) -> List[Tp]:
+        match self.pattern:
+            case Nil():
+                return a2
+            case Cons(head, tail):
+                return Cons(head=head, tail=tail.append(a2))
+
     def init(self) -> List[Tp]:
         match self.pattern:
             case Nil():
@@ -122,6 +129,9 @@ class List(Generic[Tp], Iterable):
         return self.fold_right(
             a2, lambda head, accumulator: Cons[Tp](head=head, tail=accumulator)
         )
+
+    def concat(self: List[List[Tp]]) -> List[Tp]:
+        return self.fold_right(Nil[Tp](), List[Tp].append)
 
     @property
     def length_left(self) -> int:
