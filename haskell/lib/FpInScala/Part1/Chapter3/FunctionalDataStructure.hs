@@ -14,6 +14,8 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , productLeft
   , lengthLeft
   , reverse'
+  , foldLeftFromRight
+  , foldRightFromLeft
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -87,3 +89,9 @@ lengthLeft xs = foldLeft xs 0 (\a _ -> a + 1)
 
 reverse' :: List a -> List a
 reverse' xs = foldLeft xs Nil (\a head -> Cons head a)
+
+foldLeftFromRight :: List a -> b -> (b -> a -> b) -> b
+foldLeftFromRight xs b f = foldRight xs b (\b h -> f h b)
+
+foldRightFromLeft :: List a -> b -> (a -> b -> b) -> b
+foldRightFromLeft xs b f = foldLeft xs b (\h b -> f b h)
