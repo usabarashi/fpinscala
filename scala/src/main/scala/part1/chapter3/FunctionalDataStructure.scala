@@ -40,6 +40,11 @@ object List:
       case Cons(head, tail) if f(head) => dropWhile(tail, f)
       case _ => as
 
+  def append[A](a1: List[A], a2: List[A]): List[A] =
+    a1 match
+      case Nil => a2
+      case Cons(h, t) => Cons(h, append(t, a2))
+
   def init[A](as: List[A]): List[A] =
     as match
       case Nil => sys.error("Does not have tail.")
@@ -80,3 +85,6 @@ object List:
 
   def appendRight[A](a1: List[A], a2: List[A]): List[A] =
     foldRight(a1, a2, Cons(_, _))
+
+  def concat[A](l: List[List[A]]): List[A] =
+    foldRight(l, Nil: List[A], append)
