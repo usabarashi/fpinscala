@@ -22,6 +22,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , foldLeftFromRight
   , foldRightFromLeft
   , appendRight
+  , concat'
   )
 
 exercise31Spec :: Spec
@@ -134,3 +135,14 @@ exercise314Spec = do
     describe "List" $ do
         it "append from foldRight" $
             (appendRight (list ([1, 2, 3] :: [Int])) (list ([4, 5, 6] :: [Int]))) `shouldBe` (list ([1, 2, 3, 4, 5, 6] :: [Int]))
+
+exercise315Spec :: Spec
+exercise315Spec = do
+    describe "List" $ do
+        it "concat" $
+            let xs1 :: List Int
+                xs1 = list [1, 2, 3]
+                xs2 :: List Int
+                xs2 = list [4, 5, 6]
+            in
+            (concat' (list [xs1, xs2])) `shouldBe` (list [1, 2, 3, 4, 5, 6])

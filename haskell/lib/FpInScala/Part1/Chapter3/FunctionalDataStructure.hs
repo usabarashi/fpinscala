@@ -17,6 +17,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , foldLeftFromRight
   , foldRightFromLeft
   , appendRight
+  , concat'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -63,6 +64,10 @@ dropWhile' list'@(Cons x xs) f
   | f x = dropWhile' xs f
   | otherwise = list'
 
+append :: List a -> List a -> List a
+append Nil a2 = a2
+append (Cons h t) a2 = Cons h (append t a2)
+
 init' :: List a -> List a
 init' Nil = error "Nil"
 init' (Cons x Nil) = Nil
@@ -99,3 +104,6 @@ foldRightFromLeft xs b f = foldLeft xs b (\h b -> f b h)
 
 appendRight :: List a ->  List a -> List a
 appendRight a1 a2 = foldRight a1 a2 (\h b -> Cons h b)
+
+concat' :: List (List a) -> List a
+concat' xss = foldRight xss Nil append
