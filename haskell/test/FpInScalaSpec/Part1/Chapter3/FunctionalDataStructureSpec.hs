@@ -21,6 +21,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , reverse'
   , foldLeftFromRight
   , foldRightFromLeft
+  , appendRight
   )
 
 exercise31Spec :: Spec
@@ -127,3 +128,9 @@ exercise313Spec = do
             (foldLeftFromRight (list ([1, 2, 3] :: [Int])) 0 (\b a -> b + a)) `shouldBe` 6
         it "foldRight from foldLeft" $
             (foldRightFromLeft (list ([1, 2, 3] :: [Int])) 0 (\a b -> a + b)) `shouldBe` 6
+
+exercise314Spec :: Spec
+exercise314Spec = do
+    describe "List" $ do
+        it "append from foldRight" $
+            (appendRight (list ([1, 2, 3] :: [Int])) (list ([4, 5, 6] :: [Int]))) `shouldBe` (list ([1, 2, 3, 4, 5, 6] :: [Int]))

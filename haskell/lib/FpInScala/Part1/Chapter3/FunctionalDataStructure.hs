@@ -16,6 +16,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , reverse'
   , foldLeftFromRight
   , foldRightFromLeft
+  , appendRight
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -95,3 +96,6 @@ foldLeftFromRight xs b f = foldRight xs b (\b h -> f h b)
 
 foldRightFromLeft :: List a -> b -> (a -> b -> b) -> b
 foldRightFromLeft xs b f = foldLeft xs b (\h b -> f b h)
+
+appendRight :: List a ->  List a -> List a
+appendRight a1 a2 = foldRight a1 a2 (\h b -> Cons h b)
