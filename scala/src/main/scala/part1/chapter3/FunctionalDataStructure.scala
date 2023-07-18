@@ -77,3 +77,6 @@ object List:
 
   def foldRightFromLeft[A, B](l: List[A], acc: B, f: (A, B) => B): B =
     foldLeft(l, acc, (h, acc) => f(acc, h))
+
+  def appendRight[A](a1: List[A], a2: List[A]): List[A] =
+    foldRight(a1, a2, Cons(_, _))

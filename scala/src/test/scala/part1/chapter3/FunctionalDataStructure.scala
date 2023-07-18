@@ -74,4 +74,8 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
     assertEquals(List.foldRightFromLeft(List(1, 2, 3), 0, _ + _), 6)
   }
 
+  test("Exercise 3.14") {
+    assertEquals(List.appendRight(List(1, 2, 3), List(4, 5, 6)), List(1, 2, 3, 4, 5, 6))
+  }
+
 }
