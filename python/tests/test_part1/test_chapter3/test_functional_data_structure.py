@@ -70,3 +70,8 @@ def test_exercise311():
 
 def test_exercise312():
     assert List[int](3, 2, 1) == List[int](1, 2, 3).reverse()
+
+
+def test_exercise313():
+    assert 6 == List[int](1, 2, 3).fold_left_from_right(0, lambda b, a: b + a)
+    assert 6 == List[int](1, 2, 3).fold_right_from_left(0, lambda a, b: b + a)

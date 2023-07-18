@@ -108,6 +108,16 @@ class List(Generic[Tp], Iterable):
             Nil[Tp](), lambda accumulator, head: Cons[Tp](head=head, tail=accumulator)
         )
 
+    def fold_left_from_right(self, accumulator: Bp, f: Callable[[Bp, Tp], Bp]) -> Bp:
+        return self.fold_right(
+            accumulator, lambda head, accumulator_: f(accumulator_, head)
+        )
+
+    def fold_right_from_left(self, accumulator: Bp, f: Callable[[Tp, Bp], Bp]) -> Bp:
+        return self.fold_left(
+            accumulator, lambda accumulator_, head: f(head, accumulator_)
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
