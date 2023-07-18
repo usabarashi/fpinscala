@@ -120,6 +120,13 @@ where
     {
         self.fold_left(accumulator, |a, b| f(b, a))
     }
+
+    fn append_right(&self, a2: List<A>) -> List<A> {
+        self.fold_right(a2, |head, accumulator| List::Cons {
+            head: head.clone(),
+            tail: Rc::new(accumulator),
+        })
+    }
 }
 
 impl List<i32> {
@@ -295,6 +302,14 @@ mod tests {
         assert_eq!(
             List::new(&[1, 2, 3]).fold_right_from_left(0, |b, a| b + a),
             6
+        );
+    }
+
+    #[test]
+    fn test_exercise314() {
+        assert_eq!(
+            List::new(&[1, 2, 3]).append_right(List::new(&[4, 5, 6])),
+            List::new(&[1, 2, 3, 4, 5, 6])
         );
     }
 }
