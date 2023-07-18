@@ -42,41 +42,41 @@ exercise32Spec :: Spec
 exercise32Spec = do
     describe "List" $ do
         it "Nil tail" $ do
-            evaluate (tail' (list ([] :: [Int]))) `shouldThrow` anyException
+            evaluate (tail' (list [])) `shouldThrow` anyException
         it "Cons tail" $
-            tail' (list ([1, 2, 3] :: [Int])) `shouldBe` (list [2, 3] :: List Int)
+            tail' (list [1, 2, 3]) `shouldBe` (list [2, 3])
 
 exercise33Spec :: Spec
 exercise33Spec = do
     describe "List" $ do
         it "Nil tail" $ do
-            evaluate (setHead (list ([] :: [Int])) 42) `shouldThrow` anyException
+            evaluate (setHead (list []) 42) `shouldThrow` anyException
         it "Cons tail" $
-            (setHead (list ([1, 2, 3] :: [Int])) 42) `shouldBe` (list [42, 2, 3] :: List Int)
+            (setHead (list [1, 2, 3]) 42) `shouldBe` (list [42, 2, 3])
 
 exercise34Spec :: Spec
 exercise34Spec = do
     describe "List" $ do
         it "Nil drop" $ do
-            (drop' (list ([] :: [Int])) 42) `shouldBe` (list [] :: List Int)
+            (drop' (list []) 42) `shouldBe` (list ([] :: [Int]))
         it "Cons drop" $
-            (drop' (list ([1, 2, 3, 4, 5] :: [Int])) 3) `shouldBe` (list [4, 5] :: List Int)
+            (drop' (list [1, 2, 3, 4, 5]) 3) `shouldBe` (list [4, 5])
 
 exercise35Spec :: Spec
 exercise35Spec = do
     describe "List" $ do
         it "Nil dropWhile" $ do
-            (dropWhile' (list ([] :: [Int])) (\n -> n < 42)) `shouldBe` (list [] :: List Int)
+            (dropWhile' (list []) (\n -> n < 42)) `shouldBe` (list [])
         it "Cons dropWhile" $
-            (dropWhile' (list ([1, 2, 3, 4, 5] :: [Int])) (\n -> n < 4)) `shouldBe` (list [4, 5] :: List Int)
+            (dropWhile' (list [1, 2, 3, 4, 5]) (\n -> n < 4)) `shouldBe` (list [4, 5])
 
 exercise36Spec :: Spec
 exercise36Spec = do
     describe "List" $ do
         it "Nil init" $ do
-            evaluate (init' (list ([] :: [Int]))) `shouldThrow` anyException
+            evaluate (init' (list [])) `shouldThrow` anyException
         it "Cons init" $
-            (init' (list ([1, 2, 3, 4, 5] :: [Int]))) `shouldBe` (list [1, 2, 3, 4] :: List Int)
+            (init' (list [1, 2, 3, 4, 5])) `shouldBe` (list [1, 2, 3, 4])
 
 exercise38Spec :: Spec
 exercise38Spec = do
@@ -89,52 +89,52 @@ exercise38Spec = do
                 f :: Int -> List Int -> List Int
                 f head tail = Cons head tail
             in
-            (foldRight xs b f) `shouldBe` (list ([1, 2, 3] :: [Int]))
+            (foldRight xs b f) `shouldBe` (list [1, 2, 3])
 
 exercise39Spec :: Spec
 exercise39Spec = do
     describe "List" $ do
         it "Nil length'" $
-            (length' (list ([] :: [Int]))) `shouldBe` 0
+            (length' (list [])) `shouldBe` 0
         it "Cons length'" $
-            (length' (list ([1, 2, 3] :: [Int]))) `shouldBe` 3
+            (length' (list [1, 2, 3])) `shouldBe` 3
 
 
 exercise310Spec :: Spec
 exercise310Spec = do
     describe "List" $ do
         it "foldLeft'" $
-            (foldLeft (list ([1, 2, 3] :: [Int])) 0 (\a b -> a + b)) `shouldBe` 6
+            (foldLeft (list [1, 2, 3]) 0 (\a b -> a + b)) `shouldBe` 6
 
 exercise311Spec :: Spec
 exercise311Spec = do
     describe "List" $ do
         it "sumLeft" $
-            (sumLeft (list ([1, 2, 3] :: [Int]))) `shouldBe` 6
+            (sumLeft (list [1, 2, 3])) `shouldBe` 6
         it "productLeft" $
-            (productLeft (list ([1.0, 2.0, 3.0] :: [Double]))) `shouldBe` 6.0
+            (productLeft (list [1.0, 2.0, 3.0])) `shouldBe` 6.0
         it "lengthLeft" $
-            (lengthLeft (list ([1, 2, 3] :: [Int]))) `shouldBe` 3
+            (lengthLeft (list [1, 2, 3])) `shouldBe` 3
 
 exercise312Spec :: Spec
 exercise312Spec = do
     describe "List" $ do
         it "reverse" $
-            (reverse' (list ([1, 2, 3] :: [Int]))) `shouldBe` (list ([3, 2, 1] :: [Int]))
+            (reverse' (list [1, 2, 3])) `shouldBe` (list [3, 2, 1])
 
 exercise313Spec :: Spec
 exercise313Spec = do
     describe "List" $ do
         it "foldLeft from foldRight" $
-            (foldLeftFromRight (list ([1, 2, 3] :: [Int])) 0 (\b a -> b + a)) `shouldBe` 6
+            (foldLeftFromRight (list [1, 2, 3]) 0 (\b a -> b + a)) `shouldBe` 6
         it "foldRight from foldLeft" $
-            (foldRightFromLeft (list ([1, 2, 3] :: [Int])) 0 (\a b -> a + b)) `shouldBe` 6
+            (foldRightFromLeft (list [1, 2, 3]) 0 (\a b -> a + b)) `shouldBe` 6
 
 exercise314Spec :: Spec
 exercise314Spec = do
     describe "List" $ do
         it "append from foldRight" $
-            (appendRight (list ([1, 2, 3] :: [Int])) (list ([4, 5, 6] :: [Int]))) `shouldBe` (list ([1, 2, 3, 4, 5, 6] :: [Int]))
+            (appendRight (list [1, 2, 3]) (list [4, 5, 6])) `shouldBe` (list [1, 2, 3, 4, 5, 6])
 
 exercise315Spec :: Spec
 exercise315Spec = do
