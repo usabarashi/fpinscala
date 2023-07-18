@@ -16,6 +16,7 @@ import {
     , sumLeft
     , productLeft
     , lengthLeft
+    , reverse
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -71,4 +72,8 @@ describe("Exercise 3.11", () => {
     test("sumLeft", () => expect(sumLeft(apply(1, 2, 3))).toEqual(6))
     test("productLeft", () => expect(productLeft(apply(1.0, 2.0, 3.0))).toEqual(6.0))
     test("lengthLeft", () => expect(lengthLeft(apply(1, 2, 3))).toEqual(3))
+})
+
+describe("Exercise 3.12", () => {
+    test("reverse", () => expect(reverse(apply(1, 2, 3))).toEqual(apply(3, 2, 1)))
 })

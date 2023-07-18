@@ -84,3 +84,6 @@ export const productLeft = (ts: List<number>): number =>
 
 export const lengthLeft = <T>(ts: List<T>): number =>
     foldLeft(ts, 0, (accumulator, _) => accumulator + 1)
+
+export const reverse = <T>(ts: List<T>): List<T> =>
+    foldLeft(ts, { type: 'Nil' } as List<T>, (accumlator, head) => ({ type: 'Cons', head: head, tail: accumlator }))
