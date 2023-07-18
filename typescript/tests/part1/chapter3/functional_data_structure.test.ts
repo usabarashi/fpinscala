@@ -20,6 +20,7 @@ import {
     , foldLeftFromRight
     , foldRightFromLeft
     , appendRight
+    , concat
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -88,4 +89,8 @@ describe("Exercise 3.13", () => {
 
 describe("Exercise 3.14", () => {
     test("append from foldRight", () => expect(appendRight(apply(1, 2, 3), apply(4, 5, 6))).toEqual(apply(1, 2, 3, 4, 5, 6)))
+})
+
+describe("Exercise 3.15", () => {
+    test("concat", () => expect(concat(apply(apply(1, 2, 3), apply(4, 5, 6)))).toEqual(apply(1, 2, 3, 4, 5, 6)))
 })

@@ -49,6 +49,12 @@ export const dropWhile = <T>(ts: List<T>, f: (n: T) => boolean): List<T> =>
         .with({ type: 'Cons' }, (cons) => f(cons.head) ? dropWhile(cons.tail, f) : cons)
         .otherwise(() => ts)
 
+export const append = <A>(a1: List<A>, a2: List<A>): List<A> =>
+    match(a1)
+        .with({ type: 'Nil' }, () => a2)
+        .with({ type: 'Cons' }, (cons) => ({ ...cons, tail: append(cons.tail, a2) }))
+        .exhaustive()
+
 export const init = <T>(ts: List<T>): List<T> =>
     match(ts)
         .with({ type: 'Nil' }, () => { throw new Error('Nil') })
@@ -96,3 +102,6 @@ export const foldRightFromLeft = <T, B>(ts: List<T>, accumulator: B, f: (B: T, a
 
 export const appendRight = <A>(a1: List<A>, a2: List<A>): List<A> =>
     foldRight(a1, a2, (head, accumulator) => ({ type: 'Cons', head: head, tail: accumulator }))
+
+export const concat = <A>(l: List<List<A>>): List<A> =>
+    foldRight(l, { type: 'Nil' } as List<A>, append)
