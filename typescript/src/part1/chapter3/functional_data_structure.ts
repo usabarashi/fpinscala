@@ -93,3 +93,6 @@ export const foldLeftFromRight = <T, B>(ts: List<T>, accumulator: B, f: (a: B, b
 
 export const foldRightFromLeft = <T, B>(ts: List<T>, accumulator: B, f: (B: T, a: B) => B): B =>
     foldLeft(ts, accumulator, (a, b) => f(b, a))
+
+export const appendRight = <A>(a1: List<A>, a2: List<A>): List<A> =>
+    foldRight(a1, a2, (head, accumulator) => ({ type: 'Cons', head: head, tail: accumulator }))

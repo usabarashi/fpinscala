@@ -19,6 +19,7 @@ import {
     , reverse
     , foldLeftFromRight
     , foldRightFromLeft
+    , appendRight
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -83,4 +84,8 @@ describe("Exercise 3.12", () => {
 describe("Exercise 3.13", () => {
     test("foldLeft from foldRight", () => expect(foldLeftFromRight(apply(1, 2, 3), 0, (a, b) => a + b)).toEqual(6))
     test("foldRight from foldLEft", () => expect(foldRightFromLeft(apply(1, 2, 3), 0, (b, a) => b + a)).toEqual(6))
+})
+
+describe("Exercise 3.14", () => {
+    test("append from foldRight", () => expect(appendRight(apply(1, 2, 3), apply(4, 5, 6))).toEqual(apply(1, 2, 3, 4, 5, 6)))
 })
