@@ -90,4 +90,8 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
     assertEquals(List.doubleToString(List(1.0, 2.0, 3.0, 4.0, 5.0)), List("1.0", "2.0", "3.0", "4.0", "5.0"))
   }
 
+  test("Exercise 3.18") {
+    assertEquals(List.map(List(1, 2, 3, 4, 5), _ * 2), List(2, 4, 6, 8, 10))
+  }
+
 }
