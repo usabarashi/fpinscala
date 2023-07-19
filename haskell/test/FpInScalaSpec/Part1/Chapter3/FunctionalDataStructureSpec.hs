@@ -23,6 +23,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , foldRightFromLeft
   , appendRight
   , concat'
+  , incrementEach
   )
 
 exercise31Spec :: Spec
@@ -146,3 +147,9 @@ exercise315Spec = do
                 xs2 = list [4, 5, 6]
             in
             (concat' (list [xs1, xs2])) `shouldBe` (list [1, 2, 3, 4, 5, 6])
+
+exercise316Spec :: Spec
+exercise316Spec = do
+    describe "List" $ do
+        it "incrementEach" $
+            (incrementEach (list [1, 2, 3, 4, 5])) `shouldBe` (list [2, 3, 4, 5, 6])

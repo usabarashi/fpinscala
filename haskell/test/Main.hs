@@ -25,3 +25,4 @@ main = hspec $ do
     describe "Exercise 3.13" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise313Spec
     describe "Exercise 3.14" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise314Spec
     describe "Exercise 3.15" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise315Spec
+    describe "Exercise 3.16" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise316Spec
