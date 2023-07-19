@@ -88,3 +88,7 @@ def test_exercise315():
         List[int](1, 2, 3, 4, 5, 6)
         == List[int](List[int](1, 2, 3), List[int](4, 5, 6)).concat()
     )
+
+
+def test_exercise316():
+    assert List[int](2, 3, 4, 5, 6) == List[int](1, 2, 3, 4, 5).increment_each()

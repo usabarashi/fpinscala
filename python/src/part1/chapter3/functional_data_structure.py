@@ -133,6 +133,12 @@ class List(Generic[Tp], Iterable):
     def concat(self: List[List[Tp]]) -> List[Tp]:
         return self.fold_right(Nil[Tp](), List[Tp].append)
 
+    def increment_each(self: List[int]) -> List[int]:
+        return self.fold_right(
+            Nil[int](),
+            lambda head, accumulator: Cons[int](head=head + 1, tail=accumulator),
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
