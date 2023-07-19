@@ -94,4 +94,7 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
     assertEquals(List.map(List(1, 2, 3, 4, 5), _ * 2), List(2, 4, 6, 8, 10))
   }
 
+  test("Exercise 3.19") {
+    assertEquals(List.filter(List(1, 2, 3, 4, 5), (x) => x % 2 != 0), List(1, 3, 5))
+  }
 }

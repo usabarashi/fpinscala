@@ -97,3 +97,6 @@ object List:
 
   def map[A, B](as: List[A], f: A => B): List[B] =
     foldRight(as, Nil: List[B], (a, acc) => Cons(f(a), acc))
+
+  def filter[A](as: List[A], f: A => Boolean): List[A] =
+    foldRight(as, Nil: List[A], (a, acc) => if (f(a)) Cons(a, acc) else acc)
