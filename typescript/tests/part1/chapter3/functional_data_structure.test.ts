@@ -23,6 +23,7 @@ import {
     , concat
     , incrementEach
     , doubleToString
+    , map
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -103,4 +104,8 @@ describe("Exercise 3.16", () => {
 
 describe("Exercise 3.17", () => {
     test("doubleToString", () => expect(doubleToString(apply(1.0, 2.0, 3.0, 4.0, 5.0), 1)).toEqual(apply("1.0", "2.0", "3.0", "4.0", "5.0")))
+})
+
+describe("Exercise 3.18", () => {
+    test("map", () => expect(map(apply(1, 2, 3, 4, 5), (x) => x * 2)).toEqual(apply(2, 4, 6, 8, 10)))
 })

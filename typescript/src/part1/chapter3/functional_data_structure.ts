@@ -111,3 +111,6 @@ export const incrementEach = (l: List<number>): List<number> =>
 
 export const doubleToString = (l: List<number>, decimals: number): List<string> =>
     foldRight(l, { type: 'Nil' } as List<string>, (head, accumulator) => ({ type: 'Cons', head: head.toFixed(decimals), tail: accumulator }))
+
+export const map = <T, B>(l: List<T>, f: (x: T) => B): List<B> =>
+    foldRight(l, { type: 'Nil' } as List<B>, (head, accumlator) => ({ type: 'Cons', head: f(head), tail: accumlator }))
