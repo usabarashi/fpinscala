@@ -108,3 +108,6 @@ export const concat = <A>(l: List<List<A>>): List<A> =>
 
 export const incrementEach = (l: List<number>): List<number> =>
     foldRight(l, { type: 'Nil' } as List<number>, (head, accumulator) => ({ type: 'Cons', head: head + 1, tail: accumulator }))
+
+export const doubleToString = (l: List<number>, decimals: number): List<string> =>
+    foldRight(l, { type: 'Nil' } as List<string>, (head, accumulator) => ({ type: 'Cons', head: head.toFixed(decimals), tail: accumulator }))

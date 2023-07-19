@@ -22,6 +22,7 @@ import {
     , appendRight
     , concat
     , incrementEach
+    , doubleToString
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -98,4 +99,8 @@ describe("Exercise 3.15", () => {
 
 describe("Exercise 3.16", () => {
     test("incrementEach", () => expect(incrementEach(apply(1, 2, 3, 4, 5))).toEqual(apply(2, 3, 4, 5, 6)))
+})
+
+describe("Exercise 3.17", () => {
+    test("doubleToString", () => expect(doubleToString(apply(1.0, 2.0, 3.0, 4.0, 5.0), 1)).toEqual(apply("1.0", "2.0", "3.0", "4.0", "5.0")))
 })
