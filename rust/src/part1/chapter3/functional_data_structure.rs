@@ -137,6 +137,16 @@ where
             tail: Rc::new(accumulator),
         })
     }
+
+    fn map<B, F>(&self, f: F) -> List<B>
+    where
+        F: Fn(A) -> B,
+    {
+        self.fold_right(List::<B>::Nil, |head, accumulator| List::Cons {
+            head: f(head.clone()),
+            tail: Rc::new(accumulator),
+        })
+    }
 }
 
 impl List<i32> {
@@ -375,6 +385,14 @@ mod tests {
                 "4.0".to_string(),
                 "5.0".to_string()
             ])
+        );
+    }
+
+    #[test]
+    fn test_exercise318() {
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).map(|i| i * 2),
+            List::new(&[2, 4, 6, 8, 10])
         );
     }
 }
