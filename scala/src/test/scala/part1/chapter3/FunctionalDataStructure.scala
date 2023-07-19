@@ -11,7 +11,7 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
         case List.Nil => 42
         case List.Cons(x, List.Cons(y, List.Cons(3, List.Cons(4, _)))) => x + y
         case List.Cons(h, t) => h + List.sum(t)
-        case _ => 101
+        // case _ => 101
     assertEquals(result, 3)
   }
 
