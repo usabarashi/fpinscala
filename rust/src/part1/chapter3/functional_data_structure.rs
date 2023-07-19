@@ -171,6 +171,13 @@ impl List<f64> {
     fn product_left(&self) -> f64 {
         self.fold_left(1.0, |a, t| a * t)
     }
+
+    fn double_to_string(&self, decimals: usize) -> List<String> {
+        self.fold_right(List::<String>::Nil, |head, accumulator| List::Cons {
+            head: format!("{:.*}", decimals, head),
+            tail: Rc::new(accumulator),
+        })
+    }
 }
 
 impl<A> List<List<A>>
@@ -354,6 +361,20 @@ mod tests {
         assert_eq!(
             List::new(&[1, 2, 3, 4, 5]).increment_each(),
             List::new(&[2, 3, 4, 5, 6])
+        );
+    }
+
+    #[test]
+    fn test_exercise317() {
+        assert_eq!(
+            List::<f64>::new(&[1.0, 2.0, 3.0, 4.0, 5.0]).double_to_string(1),
+            List::new(&[
+                "1.0".to_string(),
+                "2.0".to_string(),
+                "3.0".to_string(),
+                "4.0".to_string(),
+                "5.0".to_string()
+            ])
         );
     }
 }
