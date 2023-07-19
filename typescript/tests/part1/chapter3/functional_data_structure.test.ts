@@ -21,6 +21,7 @@ import {
     , foldRightFromLeft
     , appendRight
     , concat
+    , incrementEach
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -93,4 +94,8 @@ describe("Exercise 3.14", () => {
 
 describe("Exercise 3.15", () => {
     test("concat", () => expect(concat(apply(apply(1, 2, 3), apply(4, 5, 6)))).toEqual(apply(1, 2, 3, 4, 5, 6)))
+})
+
+describe("Exercise 3.16", () => {
+    test("incrementEach", () => expect(incrementEach(apply(1, 2, 3, 4, 5))).toEqual(apply(2, 3, 4, 5, 6)))
 })

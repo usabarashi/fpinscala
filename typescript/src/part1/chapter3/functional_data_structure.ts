@@ -105,3 +105,6 @@ export const appendRight = <A>(a1: List<A>, a2: List<A>): List<A> =>
 
 export const concat = <A>(l: List<List<A>>): List<A> =>
     foldRight(l, { type: 'Nil' } as List<A>, append)
+
+export const incrementEach = (l: List<number>): List<number> =>
+    foldRight(l, { type: 'Nil' } as List<number>, (head, accumulator) => ({ type: 'Cons', head: head + 1, tail: accumulator }))
