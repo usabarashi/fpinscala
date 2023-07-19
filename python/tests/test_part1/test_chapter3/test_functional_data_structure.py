@@ -99,3 +99,7 @@ def test_exercise317():
         List[str]("1.0", "2.0", "3.0", "4.0", "5.0")
         == List[float](1.0, 2.0, 3.0, 4.0, 5.0).double_to_string()
     )
+
+
+def test_exercise318():
+    assert List[int](2, 4, 6, 8, 10) == List[int](1, 2, 3, 4, 5).map(lambda x: x * 2)

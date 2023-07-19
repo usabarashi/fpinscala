@@ -145,6 +145,11 @@ class List(Generic[Tp], Iterable):
             lambda head, accumulator: Cons[str](head=str(head), tail=accumulator),
         )
 
+    def map(self, f: Callable[[Tp], Bp]) -> List[Bp]:
+        return self.fold_right(
+            Nil[Bp](), lambda head, accumulator: Cons(head=f(head), tail=accumulator)
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
