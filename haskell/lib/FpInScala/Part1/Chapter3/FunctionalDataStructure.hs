@@ -21,6 +21,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , incrementEach
   , doubleToString
   , map'
+  , filter'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -120,3 +121,6 @@ doubleToString xs = foldRight xs Nil (\h acc -> Cons (show h) acc)
 
 map' :: List a -> (a -> b) ->List b
 map' xs f = foldRight xs Nil (\h acc -> Cons (f h) acc)
+
+filter' :: List a -> (a -> Bool) -> List a
+filter' xs f = foldRight xs Nil (\h acc -> if f h then Cons h acc else acc)

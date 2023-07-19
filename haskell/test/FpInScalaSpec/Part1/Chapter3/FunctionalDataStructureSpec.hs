@@ -26,6 +26,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , incrementEach
   , doubleToString
   , map'
+  , filter'
   )
 
 exercise31Spec :: Spec
@@ -167,3 +168,9 @@ exercise318Spec = do
     describe "List" $ do
         it "map" $
             (map' (list [1, 2, 3, 4, 5]) (\x -> x * 2)) `shouldBe` (list [2, 4, 6, 8, 10])
+
+exercise319Spec :: Spec
+exercise319Spec = do
+    describe "List" $ do
+        it "filter'" $
+            (filter' (list [1, 2, 3, 4, 5]) (\x -> x `mod` 2 /= 0)) `shouldBe` (list [1, 3, 5])
