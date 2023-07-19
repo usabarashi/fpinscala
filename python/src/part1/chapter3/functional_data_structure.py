@@ -139,6 +139,12 @@ class List(Generic[Tp], Iterable):
             lambda head, accumulator: Cons[int](head=head + 1, tail=accumulator),
         )
 
+    def double_to_string(self: List[float]) -> List[str]:
+        return self.fold_right(
+            Nil[str](),
+            lambda head, accumulator: Cons[str](head=str(head), tail=accumulator),
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)

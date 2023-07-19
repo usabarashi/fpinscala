@@ -92,3 +92,10 @@ def test_exercise315():
 
 def test_exercise316():
     assert List[int](2, 3, 4, 5, 6) == List[int](1, 2, 3, 4, 5).increment_each()
+
+
+def test_exercise317():
+    assert (
+        List[str]("1.0", "2.0", "3.0", "4.0", "5.0")
+        == List[float](1.0, 2.0, 3.0, 4.0, 5.0).double_to_string()
+    )
