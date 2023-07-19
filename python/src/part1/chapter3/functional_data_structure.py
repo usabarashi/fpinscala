@@ -150,6 +150,14 @@ class List(Generic[Tp], Iterable):
             Nil[Bp](), lambda head, accumulator: Cons(head=f(head), tail=accumulator)
         )
 
+    def filter(self, f: Callable[[Tp], bool]) -> List[Tp]:
+        return self.fold_right(
+            Nil[Tp](),
+            lambda head, accumulator: Cons(head=head, tail=accumulator)
+            if f(head)
+            else accumulator,
+        )
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
