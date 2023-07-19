@@ -25,6 +25,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , concat'
   , incrementEach
   , doubleToString
+  , map'
   )
 
 exercise31Spec :: Spec
@@ -160,3 +161,9 @@ exercise317Spec = do
     describe "List" $ do
         it "doubleToString" $
             (doubleToString (list [1.0, 2.0, 3.0, 4.0, 5.0])) `shouldBe` (list ["1.0", "2.0", "3.0", "4.0", "5.0"])
+
+exercise318Spec :: Spec
+exercise318Spec = do
+    describe "List" $ do
+        it "map" $
+            (map' (list [1, 2, 3, 4, 5]) (\x -> x * 2)) `shouldBe` (list [2, 4, 6, 8, 10])
