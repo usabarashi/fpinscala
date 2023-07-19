@@ -19,6 +19,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , appendRight
   , concat'
   , incrementEach
+  , doubleToString
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -112,3 +113,6 @@ concat' xss = foldRight xss Nil append
 incrementEach :: List Int -> List Int
 incrementEach Nil = Nil
 incrementEach xs = foldRight xs Nil (\h acc -> Cons (h + 1) acc)
+
+doubleToString :: List Double -> List String
+doubleToString xs = foldRight xs Nil (\h acc -> Cons (show h) acc)

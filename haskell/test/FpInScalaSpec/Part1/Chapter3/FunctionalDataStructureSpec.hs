@@ -24,6 +24,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , appendRight
   , concat'
   , incrementEach
+  , doubleToString
   )
 
 exercise31Spec :: Spec
@@ -153,3 +154,9 @@ exercise316Spec = do
     describe "List" $ do
         it "incrementEach" $
             (incrementEach (list [1, 2, 3, 4, 5])) `shouldBe` (list [2, 3, 4, 5, 6])
+
+exercise317Spec :: Spec
+exercise317Spec = do
+    describe "List" $ do
+        it "doubleToString" $
+            (doubleToString (list [1.0, 2.0, 3.0, 4.0, 5.0])) `shouldBe` (list ["1.0", "2.0", "3.0", "4.0", "5.0"])
