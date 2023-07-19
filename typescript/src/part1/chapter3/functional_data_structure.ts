@@ -114,3 +114,6 @@ export const doubleToString = (l: List<number>, decimals: number): List<string> 
 
 export const map = <T, B>(l: List<T>, f: (x: T) => B): List<B> =>
     foldRight(l, { type: 'Nil' } as List<B>, (head, accumlator) => ({ type: 'Cons', head: f(head), tail: accumlator }))
+
+export const filter = <T>(l: List<T>, f: (x: T) => boolean): List<T> =>
+    foldRight(l, { type: 'Nil' } as List<T>, (head, accumlator) => f(head) ? { type: 'Cons', head: head, tail: accumlator } : accumlator)

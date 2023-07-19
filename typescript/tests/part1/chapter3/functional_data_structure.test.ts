@@ -24,6 +24,7 @@ import {
     , incrementEach
     , doubleToString
     , map
+    , filter
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -108,4 +109,8 @@ describe("Exercise 3.17", () => {
 
 describe("Exercise 3.18", () => {
     test("map", () => expect(map(apply(1, 2, 3, 4, 5), (x) => x * 2)).toEqual(apply(2, 4, 6, 8, 10)))
+})
+
+describe("Exercise 3.19", () => {
+    test("filter", () => expect(filter(apply(1, 2, 3, 4, 5), (x) => x % 2 != 0)).toEqual(apply(1, 3, 5)))
 })
