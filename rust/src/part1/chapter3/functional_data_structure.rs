@@ -150,6 +150,13 @@ impl List<i32> {
     fn sum_left(&self) -> i32 {
         self.fold_left(0, |a, t| a + t)
     }
+
+    fn increment_each(&self) -> List<i32> {
+        self.fold_right(List::<i32>::Nil, |head, accumulator| List::Cons {
+            head: head + 1,
+            tail: Rc::new(accumulator),
+        })
+    }
 }
 
 impl List<f64> {
@@ -339,6 +346,14 @@ mod tests {
         assert_eq!(
             List::new(&[l1, l2]).concat(),
             List::new(&[1, 2, 3, 4, 5, 6])
+        );
+    }
+
+    #[test]
+    fn test_exercise316() {
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).increment_each(),
+            List::new(&[2, 3, 4, 5, 6])
         );
     }
 }
