@@ -91,3 +91,6 @@ object List:
 
   def incrementEach(l: List[Int]): List[Int] =
     foldRight(l, Nil: List[Int], (i, acc) => Cons(i + 1, acc))
+
+  def doubleToString(l: List[Double]): List[String] =
+    foldRight(l, Nil: List[String], (d, acc) => Cons(d.toString, acc))
