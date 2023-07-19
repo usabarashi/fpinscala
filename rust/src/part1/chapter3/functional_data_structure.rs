@@ -147,6 +147,23 @@ where
             tail: Rc::new(accumulator),
         })
     }
+
+    fn filter<F>(&self, f: F) -> List<A>
+    where
+        F: Fn(A) -> bool,
+    {
+        self.fold_right(List::<A>::Nil, |head, accumulator| {
+            // FIXME
+            if f(head.clone()) {
+                List::Cons {
+                    head: head.clone(),
+                    tail: Rc::new(accumulator),
+                }
+            } else {
+                accumulator
+            }
+        })
+    }
 }
 
 impl List<i32> {
@@ -393,6 +410,14 @@ mod tests {
         assert_eq!(
             List::new(&[1, 2, 3, 4, 5]).map(|i| i * 2),
             List::new(&[2, 4, 6, 8, 10])
+        );
+    }
+
+    #[test]
+    fn test_exercise319() {
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).filter(|i| i % 2 != 0),
+            List::new(&[1, 3, 5])
         );
     }
 }
