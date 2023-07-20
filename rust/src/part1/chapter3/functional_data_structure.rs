@@ -186,6 +186,29 @@ where
             }
         })
     }
+
+    fn zip_with<B, C, F>(&self, other: List<B>, f: F) -> List<C>
+    where
+        B: Clone,
+        F: Fn(A, B) -> C,
+    {
+        match (self, other) {
+            (List::Nil, _) | (_, List::Nil) => List::Nil,
+            (
+                List::Cons {
+                    head: shead,
+                    tail: stail,
+                },
+                List::Cons {
+                    head: ohead,
+                    tail: otail,
+                },
+            ) => List::Cons {
+                head: f(shead.clone(), ohead),
+                tail: Rc::new(stail.zip_with((*otail).clone(), f)),
+            },
+        }
+    }
 }
 
 impl List<i32> {
@@ -474,6 +497,14 @@ mod tests {
     fn test_exercise322() {
         assert_eq!(
             List::new(&[1, 2, 3]).add_pairwise(List::new(&[4, 5, 6])),
+            List::new(&[5, 7, 9])
+        );
+    }
+
+    #[test]
+    fn test_exercise323() {
+        assert_eq!(
+            List::new(&[1, 2, 3]).zip_with(List::new(&[4, 5, 6]), |a, b| a + b),
             List::new(&[5, 7, 9])
         );
     }
