@@ -26,7 +26,8 @@ import {
     , map
     , filter
     , flatMap
-    , filterFromFlatMap
+    , filterFromFlatMap,
+    addPairwise
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -123,4 +124,8 @@ describe("Exercise 3.20", () => {
 
 describe("Exercise 3.21", () => {
     test("filter from flatMap", () => expect(filterFromFlatMap(apply(1, 2, 3), (x) => x % 2 != 0)).toEqual(apply(1, 3)))
+})
+
+describe("Exercise 3.22", () => {
+    test("addPairwise", () => expect(addPairwise(apply(1, 2, 3), apply(4, 5, 6))).toEqual(apply(5, 7, 9)))
 })

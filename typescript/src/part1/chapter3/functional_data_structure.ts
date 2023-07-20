@@ -1,5 +1,4 @@
-import { match } from "ts-pattern";
-import { boolean } from "ts-pattern/dist/patterns";
+import { match, P } from "ts-pattern";
 
 export type List<T> = Nil<T> | Cons<T>
 export interface Nil<T> {
@@ -124,3 +123,10 @@ export const flatMap = <T, B>(l: List<T>, f: (x: T) => List<B>): List<B> =>
 
 export const filterFromFlatMap = <T>(l: List<T>, f: (x: T) => boolean): List<T> =>
     flatMap(l, (x) => f(x) ? apply(x) : { type: 'Nil' })
+
+export const addPairwise = (l1: List<number>, l2: List<number>): List<number> =>
+    match([l1, l2])
+        .with([{ type: 'Nil' }, P._], () => ({ type: 'Nil' } as List<number>))
+        .with([P._, { type: 'Nil' }], () => ({ type: 'Nil' } as List<number>))
+        .with([{ type: 'Cons' }, { type: 'Cons' }], (cons) => ({ type: 'Cons', head: cons[0].head + cons[1].head, tail: addPairwise(cons[0].tail, cons[1].tail) } as List<number>))
+        .exhaustive()
