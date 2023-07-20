@@ -158,6 +158,9 @@ class List(Generic[Tp], Iterable):
             else accumulator,
         )
 
+    def flat_map(self, f: Callable[[Tp], List[Bp]]) -> List[Bp]:
+        return self.map(f).concat()
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
