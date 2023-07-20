@@ -172,6 +172,20 @@ where
     {
         self.map(f).concat()
     }
+
+    fn filter_from_flat_map<F>(&self, f: F) -> List<A>
+    where
+        F: Fn(A) -> bool,
+    {
+        self.flat_map(|x| {
+            // FIXME
+            if f(x.clone()) {
+                List::new(&[x.clone()])
+            } else {
+                List::Nil
+            }
+        })
+    }
 }
 
 impl List<i32> {
@@ -434,6 +448,14 @@ mod tests {
         assert_eq!(
             List::new(&[1, 2, 3]).flat_map(|i| List::new(&[i, i])),
             List::new(&[1, 1, 2, 2, 3, 3])
+        );
+    }
+
+    #[test]
+    fn test_exercise321() {
+        assert_eq!(
+            List::new(&[1, 2, 3]).filter_from_flat_map(|i| i % 2 != 0),
+            List::new(&[1, 3])
         );
     }
 }
