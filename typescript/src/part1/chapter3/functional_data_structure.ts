@@ -117,3 +117,6 @@ export const map = <T, B>(l: List<T>, f: (x: T) => B): List<B> =>
 
 export const filter = <T>(l: List<T>, f: (x: T) => boolean): List<T> =>
     foldRight(l, { type: 'Nil' } as List<T>, (head, accumlator) => f(head) ? { type: 'Cons', head: head, tail: accumlator } : accumlator)
+
+export const flatMap = <T, B>(l: List<T>, f: (x: T) => List<B>): List<B> =>
+    concat(map(l, f))

@@ -25,6 +25,7 @@ import {
     , doubleToString
     , map
     , filter
+    , flatMap
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -113,4 +114,8 @@ describe("Exercise 3.18", () => {
 
 describe("Exercise 3.19", () => {
     test("filter", () => expect(filter(apply(1, 2, 3, 4, 5), (x) => x % 2 != 0)).toEqual(apply(1, 3, 5)))
+})
+
+describe("Exercise 3.20", () => {
+    test("flatMap", () => expect(flatMap(apply(1, 2, 3), (x) => apply(x, x))).toEqual(apply(1, 1, 2, 2, 3, 3)))
 })
