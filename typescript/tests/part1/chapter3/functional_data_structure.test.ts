@@ -26,6 +26,7 @@ import {
     , map
     , filter
     , flatMap
+    , filterFromFlatMap
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -118,4 +119,8 @@ describe("Exercise 3.19", () => {
 
 describe("Exercise 3.20", () => {
     test("flatMap", () => expect(flatMap(apply(1, 2, 3), (x) => apply(x, x))).toEqual(apply(1, 1, 2, 2, 3, 3)))
+})
+
+describe("Exercise 3.21", () => {
+    test("filter from flatMap", () => expect(filterFromFlatMap(apply(1, 2, 3), (x) => x % 2 != 0)).toEqual(apply(1, 3)))
 })

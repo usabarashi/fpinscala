@@ -1,4 +1,5 @@
 import { match } from "ts-pattern";
+import { boolean } from "ts-pattern/dist/patterns";
 
 export type List<T> = Nil<T> | Cons<T>
 export interface Nil<T> {
@@ -120,3 +121,6 @@ export const filter = <T>(l: List<T>, f: (x: T) => boolean): List<T> =>
 
 export const flatMap = <T, B>(l: List<T>, f: (x: T) => List<B>): List<B> =>
     concat(map(l, f))
+
+export const filterFromFlatMap = <T>(l: List<T>, f: (x: T) => boolean): List<T> =>
+    flatMap(l, (x) => f(x) ? apply(x) : { type: 'Nil' })
