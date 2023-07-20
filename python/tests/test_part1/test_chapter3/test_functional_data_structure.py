@@ -113,3 +113,9 @@ def test_exercise320():
     assert List[int](1, 1, 2, 2, 3, 3) == List[int](1, 2, 3).flat_map(
         lambda x: List[int](x, x)
     )
+
+
+def test_exercise321():
+    assert List[int](1, 3) == List[int](1, 2, 3).filter_from_flat_map(
+        lambda x: x % 2 != 0
+    )

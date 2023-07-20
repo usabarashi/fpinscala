@@ -161,6 +161,9 @@ class List(Generic[Tp], Iterable):
     def flat_map(self, f: Callable[[Tp], List[Bp]]) -> List[Bp]:
         return self.map(f).concat()
 
+    def filter_from_flat_map(self, f: Callable[[Tp], bool]) -> List[Tp]:
+        return self.flat_map(lambda x: List[Tp](x) if f(x) else Nil[Tp]())
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)
