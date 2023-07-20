@@ -28,6 +28,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , map'
   , filter'
   , flatMap
+  , filterFromFlatMap
   )
 
 exercise31Spec :: Spec
@@ -181,3 +182,9 @@ exercise320Spec = do
     describe "List" $ do
         it "flatMap" $
             (flatMap (list [1, 2, 3]) (\x -> list [x, x])) `shouldBe` (list [1, 1, 2, 2, 3, 3])
+
+exercise321Spec :: Spec
+exercise321Spec = do
+    describe "List" $ do
+        it "filter from flatMap" $
+            (filterFromFlatMap (list [1, 2, 3]) (\x -> x `mod` 2 /= 0)) `shouldBe` (list [1, 3])

@@ -23,6 +23,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , map'
   , filter'
   , flatMap
+  , filterFromFlatMap
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -128,3 +129,6 @@ filter' xs f = foldRight xs Nil (\h acc -> if f h then Cons h acc else acc)
 
 flatMap :: List a -> (a -> List b) -> List b
 flatMap xs f = concat' (map' xs f)
+
+filterFromFlatMap :: List a -> (a -> Bool) -> List a
+filterFromFlatMap xs f = flatMap xs  (\x -> if f x then list [x] else list [] )
