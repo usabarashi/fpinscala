@@ -119,3 +119,7 @@ def test_exercise321():
     assert List[int](1, 3) == List[int](1, 2, 3).filter_from_flat_map(
         lambda x: x % 2 != 0
     )
+
+
+def test_exercise322():
+    assert List[int](5, 7, 9) == List[int](1, 2, 3).add_pairwies(List[int](4, 5, 6))
