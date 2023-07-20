@@ -29,6 +29,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , filter'
   , flatMap
   , filterFromFlatMap
+  , addPairwise
   )
 
 exercise31Spec :: Spec
@@ -188,3 +189,9 @@ exercise321Spec = do
     describe "List" $ do
         it "filter from flatMap" $
             (filterFromFlatMap (list [1, 2, 3]) (\x -> x `mod` 2 /= 0)) `shouldBe` (list [1, 3])
+
+exercise322Spec :: Spec
+exercise322Spec = do
+    describe "List" $ do
+        it "addPairwise" $
+            (addPairwise (list [1, 2, 3]) (list [4, 5, 6])) `shouldBe` (list [5, 7, 9])
