@@ -25,6 +25,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , flatMap
   , filterFromFlatMap
   , addPairwise
+  , zipWith'
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -138,3 +139,8 @@ addPairwise :: List Int -> List Int -> List Int
 addPairwise Nil _ = Nil
 addPairwise _ Nil = Nil
 addPairwise (Cons a1 as1) (Cons a2 as2) = Cons (a1 + a2) (addPairwise as1 as2)
+
+zipWith' :: List a -> List b -> (a -> b -> c) -> List c
+zipWith' Nil _ _ = Nil
+zipWith' _ Nil _ = Nil
+zipWith' (Cons a as) (Cons b bs) f = Cons (f a b) (zipWith' as bs f)

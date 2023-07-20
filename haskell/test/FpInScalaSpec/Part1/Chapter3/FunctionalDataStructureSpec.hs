@@ -30,6 +30,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , flatMap
   , filterFromFlatMap
   , addPairwise
+  , zipWith'
   )
 
 exercise31Spec :: Spec
@@ -195,3 +196,9 @@ exercise322Spec = do
     describe "List" $ do
         it "addPairwise" $
             (addPairwise (list [1, 2, 3]) (list [4, 5, 6])) `shouldBe` (list [5, 7, 9])
+
+exercise323Spec :: Spec
+exercise323Spec = do
+    describe "List" $ do
+        it "zipWith" $
+            (zipWith' (list [1, 2, 3]) (list [4, 5, 6]) (\a b -> a + b)) `shouldBe` (list [5, 7, 9])
