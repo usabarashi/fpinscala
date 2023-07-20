@@ -97,7 +97,7 @@ export const reverse = <T>(ts: List<T>): List<T> =>
 export const foldLeftFromRight = <T, B>(ts: List<T>, accumulator: B, f: (a: B, b: T) => B): B =>
     foldRight(ts, accumulator, (b, a) => f(a, b))
 
-export const foldRightFromLeft = <T, B>(ts: List<T>, accumulator: B, f: (B: T, a: B) => B): B =>
+export const foldRightFromLeft = <T, B>(ts: List<T>, accumulator: B, f: (b: T, a: B) => B): B =>
     foldLeft(ts, accumulator, (a, b) => f(b, a))
 
 export const appendRight = <A>(a1: List<A>, a2: List<A>): List<A> =>
@@ -129,4 +129,12 @@ export const addPairwise = (l1: List<number>, l2: List<number>): List<number> =>
         .with([{ type: 'Nil' }, P._], () => ({ type: 'Nil' } as List<number>))
         .with([P._, { type: 'Nil' }], () => ({ type: 'Nil' } as List<number>))
         .with([{ type: 'Cons' }, { type: 'Cons' }], (cons) => ({ type: 'Cons', head: cons[0].head + cons[1].head, tail: addPairwise(cons[0].tail, cons[1].tail) } as List<number>))
+        .exhaustive()
+
+
+export const zipWith = <T, B, C>(ts: List<T>, bs: List<B>, f: (t: T, b: B) => C): List<C> =>
+    match([ts, bs])
+        .with([{ type: 'Nil' }, P._], () => ({ type: 'Nil' } as List<C>))
+        .with([P._, { type: 'Nil' }], () => ({ type: 'Nil' } as List<C>))
+        .with([{ type: 'Cons' }, { type: 'Cons' }], (cons) => ({ type: 'Cons', head: f(cons[0].head, cons[1].head), tail: zipWith(cons[0].tail, cons[1].tail, f) } as List<C>))
         .exhaustive()
