@@ -123,3 +123,9 @@ def test_exercise321():
 
 def test_exercise322():
     assert List[int](5, 7, 9) == List[int](1, 2, 3).add_pairwies(List[int](4, 5, 6))
+
+
+def test_exercise323():
+    assert List[int](5, 7, 9) == List[int](1, 2, 3).zip_with(
+        List[int](4, 5, 6), lambda a, b: a + b
+    )

@@ -7,6 +7,7 @@ from typing import Callable, Generic, TypeVar, TypeAlias
 
 Tp = TypeVar("Tp", covariant=True)
 Bp = TypeVar("Bp", covariant=True)
+Cm = TypeVar("Cm", contravariant=True)
 
 
 class List(Generic[Tp], Iterable):
@@ -170,6 +171,13 @@ class List(Generic[Tp], Iterable):
                 return Nil[int]()
             case (Cons(head=shead, tail=stail), Cons(head=ohead, tail=otail)):
                 return Cons(head=shead + ohead, tail=stail.add_pairwies(otail))
+
+    def zip_with(self, other: List[Bp], f: Callable[[Bp], Cm]) -> List[Cm]:
+        match (self, other):
+            case (Nil(), _) | (_, Nil()):
+                return Nil[Cm]()
+            case (Cons(head=shead, tail=stail), Cons(head=ohead, tail=otail)):
+                return Cons(head=f(shead, ohead), tail=stail.zip_with(otail, f))
 
     @property
     def length_left(self) -> int:
