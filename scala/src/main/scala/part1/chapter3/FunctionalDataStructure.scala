@@ -106,3 +106,8 @@ object List:
 
   def filterFromFlatMap[A](as: List[A], f: A => Boolean): List[A] =
     flatMap(as, (x) => if (f(x)) List(x) else Nil)
+
+  def addPairwise(a: List[Int], b: List[Int]): List[Int] =
+    (a, b) match
+      case (Nil, _) | (_, Nil) => Nil
+      case (Cons(h1, t1), Cons(h2, t2)) => Cons(h1+h2, addPairwise(t1, t2))

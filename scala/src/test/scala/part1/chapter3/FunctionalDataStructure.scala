@@ -105,4 +105,9 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
   test("Exercise 3.21") {
     assertEquals(List.filterFromFlatMap(List(1, 2, 3), (x) => x % 2 != 0), List(1, 3))
   }
+
+  test("Exercise 3.22") {
+    assertEquals(List.addPairwise(List(1, 2, 3), List(4, 5, 6)), List(5, 7, 9))
+  }
+
 }
