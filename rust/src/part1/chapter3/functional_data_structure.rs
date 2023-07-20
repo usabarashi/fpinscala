@@ -206,6 +206,17 @@ impl List<i32> {
             tail: Rc::new(accumulator),
         })
     }
+
+    fn add_pairwise(&self, b: List<i32>) -> List<i32> {
+        match (self, b) {
+            (List::Nil, _) | (_, List::Nil) => List::Nil,
+            (List::Cons { head: h1, tail: t1 }, List::Cons { head: h2, tail: t2 }) => List::Cons {
+                head: h1 + h2,
+                // FIXME
+                tail: Rc::new(t1.add_pairwise((*t2).clone())),
+            },
+        }
+    }
 }
 
 impl List<f64> {
@@ -456,6 +467,14 @@ mod tests {
         assert_eq!(
             List::new(&[1, 2, 3]).filter_from_flat_map(|i| i % 2 != 0),
             List::new(&[1, 3])
+        );
+    }
+
+    #[test]
+    fn test_exercise322() {
+        assert_eq!(
+            List::new(&[1, 2, 3]).add_pairwise(List::new(&[4, 5, 6])),
+            List::new(&[5, 7, 9])
         );
     }
 }
