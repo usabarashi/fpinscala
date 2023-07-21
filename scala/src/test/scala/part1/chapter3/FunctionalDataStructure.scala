@@ -114,4 +114,15 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
     assertEquals(List.zipWith(List(1, 2, 3), List(4, 5, 6), _ + _), List(5, 7, 9))
   }
 
+  test("LISTS IN THE STANDARD LIBRARY") {
+    assertEquals((List.take(List(1, 2, 3, 4, 5), 3)), List(1, 2, 3))
+    assertEquals((List.takeWhile(List(1, 2, 3, 4, 5), _ <= 3)), List(1, 2, 3))
+    assertEquals(List.forall(List(1, 2, 3, 4, 5), _ <= 3), false)
+    assertEquals(List.forall(List(1, 2, 3, 4, 5), _ <= 5), true)
+    assertEquals(List.exists(List(1, 2, 3, 4, 5), _ == 42), false)
+    assertEquals(List.exists(List(1, 2, 3, 4, 5), _ == 3), true)
+    assertEquals(List.scanLeft(List("a", "b", "c", "d", "e"), "", _ + _), List("", "a", "ab", "abc", "abcd", "abcde"))
+    assertEquals(List.scanRight(List("a", "b", "c", "d", "e"), "", _ + _), List("abcde", "bcde", "cde", "de", "e", ""))
+  }
+
 }

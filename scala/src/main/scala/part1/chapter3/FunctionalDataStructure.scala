@@ -116,3 +116,40 @@ object List:
     (a, b) match
       case (Nil, _) | (_, Nil) => Nil
       case (Cons(ah, at), Cons(bh, bt)) => Cons(f(ah, bh), zipWith(at, bt, f))
+
+  def take[A](as: List[A], n: Int): List[A] =
+    as match
+      case Nil => Nil
+      case Cons(_, _) if n <= 0 => Nil
+      case Cons(head, tail) => Cons(head, take(tail, n-1))
+
+  def takeWhile[A](as: List[A], f: (A) => Boolean): List[A] =
+    as match
+      case Nil => Nil
+      case Cons(head, _) if !f(head) => Nil
+      case Cons(head, tail) => Cons(head, takeWhile(tail, f))
+
+  def forall[A](as: List[A], f: (A) => Boolean): Boolean =
+    foldLeft(as, true, _ && f(_))
+
+  def exists[A](as: List[A], f: (A) => Boolean): Boolean =
+    foldLeft(as, false, _ || f(_))
+
+  def scanLeft[A, B](as: List[A], acc: B, f: (B, A) => B ): List[B] =
+    as match
+      case Nil => List(acc)
+      case Cons(head, tail) => Cons(acc, scanLeft(tail, f(acc, head), f))
+
+  def head[A](as: List[A]): A =
+    as match
+      case Nil  => sys.error("Nil")
+      case Cons(head, _) => head
+
+  def scanRight[A, B](as: List[A], acc: B, f: (A, B) => B ): List[B] =
+    as match
+      case Nil => List(acc)
+      case Cons(head, tail) => {
+        val newTail = scanRight(tail, acc, f)
+        val newHead = f(head, List.head(newTail))
+        Cons(newHead, newTail)
+      }
