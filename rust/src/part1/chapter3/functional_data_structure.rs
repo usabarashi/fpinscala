@@ -209,6 +209,84 @@ where
             },
         }
     }
+
+    fn take(&self, n: usize) -> List<A> {
+        match self {
+            List::Nil => List::Nil,
+            List::Cons { head: _, tail: _ } if n <= 0 => List::Nil,
+            List::Cons { head, tail } => List::Cons {
+                head: head.clone(),
+                tail: Rc::new(tail.take(n - 1)),
+            },
+        }
+    }
+
+    fn take_while<F>(&self, f: F) -> List<A>
+    where
+        F: Fn(&A) -> bool,
+    {
+        match self {
+            List::Nil => List::Nil,
+            List::Cons { head, tail } if !f(head) => List::Nil,
+            List::Cons { head, tail } => List::Cons {
+                head: head.clone(),
+                tail: Rc::new(tail.take_while(f)),
+            },
+        }
+    }
+
+    fn forall<F>(&self, f: F) -> bool
+    where
+        F: Fn(A) -> bool,
+    {
+        self.fold_left(true, |accumulator, head| accumulator && f(head.clone()))
+    }
+
+    fn exists<F>(&self, f: F) -> bool
+    where
+        F: Fn(A) -> bool,
+    {
+        self.fold_left(false, |accumulator, head| accumulator || f(head.clone()))
+    }
+
+    fn scan_left<F, B>(&self, accumulator: B, f: F) -> List<B>
+    where
+        B: Clone,
+        F: Fn(B, A) -> B + Copy,
+    {
+        match self {
+            List::Nil => List::new(&[accumulator.clone()]),
+            List::Cons { head, tail } => List::Cons {
+                head: accumulator.clone(),
+                tail: Rc::new(tail.scan_left(f(accumulator, head.clone()), f)),
+            },
+        }
+    }
+
+    fn head(&self) -> A {
+        match self {
+            List::Nil => panic!("Nil"),
+            List::Cons { head, tail } => head.clone(),
+        }
+    }
+
+    fn scan_right<F, B>(&self, accumulator: B, f: F) -> List<B>
+    where
+        B: Clone,
+        F: Fn(A, B) -> B + Copy,
+    {
+        match self {
+            List::Nil => List::new(&[accumulator.clone()]),
+            List::Cons { head, tail } => {
+                let new_tail = tail.scan_right(accumulator, f);
+                let new_head = f(head.clone(), new_tail.head());
+                List::Cons {
+                    head: new_head,
+                    tail: Rc::new(new_tail),
+                }
+            }
+        }
+    }
 }
 
 impl List<i32> {
@@ -506,6 +584,47 @@ mod tests {
         assert_eq!(
             List::new(&[1, 2, 3]).zip_with(List::new(&[4, 5, 6]), |a, b| a + b),
             List::new(&[5, 7, 9])
+        );
+    }
+
+    #[test]
+    fn test_lists_in_the_standard_library() {
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).take(3), List::new(&[1, 2, 3]));
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).take_while(|&x| x <= 3),
+            List::new(&[1, 2, 3])
+        );
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).take_while(|&x| x <= 42),
+            List::new(&[1, 2, 3, 4, 5])
+        );
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).forall(|x| x <= 3), false);
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).forall(|x| x <= 42), true);
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).exists(|x| x == 42), false);
+        assert_eq!(List::new(&[1, 2, 3, 4, 5]).exists(|x| x == 3), true);
+        assert_eq!(
+            List::new(&["a", "b", "c", "d", "e"])
+                .scan_left(String::from(""), |x, y| format!("{}{}", x, y)),
+            List::new(&[
+                String::from(""),
+                String::from("a"),
+                String::from("ab"),
+                String::from("abc"),
+                String::from("abcd"),
+                String::from("abcde")
+            ])
+        );
+        assert_eq!(
+            List::new(&["a", "b", "c", "d", "e"])
+                .scan_right(String::from(""), |x, y| format!("{}{}", x, y)),
+            List::new(&[
+                String::from("abcde"),
+                String::from("bcde"),
+                String::from("cde"),
+                String::from("de"),
+                String::from("e"),
+                String::from(""),
+            ])
         );
     }
 }
