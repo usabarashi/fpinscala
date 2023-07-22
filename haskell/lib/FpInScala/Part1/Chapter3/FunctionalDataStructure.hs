@@ -26,6 +26,12 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , filterFromFlatMap
   , addPairwise
   , zipWith'
+  , take'
+  , takeWhile'
+  , forall
+  , exists
+  , scanLeft
+  , scanRight
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -144,3 +150,34 @@ zipWith' :: List a -> List b -> (a -> b -> c) -> List c
 zipWith' Nil _ _ = Nil
 zipWith' _ Nil _ = Nil
 zipWith' (Cons a as) (Cons b bs) f = Cons (f a b) (zipWith' as bs f)
+
+take' :: List a -> Int -> List a
+take' Nil _ = Nil
+take' (Cons x xs) n
+  | n <= 0 = Nil
+  | otherwise = Cons x (take' xs (n - 1))
+
+takeWhile' :: List a -> (a -> Bool) -> List a
+takeWhile' Nil _ = Nil
+takeWhile' (Cons x xs) f
+  | f x == False = Nil
+  | otherwise = Cons x (takeWhile' xs f)
+
+forall :: List a -> (a -> Bool) -> Bool
+forall (Cons x xs) f = foldLeft xs True (\acc h -> acc && (f h))
+
+exists :: List a -> (a -> Bool) -> Bool
+exists xs f = foldLeft xs False (\acc h -> acc || (f h))
+
+scanLeft :: List a -> b -> (b -> a -> b) -> List b
+scanLeft Nil acc _ = Cons acc Nil
+scanLeft (Cons x xs) acc f = Cons acc (scanLeft xs (f acc x) f)
+
+scanRight :: List a -> b -> (a -> b -> b) -> List b
+scanRight Nil acc _ = Cons acc Nil
+scanRight (Cons head tail) acc f =
+  let
+    newTail@(Cons accHead _) = scanRight tail acc f
+    newHead = f head accHead
+  in
+  Cons newHead newTail

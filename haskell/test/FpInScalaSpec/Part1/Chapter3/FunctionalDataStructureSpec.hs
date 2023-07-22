@@ -31,6 +31,12 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , filterFromFlatMap
   , addPairwise
   , zipWith'
+  , take'
+  , takeWhile'
+  , forall
+  , exists
+  , scanLeft
+  , scanRight
   )
 
 exercise31Spec :: Spec
@@ -202,3 +208,23 @@ exercise323Spec = do
     describe "List" $ do
         it "zipWith" $
             (zipWith' (list [1, 2, 3]) (list [4, 5, 6]) (\a b -> a + b)) `shouldBe` (list [5, 7, 9])
+
+listInTheStandardLibrarySpec :: Spec
+listInTheStandardLibrarySpec = do
+    describe "List" $ do
+        it "take'" $
+            (take' (list [1, 2, 3, 4, 5]) 3) `shouldBe` (list [1, 2, 3])
+        it "takeWhile'" $
+            (takeWhile' (list [1, 2, 3, 4, 5]) (\x -> x <= 3)) `shouldBe` (list [1, 2, 3])
+        it "forall False" $
+            (forall (list [1, 2, 3, 4, 5]) (\x -> x <= 3)) `shouldBe` False
+        it "forall True" $
+            (forall (list [1, 2, 3, 4, 5]) (\x -> x <= 42)) `shouldBe` True
+        it "exists False" $
+            (exists (list [1, 2, 3, 4, 5]) (\x -> x == 42)) `shouldBe` False
+        it "exists True" $
+            (exists (list [1, 2, 3, 4, 5]) (\x -> x == 3)) `shouldBe` True
+        it "scanLeft" $
+            (scanLeft (list "abcde") "" (\x y -> x ++ [y])) `shouldBe` (list ["", "a", "ab", "abc", "abcd", "abcde"])
+        it "scanRight" $
+            (scanLeft (list "abcde") "" (\x y -> x ++ [y])) `shouldBe` (list ["abcde", "bcde", "cde", "de", "e", ""])
