@@ -34,7 +34,7 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_exercise324() {
+    fn test_exercise325() {
         let tree = Tree::Branch {
             left: Rc::new(Tree::Branch {
                 left: Rc::new(Tree::Leaf { value: 1 }),
