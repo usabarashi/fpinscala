@@ -125,4 +125,9 @@ class FunctionalDataStructureSuite extends munit.FunSuite {
     assertEquals(List.scanRight(List("a", "b", "c", "d", "e"), "", _ + _), List("abcde", "bcde", "cde", "de", "e", ""))
   }
 
+  test("Exercise 3.24") {
+    assertEquals(List.hasSubsequence(List(1, 2, 3, 4, 5), List(5, 4, 3)), false)
+    assertEquals(List.hasSubsequence(List(1, 2, 3, 4, 5), List(2, 3, 4)), true)
+  }
+
 }
