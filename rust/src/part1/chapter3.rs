@@ -1,1 +1,1 @@
-pub mod functional_data_structure;
+pub mod list;
