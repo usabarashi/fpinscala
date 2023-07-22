@@ -8,7 +8,7 @@ enum List<A> {
 
 impl<A> List<A>
 where
-    A: Clone,
+    A: Clone + PartialEq,
 {
     fn new(as_: &[A]) -> List<A> {
         if as_.is_empty() {
@@ -167,7 +167,7 @@ where
 
     fn flat_map<B, F>(&self, f: F) -> List<B>
     where
-        B: Clone,
+        B: Clone + PartialEq,
         F: Fn(A) -> List<B> + Copy,
     {
         self.map(f).concat()
@@ -251,7 +251,7 @@ where
 
     fn scan_left<F, B>(&self, accumulator: B, f: F) -> List<B>
     where
-        B: Clone,
+        B: Clone + PartialEq,
         F: Fn(B, A) -> B + Copy,
     {
         match self {
@@ -272,7 +272,7 @@ where
 
     fn scan_right<F, B>(&self, accumulator: B, f: F) -> List<B>
     where
-        B: Clone,
+        B: Clone + PartialEq,
         F: Fn(A, B) -> B + Copy,
     {
         match self {
@@ -285,6 +285,31 @@ where
                     tail: Rc::new(new_tail),
                 }
             }
+        }
+    }
+
+    fn start_with(&self, prefix: &List<A>) -> bool {
+        match (self, prefix) {
+            (_, List::Nil) => true,
+            (
+                List::Cons {
+                    head: shead,
+                    tail: stail,
+                },
+                List::Cons {
+                    head: phead,
+                    tail: ptail,
+                },
+            ) if shead == phead => stail.start_with(ptail),
+            _ => false,
+        }
+    }
+
+    fn has_subsequence(&self, sub: &List<A>) -> bool {
+        match self {
+            List::Nil => sub.clone() == List::Nil,
+            _ if self.start_with(sub) => true,
+            List::Cons { head, tail } => tail.has_subsequence(sub),
         }
     }
 }
@@ -343,7 +368,7 @@ impl List<f64> {
 
 impl<A> List<List<A>>
 where
-    A: Clone,
+    A: Clone + PartialEq,
 {
     fn concat(&self) -> List<A> {
         self.fold_right(List::<A>::Nil, |head, accumulator| head.append(accumulator))
@@ -625,6 +650,18 @@ mod tests {
                 String::from("e"),
                 String::from(""),
             ])
+        );
+    }
+
+    #[test]
+    fn test_exercise324() {
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).has_subsequence(&List::new(&[4, 3, 2])),
+            false
+        );
+        assert_eq!(
+            List::new(&[1, 2, 3, 4, 5]).has_subsequence(&List::new(&[2, 3, 4])),
+            true
         );
     }
 }
