@@ -37,6 +37,7 @@ import FpInScala.Part1.Chapter3.FunctionalDataStructure
   , exists
   , scanLeft
   , scanRight
+  , hasSubsequence
   )
 
 exercise31Spec :: Spec
@@ -225,6 +226,14 @@ listInTheStandardLibrarySpec = do
         it "exists True" $
             (exists (list [1, 2, 3, 4, 5]) (\x -> x == 3)) `shouldBe` True
         it "scanLeft" $
-            (scanLeft (list "abcde") "" (\x y -> x ++ [y])) `shouldBe` (list ["", "a", "ab", "abc", "abcd", "abcde"])
+            (scanLeft (list "abcde") "" (\acc x -> acc ++ [x])) `shouldBe` (list ["", "a", "ab", "abc", "abcd", "abcde"])
         it "scanRight" $
-            (scanLeft (list "abcde") "" (\x y -> x ++ [y])) `shouldBe` (list ["abcde", "bcde", "cde", "de", "e", ""])
+            (scanRight (list "abcde") "" (\x acc -> [x] ++ acc)) `shouldBe` (list ["abcde", "bcde", "cde", "de", "e", ""])
+
+exercise324Spec :: Spec
+exercise324Spec = do
+    describe "List" $ do
+        it "hasSubsequence False" $
+            (hasSubsequence (list [1, 2, 3, 4, 5]) (list [4, 3, 2])) `shouldBe` False
+        it "hasSubsequence True" $
+            (hasSubsequence (list [1, 2, 3, 4, 5]) (list [2, 3, 4])) `shouldBe` True

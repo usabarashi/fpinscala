@@ -32,6 +32,7 @@ module FpInScala.Part1.Chapter3.FunctionalDataStructure
   , exists
   , scanLeft
   , scanRight
+  , hasSubsequence
   ) where
 
 data List a = Nil | Cons a (List a)
@@ -181,3 +182,14 @@ scanRight (Cons head tail) acc f =
     newHead = f head accHead
   in
   Cons newHead newTail
+
+startWith :: Eq a => List a -> List a -> Bool
+startWith _ Nil = True
+startWith (Cons x1 xs1) (Cons x2 xs2)
+  | x1 == x2 = startWith xs1 xs2
+  | otherwise = False
+
+hasSubsequence :: Eq a => List a -> List a -> Bool
+hasSubsequence Nil sub = sub == Nil
+hasSubsequence sup sub | startWith sup sub = True
+hasSubsequence (Cons x xs) sub = hasSubsequence xs sub

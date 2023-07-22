@@ -34,3 +34,4 @@ main = hspec $ do
     describe "Exercise 3.22" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise322Spec
     describe "Exercise 3.23" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise323Spec
     describe "LISTS IN THE STANDARD LIBRARY" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.listInTheStandardLibrarySpec
+    describe "Exercise 3.24" FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec.exercise324Spec
