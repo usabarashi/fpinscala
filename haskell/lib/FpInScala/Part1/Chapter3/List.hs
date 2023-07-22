@@ -1,4 +1,4 @@
-module FpInScala.Part1.Chapter3.FunctionalDataStructure
+module FpInScala.Part1.Chapter3.List
   ( List(Nil, Cons)
   , sumList
   , list

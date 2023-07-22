@@ -14,7 +14,7 @@ common warnings
 library
     import:           warnings
     exposed-modules:  FpInScala.Part1.Chapter2.GettingStarted
-                      FpInScala.Part1.Chapter3.FunctionalDataStructure
+                      FpInScala.Part1.Chapter3.List
     build-depends:    base ^>=4.17.1.0
     hs-source-dirs:   lib
     default-language: Haskell2010
@@ -26,7 +26,7 @@ test-suite fpinscala-test
     hs-source-dirs:   test
     main-is:          Main.hs
     other-modules:    FpInScalaSpec.Part1.Chapter2.GettingStartedSpec
-                      FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec
+                      FpInScalaSpec.Part1.Chapter3.ListSpec
     build-depends:
         base ^>=4.17.1.0,
         hspec,

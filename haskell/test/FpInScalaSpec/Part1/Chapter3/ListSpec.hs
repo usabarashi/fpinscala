@@ -1,9 +1,9 @@
-module FpInScalaSpec.Part1.Chapter3.FunctionalDataStructureSpec where
+module FpInScalaSpec.Part1.Chapter3.ListSpec where
 
 import Control.Exception (evaluate)
 import Test.Hspec
 
-import FpInScala.Part1.Chapter3.FunctionalDataStructure
+import FpInScala.Part1.Chapter3.List
   ( List(Nil, Cons)
   , sumList
   , list
