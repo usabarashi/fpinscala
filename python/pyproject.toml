@@ -1,0 +1,50 @@
+[tool.poetry]
+name = "fpinscala"
+version = "0.1.0"
+description = ""
+authors = ["usabarashi"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+ruff = "^0.0.280"
+pyright = "^1.1.318"
+pytest = "^7.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line_length = 99
+target-version = ["py311"]
+
+[tool.ruff]
+select = ["E", "F"]
+ignore = ["E721"]
+fixable = ["A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W", "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT", "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI", "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"]
+unfixable = ["F841"]
+line-length = 99
+target-version = "py311"
+
+# See: https://github.com/microsoft/pyright/blob/main/docs/configuration.md
+[tool.pyright]
+include = ["src"]
+exclude = []
+ignore = []
+defineConstant = { DEBUG = true }
+stubPath = "src/stubs"
+venv = ".venv"
+reportMissingImports = true
+reportMissingTypeStubs = false
+pythonVersion = "3.11"
+pythonPlatform = "Linux"
+executionEnvironments = []
+
+[tool.pytest.ini_options]
+pythonpath = "src"
+testpaths = ["tests"]
