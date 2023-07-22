@@ -2,9 +2,8 @@ import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.Assertions._
 
 import part1.chapter3.*
-import part1.chapter3.List.apply
 
-class FunctionalDataStructureSuite extends munit.FunSuite {
+class ListSuite extends munit.FunSuite {
   test("Exercise 3.1") {
     val result = List(1,2,3,4,5) match
         case List.Cons(x, List.Cons(2, List.Cons(4, _))) => x
