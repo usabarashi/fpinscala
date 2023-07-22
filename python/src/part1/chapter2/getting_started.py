@@ -1,4 +1,4 @@
-from typing import Callable, TypeVar, overload
+from typing import Callable, TypeVar, cast, overload
 
 A = TypeVar("A")
 B = TypeVar("B")
@@ -28,7 +28,7 @@ class MyProgram:
         return mut_result
 
     @classmethod
-    def _format_factorial(cls, n: int) -> int:
+    def _format_factorial(cls, n: int) -> str:
         return f"The factorial of {n} is {cls.factorial(n)}."
 
     @classmethod
@@ -37,28 +37,28 @@ class MyProgram:
         print(cls._format_factorial(7))
 
     @classmethod
-    def format_result(name: str, n: int, f: Callable[[int], int]) -> str:
+    def format_result(cls, name: str, n: int, f: Callable[[int], int]) -> str:
         return f"The {name} of {n} is {f(n)}."
 
     @overload
     @staticmethod
     def find_first(as_: list[str], key: str) -> int:
-        raise NotImplementedError()
+        ...
 
     @overload
     @staticmethod
     def find_first(as_: list[A], p: Callable[[A], bool]) -> int:
-        raise NotImplementedError()
+        ...
 
     @staticmethod
-    def find_first(as_: list[str | A], key_p: str | Callable[[A], bool]) -> int:
+    def find_first(as_: list[str | A], key_p: str | Callable[[A], bool]) -> int:  # type: ignore
         if isinstance(key_p, str):
-            for index, element in enumerate(as_):
+            for index, element in enumerate(cast(list[str], as_)):
                 if element == key_p:
                     return index
             return -1
         elif callable(key_p):
-            for index, element in enumerate(as_):
+            for index, element in enumerate(cast(list[A], as_)):
                 if key_p(element):
                     return index
             return -1
@@ -89,4 +89,4 @@ def uncurry(f: Callable[[A], Callable[[B], C]]) -> Callable[[A, B], C]:
 
 
 def compose(f: Callable[[B], C], g: Callable[[A], B]) -> Callable[[A], C]:
-    return lambda a:  f(g(a))
+    return lambda a: f(g(a))
