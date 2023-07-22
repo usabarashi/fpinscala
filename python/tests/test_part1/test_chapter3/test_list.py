@@ -1,5 +1,5 @@
 import pytest
-from part1.chapter3.functional_data_structure import List, Nil, Cons
+from part1.chapter3.list import List, Nil, Cons
 
 
 def test_exercise31():
