@@ -35,6 +35,7 @@ import {
     , exists
     , scanLeft
     , scanRight
+    , hasSubsequence
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -150,4 +151,9 @@ describe("LISTS IN THE STANDARD LIBRARY", () => {
     test("exists true", () => expect(exists(apply(1, 2, 3, 4, 5), (t) => t == 3)).toEqual(true))
     test("scanLeft", () => expect(scanLeft(apply("a", "b", "c", "d", "e"), "", (x, y) => x + y)).toEqual(apply("", "a", "ab", "abc", "abcd", "abcde")))
     test("scanRight", () => expect(scanRight(apply("a", "b", "c", "d", "e"), "", (x, y) => x + y)).toEqual(apply("abcde", "bcde", "cde", "de", "e", "")))
+})
+
+describe("Exercise 3.24", () => {
+    test("hasSubsequence false", () => expect(hasSubsequence(apply(1, 2, 3, 4, 5), apply(4, 3, 2))).toEqual(false))
+    test("hasSubsequence true", () => expect(hasSubsequence(apply(1, 2, 3, 4, 5), apply(2, 3, 4))).toEqual(true))
 })

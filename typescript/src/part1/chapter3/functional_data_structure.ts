@@ -171,3 +171,15 @@ export const scanRight = <T, B>(ts: List<T>, accumulator: B, f: (t: T, b: B) => 
             return { type: 'Cons', head: newHead, tail: newTail } as List<B>
         })
         .exhaustive()
+
+const startWith = <T>(ts: List<T>, prefix: List<T>): boolean =>
+    match([ts, prefix])
+        .with([P._, { type: 'Nil' }], () => true)
+        .with([{ type: 'Cons' }, { type: 'Cons' }], (cons) => cons[0].head == cons[1].head ? startWith(cons[0].tail, cons[1].tail) : false)
+        .otherwise(() => false)
+
+export const hasSubsequence = <T>(sup: List<T>, sub: List<T>): boolean =>
+    match(sup)
+        .with({ type: 'Nil' }, () => sub.type === 'Nil')
+        .with({ type: 'Cons' }, (sup) => startWith(sup, sub) || hasSubsequence(sup.tail, sub))
+        .exhaustive()
