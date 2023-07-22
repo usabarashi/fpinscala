@@ -131,10 +131,43 @@ export const addPairwise = (l1: List<number>, l2: List<number>): List<number> =>
         .with([{ type: 'Cons' }, { type: 'Cons' }], (cons) => ({ type: 'Cons', head: cons[0].head + cons[1].head, tail: addPairwise(cons[0].tail, cons[1].tail) } as List<number>))
         .exhaustive()
 
-
 export const zipWith = <T, B, C>(ts: List<T>, bs: List<B>, f: (t: T, b: B) => C): List<C> =>
     match([ts, bs])
         .with([{ type: 'Nil' }, P._], () => ({ type: 'Nil' } as List<C>))
         .with([P._, { type: 'Nil' }], () => ({ type: 'Nil' } as List<C>))
         .with([{ type: 'Cons' }, { type: 'Cons' }], (cons) => ({ type: 'Cons', head: f(cons[0].head, cons[1].head), tail: zipWith(cons[0].tail, cons[1].tail, f) } as List<C>))
+        .exhaustive()
+
+export const take = <T>(ts: List<T>, n: number): List<T> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => ({ type: 'Nil' } as List<T>))
+        .with({ type: 'Cons' }, (cons) => n <= 0 ? { type: 'Nil' } as List<T> : { ...cons, tail: take(cons.tail, n - 1) })
+        .exhaustive()
+
+export const takeWhile = <T>(ts: List<T>, f: (t: T) => boolean): List<T> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => ({ type: 'Nil' } as List<T>))
+        .with({ type: 'Cons' }, (cons) => !f(cons.head) ? { type: 'Nil' } as List<T> : { ...cons, tail: takeWhile(cons.tail, f) })
+        .exhaustive()
+
+export const forall = <T>(ts: List<T>, f: (t: T) => boolean): boolean =>
+    foldLeft(ts, true, (accumulator, head) => accumulator && f(head))
+
+export const exists = <T>(ts: List<T>, f: (t: T) => boolean): boolean =>
+    foldLeft(ts, false, (accumulator, head) => accumulator || f(head))
+
+export const scanLeft = <T, B>(ts: List<T>, accumlator: B, f: (a: B, t: T) => B): List<B> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => apply(accumlator))
+        .with({ type: 'Cons' }, (cons) => ({ ...cons, head: accumlator, tail: scanLeft(cons.tail, f(accumlator, cons.head), f) }))
+        .exhaustive()
+
+export const scanRight = <T, B>(ts: List<T>, accumulator: B, f: (t: T, b: B) => B): List<B> =>
+    match(ts)
+        .with({ type: 'Nil' }, () => apply(accumulator))
+        .with({ type: 'Cons' }, (cons) => {
+            const newTail = scanRight(cons.tail, accumulator, f) as Cons<B>
+            const newHead = f(cons.head, newTail.head)
+            return { type: 'Cons', head: newHead, tail: newTail } as List<B>
+        })
         .exhaustive()

@@ -29,6 +29,12 @@ import {
     , filterFromFlatMap
     , addPairwise
     , zipWith
+    , take
+    , takeWhile
+    , forall
+    , exists
+    , scanLeft
+    , scanRight
 } from 'src/part1/chapter3/functional_data_structure'
 
 describe("Exercise 3.1", () => {
@@ -131,7 +137,17 @@ describe("Exercise 3.22", () => {
     test("addPairwise", () => expect(addPairwise(apply(1, 2, 3), apply(4, 5, 6))).toEqual(apply(5, 7, 9)))
 })
 
-
 describe("Exercise 3.23", () => {
     test("zipWith", () => expect(zipWith(apply(1, 2, 3), apply(4, 5, 6), (a, b) => a + b)).toEqual(apply(5, 7, 9)))
+})
+
+describe("LISTS IN THE STANDARD LIBRARY", () => {
+    test("take", () => expect(take(apply(1, 2, 3, 4, 5), 3)).toEqual(apply(1, 2, 3)))
+    test("takeWhile", () => expect(takeWhile(apply(1, 2, 3, 4, 5), (t) => t <= 3)).toEqual(apply(1, 2, 3)))
+    test("forall false", () => expect(forall(apply(1, 2, 3, 4, 5), (t) => t <= 3)).toEqual(false))
+    test("forall true", () => expect(forall(apply(1, 2, 3, 4, 5), (t) => t <= 42)).toEqual(true))
+    test("exists false", () => expect(exists(apply(1, 2, 3, 4, 5), (t) => t == 42)).toEqual(false))
+    test("exists true", () => expect(exists(apply(1, 2, 3, 4, 5), (t) => t == 3)).toEqual(true))
+    test("scanLeft", () => expect(scanLeft(apply("a", "b", "c", "d", "e"), "", (x, y) => x + y)).toEqual(apply("", "a", "ab", "abc", "abcd", "abcde")))
+    test("scanRight", () => expect(scanRight(apply("a", "b", "c", "d", "e"), "", (x, y) => x + y)).toEqual(apply("abcde", "bcde", "cde", "de", "e", "")))
 })
