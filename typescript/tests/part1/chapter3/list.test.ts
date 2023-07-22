@@ -36,7 +36,7 @@ import {
     , scanLeft
     , scanRight
     , hasSubsequence
-} from 'src/part1/chapter3/functional_data_structure'
+} from 'src/part1/chapter3/list'
 
 describe("Exercise 3.1", () => {
     const result = (): number =>
