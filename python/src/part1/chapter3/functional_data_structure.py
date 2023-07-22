@@ -223,6 +223,24 @@ class List(Iterable[A]):
                 new_head = f(head, new_tail.head)
                 return Cons(head=new_head, tail=new_tail)
 
+    def start_with(self, prefix: List[A]) -> bool:
+        match (self.pattern, prefix.pattern):
+            case (_, Nil()):
+                return True
+            case (Cons() as scons, Cons() as pcons) if scons.head == pcons.head:
+                return scons.tail.start_with(pcons.tail)
+            case _:
+                return False
+
+    def has_subsequence(self, sub: List[A]) -> bool:
+        match self.pattern:
+            case Nil():
+                return sub == Nil[A]()
+            case _ if self.start_with(sub):
+                return True
+            case Cons(_, tail):
+                return tail.has_subsequence(sub)
+
     @property
     def length_left(self) -> int:
         return reduce(lambda accumulator, _: accumulator + 1, self, 0)

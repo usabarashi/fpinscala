@@ -133,3 +133,7 @@ def test_list_in_the_standard_library():
     assert True == List[int](1, 2, 3, 4, 5).exists(lambda x: x == 3)
     assert List[str]("", "a", "ab", "abc", "abcd", "abcde") == List[str]("a", "b", "c", "d", "e").scan_left("", lambda acc, x: acc + x)
     assert List[str]("abcde", "bcde", "cde", "de", "e", "") == List[str]("a", "b", "c", "d", "e").scan_right("", lambda x, acc: x + acc)
+
+def test_exercise324():
+    assert False == List[int](1, 2, 3, 4, 5).has_subsequence(List[int](4, 3, 2))
+    assert True == List[int](1, 2, 3, 4, 5).has_subsequence(List[int](2, 3, 4))
