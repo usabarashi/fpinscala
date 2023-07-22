@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from collections.abc import Generator, Iterable
 from functools import reduce
-from typing import Callable, Generic, TypeVar, TypeAlias
+from typing import Callable, Generic, TypeVar, TypeAlias, cast
 
 Tp = TypeVar("Tp", covariant=True)
 Bp = TypeVar("Bp", covariant=True)
@@ -178,6 +178,46 @@ class List(Generic[Tp], Iterable):
                 return Nil[Cm]()
             case (Cons(head=shead, tail=stail), Cons(head=ohead, tail=otail)):
                 return Cons(head=f(shead, ohead), tail=stail.zip_with(otail, f))
+
+    def take(self, n: int) -> List[Tp]:
+        match self:
+            case Nil():
+                return self
+            case Cons() if n <= 0:
+                return Nil[Tp]()
+            case Cons(head, tail):
+                return Cons[Tp](head=head, tail=tail.take(n - 1))
+
+    def take_while(self, f: Callable[[Tp], bool]) -> List[Tp]:
+        match self:
+            case Nil():
+                return self
+            case Cons(head, _) if not f(head):
+                return Nil[Tp]()
+            case Cons(head, tail):
+                return Cons(head=head, tail=tail.take_while(f))
+
+    def forall(self, f: Callable[[Tp], bool]) -> bool:
+        return self.fold_left(True, lambda accumulator, head: accumulator and f(head))
+
+    def exists(self, f: Callable[[Tp], bool]) -> bool:
+        return self.fold_left(False, lambda accumulator, head: accumulator or f(head))
+
+    def scan_left(self, accumulator: Bp, f: Callable[[Tp], Bp]) -> List[Bp]:
+        match self.pattern:
+            case Nil():
+                return List[Bp](accumulator)
+            case Cons(head, tail):
+                return Cons(head=accumulator, tail=tail.scan_left(f(accumulator, head), f))
+
+    def scan_right(self, accumulator: Bp, f: Callable[[Tp], B]) -> List[Bp]:
+        match self.pattern:
+            case Nil():
+                return List[Bp](accumulator)
+            case Cons(head, tail):
+                new_tail = cast(Cons[Tp], tail.scan_right(accumulator, f))
+                new_head = f(head, new_tail.head)
+                return Cons(head=new_head, tail=new_tail)
 
     @property
     def length_left(self) -> int:

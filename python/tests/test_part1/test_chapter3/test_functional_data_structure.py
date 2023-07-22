@@ -78,15 +78,12 @@ def test_exercise313():
 
 
 def test_exercise314():
-    assert List[int](1, 2, 3, 4, 5, 6) == List[int](1, 2, 3).append_right(
-        List[int](4, 5, 6)
-    )
+    assert List[int](1, 2, 3, 4, 5, 6) == List[int](1, 2, 3).append_right(List[int](4, 5, 6))
 
 
 def test_exercise315():
     assert (
-        List[int](1, 2, 3, 4, 5, 6)
-        == List[int](List[int](1, 2, 3), List[int](4, 5, 6)).concat()
+        List[int](1, 2, 3, 4, 5, 6) == List[int](List[int](1, 2, 3), List[int](4, 5, 6)).concat()
     )
 
 
@@ -110,15 +107,11 @@ def test_exercise319():
 
 
 def test_exercise320():
-    assert List[int](1, 1, 2, 2, 3, 3) == List[int](1, 2, 3).flat_map(
-        lambda x: List[int](x, x)
-    )
+    assert List[int](1, 1, 2, 2, 3, 3) == List[int](1, 2, 3).flat_map(lambda x: List[int](x, x))
 
 
 def test_exercise321():
-    assert List[int](1, 3) == List[int](1, 2, 3).filter_from_flat_map(
-        lambda x: x % 2 != 0
-    )
+    assert List[int](1, 3) == List[int](1, 2, 3).filter_from_flat_map(lambda x: x % 2 != 0)
 
 
 def test_exercise322():
@@ -129,3 +122,14 @@ def test_exercise323():
     assert List[int](5, 7, 9) == List[int](1, 2, 3).zip_with(
         List[int](4, 5, 6), lambda a, b: a + b
     )
+
+
+def test_list_in_the_standard_library():
+    assert List[int](1, 2, 3) == List[int](1, 2, 3, 4, 5).take(3)
+    assert List[int](1, 2, 3) == List[int](1, 2, 3, 4, 5).take_while(lambda x: x <= 3)
+    assert False == List[int](1, 2, 3, 4, 5).forall(lambda x: x <= 3)
+    assert True == List[int](1, 2, 3, 4, 5).forall(lambda x: x <= 42)
+    assert False == List[int](1, 2, 3, 4, 5).exists(lambda x: x == 42)
+    assert True == List[int](1, 2, 3, 4, 5).exists(lambda x: x == 3)
+    assert List[str]("", "a", "ab", "abc", "abcd", "abcde") == List[str]("a", "b", "c", "d", "e").scan_left("", lambda acc, x: acc + x)
+    assert List[str]("abcde", "bcde", "cde", "de", "e", "") == List[str]("a", "b", "c", "d", "e").scan_right("", lambda x, acc: x + acc)
