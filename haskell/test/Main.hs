@@ -3,6 +3,7 @@ module Main (main) where
 import Test.Hspec
 import FpInScalaSpec.Part1.Chapter2.GettingStartedSpec
 import FpInScalaSpec.Part1.Chapter3.ListSpec
+import FpInScalaSpec.Part1.Chapter3.TreeSpec
 
 main :: IO ()
 main = hspec $ do
@@ -35,3 +36,4 @@ main = hspec $ do
     describe "Exercise 3.23" FpInScalaSpec.Part1.Chapter3.ListSpec.exercise323Spec
     describe "LISTS IN THE STANDARD LIBRARY" FpInScalaSpec.Part1.Chapter3.ListSpec.listInTheStandardLibrarySpec
     describe "Exercise 3.24" FpInScalaSpec.Part1.Chapter3.ListSpec.exercise324Spec
+    describe "Exercise 3.25" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise325Spec
