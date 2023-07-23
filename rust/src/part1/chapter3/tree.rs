@@ -18,6 +18,13 @@ impl<A> Tree<A> {
             Tree::Branch { left, right } => 1 + left.size() + right.size(),
         }
     }
+
+    fn depth(&self) -> usize {
+        match self {
+            Tree::Leaf { .. } => 0,
+            Tree::Branch { left, right } => 1 + max(left.depth(), right.depth()),
+        }
+    }
 }
 
 impl Tree<i32> {
@@ -46,5 +53,20 @@ mod tests {
             }),
         };
         assert_eq!(tree.maximum(), 4);
+    }
+
+    #[test]
+    fn test_exercise326() {
+        let tree = Tree::Branch {
+            left: Rc::new(Tree::Leaf { value: 1 }),
+            right: Rc::new(Tree::Branch {
+                left: Rc::new(Tree::Leaf { value: 2 }),
+                right: Rc::new(Tree::Branch {
+                    left: Rc::new(Tree::Leaf { value: 3 }),
+                    right: Rc::new(Tree::Leaf { value: 3 }),
+                }),
+            }),
+        };
+        assert_eq!(tree.depth(), 3);
     }
 }
