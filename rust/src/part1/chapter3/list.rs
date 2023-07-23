@@ -3,7 +3,7 @@ use std::rc::Rc;
 
 enum List<A> {
     Nil,
-    Cons { head: A, tail: Rc<List<A>> },
+    Cons(A, Rc<List<A>>),
 }
 
 impl<A> List<A>
@@ -14,41 +14,35 @@ where
         if as_.is_empty() {
             List::Nil
         } else {
-            List::Cons {
-                head: as_[0].clone(),
-                tail: Rc::new(Self::new(&as_[1..])),
-            }
+            List::Cons(as_[0].clone(), Rc::new(Self::new(&as_[1..])))
         }
     }
 
     fn tail(&self) -> &List<A> {
         match self {
             List::Nil => panic!("Nil"),
-            List::Cons { head, tail } => tail,
+            List::Cons(head, tail) => tail,
         }
     }
 
     fn set_head(&self, a: A) -> List<A> {
         match self {
             List::Nil => panic!("Nil"),
-            List::Cons { head, tail } => List::Cons {
-                head: a,
-                tail: Rc::clone(&tail),
-            },
+            List::Cons(head, tail) => List::Cons(a, Rc::clone(&tail)),
         }
     }
 
     fn drop_(&self, n: u32) -> &List<A> {
         match self {
             List::Nil => self,
-            List::Cons { .. } if n <= 0 => self,
-            List::Cons { head, tail } => tail.drop_(n - 1),
+            List::Cons(_, _) if n <= 0 => self,
+            List::Cons(_, tail) => tail.drop_(n - 1),
         }
     }
 
     fn drop_while(&self, f: fn(&A) -> bool) -> &List<A> {
         match self {
-            List::Cons { head, tail } if f(head) => tail.drop_while(f),
+            List::Cons(head, tail) if f(head) => tail.drop_while(f),
             _ => self,
         }
     }
@@ -56,25 +50,16 @@ where
     fn append(&self, a2: List<A>) -> List<A> {
         match self {
             List::Nil => a2,
-            List::Cons { head, tail } => List::Cons {
-                head: head.clone(),
-                tail: Rc::new(tail.append(a2)),
-            },
+            List::Cons(head, tail) => List::Cons(head.clone(), Rc::new(tail.append(a2))),
         }
     }
 
     fn init(&self) -> List<A> {
         match self {
             List::Nil => panic!("Nil"),
-            List::Cons {
-                head: source_head,
-                tail: source_tail,
-            } => match Rc::as_ref(source_tail) {
+            List::Cons(source_head, source_tail) => match Rc::as_ref(source_tail) {
                 List::Nil => List::Nil {},
-                List::Cons { .. } => List::Cons {
-                    head: source_head.clone(),
-                    tail: Rc::new(source_tail.init()),
-                },
+                List::Cons(_, _) => List::Cons(source_head.clone(), Rc::new(source_tail.init())),
             },
         }
     }
@@ -85,7 +70,7 @@ where
     {
         match self {
             List::Nil => accumulator,
-            List::Cons { head, tail } => f(head, tail.fold_right(accumulator, f)),
+            List::Cons(head, tail) => f(head, tail.fold_right(accumulator, f)),
         }
     }
 
@@ -99,7 +84,7 @@ where
     {
         let mut list = self;
         let mut state = accumulator;
-        while let List::Cons { head, tail } = list {
+        while let List::Cons(head, tail) = list {
             state = f(state, head);
             list = tail;
         }
@@ -111,9 +96,8 @@ where
     }
 
     fn reverse(&self) -> List<A> {
-        self.fold_left(List::<A>::Nil, |accumulator, head| List::Cons {
-            head: head.clone(),
-            tail: Rc::new(accumulator),
+        self.fold_left(List::<A>::Nil, |accumulator, head| {
+            List::Cons(head.clone(), Rc::new(accumulator))
         })
     }
 
@@ -132,9 +116,8 @@ where
     }
 
     fn append_right(&self, a2: List<A>) -> List<A> {
-        self.fold_right(a2, |head, accumulator| List::Cons {
-            head: head.clone(),
-            tail: Rc::new(accumulator),
+        self.fold_right(a2, |head, accumulator| {
+            List::Cons(head.clone(), Rc::new(accumulator))
         })
     }
 
@@ -142,9 +125,8 @@ where
     where
         F: Fn(A) -> B,
     {
-        self.fold_right(List::<B>::Nil, |head, accumulator| List::Cons {
-            head: f(head.clone()),
-            tail: Rc::new(accumulator),
+        self.fold_right(List::<B>::Nil, |head, accumulator| {
+            List::Cons(f(head.clone()), Rc::new(accumulator))
         })
     }
 
@@ -155,10 +137,7 @@ where
         self.fold_right(List::<A>::Nil, |head, accumulator| {
             // FIXME
             if f(head.clone()) {
-                List::Cons {
-                    head: head.clone(),
-                    tail: Rc::new(accumulator),
-                }
+                List::Cons(head.clone(), Rc::new(accumulator))
             } else {
                 accumulator
             }
@@ -194,30 +173,18 @@ where
     {
         match (self, other) {
             (List::Nil, _) | (_, List::Nil) => List::Nil,
-            (
-                List::Cons {
-                    head: shead,
-                    tail: stail,
-                },
-                List::Cons {
-                    head: ohead,
-                    tail: otail,
-                },
-            ) => List::Cons {
-                head: f(shead.clone(), ohead),
-                tail: Rc::new(stail.zip_with((*otail).clone(), f)),
-            },
+            (List::Cons(shead, stail), List::Cons(ohead, otail)) => List::Cons(
+                f(shead.clone(), ohead),
+                Rc::new(stail.zip_with((*otail).clone(), f)),
+            ),
         }
     }
 
     fn take(&self, n: usize) -> List<A> {
         match self {
             List::Nil => List::Nil,
-            List::Cons { head: _, tail: _ } if n <= 0 => List::Nil,
-            List::Cons { head, tail } => List::Cons {
-                head: head.clone(),
-                tail: Rc::new(tail.take(n - 1)),
-            },
+            List::Cons(_, _) if n <= 0 => List::Nil,
+            List::Cons(head, tail) => List::Cons(head.clone(), Rc::new(tail.take(n - 1))),
         }
     }
 
@@ -227,11 +194,8 @@ where
     {
         match self {
             List::Nil => List::Nil,
-            List::Cons { head, tail } if !f(head) => List::Nil,
-            List::Cons { head, tail } => List::Cons {
-                head: head.clone(),
-                tail: Rc::new(tail.take_while(f)),
-            },
+            List::Cons(head, tail) if !f(head) => List::Nil,
+            List::Cons(head, tail) => List::Cons(head.clone(), Rc::new(tail.take_while(f))),
         }
     }
 
@@ -256,17 +220,17 @@ where
     {
         match self {
             List::Nil => List::new(&[accumulator.clone()]),
-            List::Cons { head, tail } => List::Cons {
-                head: accumulator.clone(),
-                tail: Rc::new(tail.scan_left(f(accumulator, head.clone()), f)),
-            },
+            List::Cons(head, tail) => List::Cons(
+                accumulator.clone(),
+                Rc::new(tail.scan_left(f(accumulator, head.clone()), f)),
+            ),
         }
     }
 
     fn head(&self) -> A {
         match self {
             List::Nil => panic!("Nil"),
-            List::Cons { head, tail } => head.clone(),
+            List::Cons(head, tail) => head.clone(),
         }
     }
 
@@ -277,13 +241,10 @@ where
     {
         match self {
             List::Nil => List::new(&[accumulator.clone()]),
-            List::Cons { head, tail } => {
+            List::Cons(head, tail) => {
                 let new_tail = tail.scan_right(accumulator, f);
                 let new_head = f(head.clone(), new_tail.head());
-                List::Cons {
-                    head: new_head,
-                    tail: Rc::new(new_tail),
-                }
+                List::Cons(new_head, Rc::new(new_tail))
             }
         }
     }
@@ -291,16 +252,9 @@ where
     fn start_with(&self, prefix: &List<A>) -> bool {
         match (self, prefix) {
             (_, List::Nil) => true,
-            (
-                List::Cons {
-                    head: shead,
-                    tail: stail,
-                },
-                List::Cons {
-                    head: phead,
-                    tail: ptail,
-                },
-            ) if shead == phead => stail.start_with(ptail),
+            (List::Cons(shead, stail), List::Cons(phead, ptail)) if shead == phead => {
+                stail.start_with(ptail)
+            }
             _ => false,
         }
     }
@@ -309,7 +263,7 @@ where
         match self {
             List::Nil => sub.clone() == List::Nil,
             _ if self.start_with(sub) => true,
-            List::Cons { head, tail } => tail.has_subsequence(sub),
+            List::Cons(head, tail) => tail.has_subsequence(sub),
         }
     }
 }
@@ -318,7 +272,7 @@ impl List<i32> {
     fn sum(&self) -> i32 {
         match self {
             List::Nil => 0,
-            List::Cons { head, tail } => head + tail.sum(),
+            List::Cons(head, tail) => head + tail.sum(),
         }
     }
 
@@ -327,20 +281,19 @@ impl List<i32> {
     }
 
     fn increment_each(&self) -> List<i32> {
-        self.fold_right(List::<i32>::Nil, |head, accumulator| List::Cons {
-            head: head + 1,
-            tail: Rc::new(accumulator),
+        self.fold_right(List::<i32>::Nil, |head, accumulator| {
+            List::Cons(head + 1, Rc::new(accumulator))
         })
     }
 
     fn add_pairwise(&self, b: List<i32>) -> List<i32> {
         match (self, b) {
             (List::Nil, _) | (_, List::Nil) => List::Nil,
-            (List::Cons { head: h1, tail: t1 }, List::Cons { head: h2, tail: t2 }) => List::Cons {
-                head: h1 + h2,
+            (List::Cons(h1, t1), List::Cons(h2, t2)) => List::Cons(
+                h1 + h2,
                 // FIXME
-                tail: Rc::new(t1.add_pairwise((*t2).clone())),
-            },
+                Rc::new(t1.add_pairwise((*t2).clone())),
+            ),
         }
     }
 }
@@ -349,8 +302,8 @@ impl List<f64> {
     fn product(&self) -> f64 {
         match self {
             List::Nil => 1.0,
-            List::Cons { head, tail: _ } if *head == 0.0 => 0.0,
-            List::Cons { head, tail } => head * tail.product(),
+            List::Cons(head, _) if *head == 0.0 => 0.0,
+            List::Cons(head, tail) => head * tail.product(),
         }
     }
 
@@ -359,9 +312,8 @@ impl List<f64> {
     }
 
     fn double_to_string(&self, decimals: usize) -> List<String> {
-        self.fold_right(List::<String>::Nil, |head, accumulator| List::Cons {
-            head: format!("{:.*}", decimals, head),
-            tail: Rc::new(accumulator),
+        self.fold_right(List::<String>::Nil, |head, accumulator| {
+            List::Cons(format!("{:.*}", decimals, head), Rc::new(accumulator))
         })
     }
 }
@@ -379,7 +331,7 @@ impl<T: fmt::Debug> fmt::Debug for List<T> {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         match self {
             List::Nil => write!(f, "Nil"),
-            List::Cons { head, tail } => write!(f, "Cons {{ head: {:?}, tail: {:?} }}", head, tail),
+            List::Cons(head, tail) => write!(f, "Cons {{ head: {:?}, tail: {:?} }}", head, tail),
         }
     }
 }
@@ -389,16 +341,9 @@ impl<T: PartialEq> PartialEq for List<T> {
         match (self, other) {
             (List::Nil, List::Nil) => true,
             (List::Nil, List::Cons { .. }) | (List::Cons { .. }, List::Nil) => false,
-            (
-                List::Cons {
-                    head: self_head,
-                    tail: self_tail,
-                },
-                List::Cons {
-                    head: other_head,
-                    tail: other_tail,
-                },
-            ) => self_head == other_head && self_tail == other_tail,
+            (List::Cons(self_head, self_tail), List::Cons(other_head, other_tail)) => {
+                self_head == other_head && self_tail == other_tail
+            }
         }
     }
 }
@@ -407,10 +352,7 @@ impl<A: Clone> Clone for List<A> {
     fn clone(&self) -> Self {
         match self {
             List::Nil => List::Nil,
-            List::Cons { head, tail } => List::Cons {
-                head: head.clone(),
-                tail: Rc::clone(tail),
-            },
+            List::Cons(head, tail) => List::Cons(head.clone(), Rc::clone(tail)),
         }
     }
 }
@@ -481,10 +423,10 @@ mod tests {
     #[test]
     fn test_exercise38() {
         assert_eq!(
-            List::new(&[1, 2, 3]).fold_right(List::Nil, |head, tail| List::Cons {
-                head: head.clone(),
-                tail: Rc::new(tail)
-            }),
+            List::new(&[1, 2, 3]).fold_right(List::Nil, |head, tail| List::Cons(
+                head.clone(),
+                Rc::new(tail)
+            )),
             List::new(&[1, 2, 3])
         );
     }
