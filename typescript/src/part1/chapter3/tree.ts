@@ -11,6 +11,8 @@ export interface Branch<T> {
     right: Tree<T>
 }
 
+const max = (left: number, right: number): number => left > right ? left : right
+
 const size = <T>(t: Tree<T>): number =>
     match(t)
         .with({ type: 'Leaf' }, () => 1)
@@ -25,4 +27,11 @@ export const maximum = (t: Tree<number>): number =>
             const right = maximum(branch.right)
             return left > right ? left : right
         })
+        .exhaustive()
+
+
+export const depth = <T>(t: Tree<T>): number =>
+    match(t)
+        .with({ type: 'Leaf' }, () => 0)
+        .with({ type: 'Branch' }, (branch) => 1 + max(depth(branch.left), depth(branch.right)))
         .exhaustive()

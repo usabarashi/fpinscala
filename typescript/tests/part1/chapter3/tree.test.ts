@@ -4,6 +4,7 @@ import {
     , Leaf
     , Branch
     , maximum
+    , depth
 } from 'src/part1/chapter3/tree'
 
 describe("Exercise 3.25", () => {
@@ -33,4 +34,21 @@ describe("Exercise 3.25", () => {
         },
     } as Tree<number>
     test("Tree maximum", () => expect(maximum(tree)).toBe(4))
+})
+
+describe("Exercise 3.26", () => {
+    const tree = {
+        type: 'Branch',
+        left: { type: 'Leaf', value: 1 },
+        right: {
+            type: 'Branch',
+            left: { type: 'Leaf', value: 2 },
+            right: {
+                type: 'Branch',
+                left: { type: 'Leaf', value: 3 },
+                right: { type: 'Leaf', value: 3 }
+            },
+        },
+    } as Tree<number>
+    test("Tree depth", () => expect(depth(tree)).toBe(3))
 })
