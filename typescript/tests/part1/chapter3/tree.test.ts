@@ -12,25 +12,13 @@ describe("Exercise 3.25", () => {
         type: 'Branch',
         left: {
             type: 'Branch',
-            left: {
-                type: 'Leaf',
-                value: 1
-            },
-            right: {
-                type: 'Leaf',
-                value: 2
-            }
+            left: { type: 'Leaf', value: 1 },
+            right: { type: 'Leaf', value: 2 }
         },
         right: {
             type: 'Branch',
-            left: {
-                type: 'Leaf',
-                value: 3
-            },
-            right: {
-                type: 'Leaf',
-                value: 4
-            }
+            left: { type: 'Leaf', value: 3 },
+            right: { type: 'Leaf', value: 4 }
         },
     } as Tree<number>
     test("Tree maximum", () => expect(maximum(tree)).toBe(4))
