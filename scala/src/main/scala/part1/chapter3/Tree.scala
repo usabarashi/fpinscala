@@ -14,6 +14,11 @@ enum Tree[+A]:
             case Leaf(_) => 0
             case Branch(l, r) => 1 + (l.depth.max(r.depth))
 
+    def map[B](f: A => B): Tree[B] =
+        this match
+            case Leaf(value) => Leaf(f(value))
+            case Branch(left, right) => Branch(left.map(f), right.map(f))
+
 object Tree:
     def size[A](t: Tree[A]): Int =
         t match

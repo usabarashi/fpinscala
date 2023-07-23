@@ -12,4 +12,11 @@ class TreeSuite extends munit.FunSuite {
     assertEquals(Branch((Leaf(1)), Branch(Leaf(2), Branch(Leaf(3), Leaf(3)))).depth, 3)
   }
 
+  test("Exercise 3.27") {
+    assertEquals(
+      Branch((Leaf(1)), Branch(Leaf(2), Branch(Leaf(3), Leaf(3)))).map(_.toString()),
+      Branch((Leaf("1")), Branch(Leaf("2"), Branch(Leaf("3"), Leaf("3"))))
+    )
+  }
+
 }
