@@ -43,6 +43,22 @@ class Tree(Generic[A]):
             case Branch(left, right):
                 return Branch(left.map(f), right.map(f))
 
+    def fold(self, f: Callable[[A], B], g: Callable[[B, B], B]) -> B:
+        match self.pattern:
+            case Leaf(value):
+                return f(value)
+            case Branch(left, right):
+                return g(left.fold(f, g), right.fold(f, g))
+
+    def size_via_fold(self) -> int:
+        return self.fold(lambda _: 1, lambda left, right: 1 + left + right)
+
+    def depth_via_fold(self) -> int:
+        return self.fold(lambda _: 0, lambda left, right: 1 + max(left, right))
+
+    def map_via_fold(self, f: Callable[[A], B]) -> Tree[B]:
+        return self.fold(lambda value: Leaf(f(value)), lambda left, right: Branch(left, right))
+
 
 @dataclass(frozen=True)
 class Leaf(Tree[A]):
