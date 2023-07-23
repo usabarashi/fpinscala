@@ -7,6 +7,7 @@ import FpInScala.Part1.Chapter3.Tree
   ( Tree(Leaf, Branch)
   , maximum'
   , depth
+  , map'
   )
 
 exercise325Spec :: Spec
@@ -26,3 +27,13 @@ exercise326Spec = do
                 tree = Branch (Leaf 1) (Branch (Leaf 2) (Branch (Leaf 3) (Leaf 3)))
             in
             (depth tree) `shouldBe` 3
+
+exercise327Spec :: Spec
+exercise327Spec = do
+    describe "Tree" $ do
+        it "map'" $
+            let
+                tree = Branch (Leaf 1) (Branch (Leaf 2) (Branch (Leaf 3) (Leaf 3)))
+                expect = Branch (Leaf "1") (Branch (Leaf "2") (Branch (Leaf "3") (Leaf "3")))
+            in
+            (map' tree (\x -> show x)) `shouldBe` expect
