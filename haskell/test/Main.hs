@@ -37,3 +37,4 @@ main = hspec $ do
     describe "LISTS IN THE STANDARD LIBRARY" FpInScalaSpec.Part1.Chapter3.ListSpec.listInTheStandardLibrarySpec
     describe "Exercise 3.24" FpInScalaSpec.Part1.Chapter3.ListSpec.exercise324Spec
     describe "Exercise 3.25" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise325Spec
+    describe "Exercise 3.26" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise326Spec
