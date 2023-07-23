@@ -19,4 +19,13 @@ class TreeSuite extends munit.FunSuite {
     )
   }
 
+  test("Exercise 3.28") {
+    assertEquals(Branch(Branch(Leaf(1), Leaf(2)), Branch(Leaf(3), Leaf(4))).sizeViaFold, 7)
+    assertEquals(Branch((Leaf(1)), Branch(Leaf(2), Branch(Leaf(3), Leaf(3)))).depthViaFold, 3)
+    assertEquals(
+      Branch((Leaf(1)), Branch(Leaf(2), Branch(Leaf(3), Leaf(3)))).mapViaFold(_.toString()),
+      Branch((Leaf("1")), Branch(Leaf("2"), Branch(Leaf("3"), Leaf("3"))))
+    )
+  }
+
 }
