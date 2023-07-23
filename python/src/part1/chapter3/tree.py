@@ -2,9 +2,10 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Generic, TypeVar, TypeAlias
+from typing import Generic, TypeVar, TypeAlias, Callable
 
 A = TypeVar("A")
+B = TypeVar("B")
 
 
 class Tree(Generic[A]):
@@ -28,12 +29,19 @@ class Tree(Generic[A]):
             case Branch(left, right):
                 return max(left.maximum(), right.maximum())
 
-    def depth(self: Tree[int]) -> int:
+    def depth(self) -> int:
         match self.pattern:
             case Leaf():
                 return 0
             case Branch(left, right):
                 return 1 + max(left.depth(), right.depth())
+
+    def map(self, f: Callable[[A], B]) -> Tree[B]:
+        match self.pattern:
+            case Leaf(value):
+                return Leaf(f(value))
+            case Branch(left, right):
+                return Branch(left.map(f), right.map(f))
 
 
 @dataclass(frozen=True)
