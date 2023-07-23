@@ -39,3 +39,4 @@ main = hspec $ do
     describe "Exercise 3.25" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise325Spec
     describe "Exercise 3.26" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise326Spec
     describe "Exercise 3.27" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise327Spec
+    describe "Exercise 3.28" FpInScalaSpec.Part1.Chapter3.TreeSpec.exercise328Spec

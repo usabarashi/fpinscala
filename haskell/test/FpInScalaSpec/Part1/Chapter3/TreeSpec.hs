@@ -8,6 +8,9 @@ import FpInScala.Part1.Chapter3.Tree
   , maximum'
   , depth
   , map'
+  , sizeViaFold
+  , depthViaFold
+  , mapViaFold
   )
 
 exercise325Spec :: Spec
@@ -37,3 +40,23 @@ exercise327Spec = do
                 expect = Branch (Leaf "1") (Branch (Leaf "2") (Branch (Leaf "3") (Leaf "3")))
             in
             (map' tree (\x -> show x)) `shouldBe` expect
+
+exercise328Spec :: Spec
+exercise328Spec = do
+    describe "Tree" $ do
+        it "sizeViaFold" $
+            let
+                tree = Branch (Branch (Leaf 1) (Leaf 2)) (Branch (Leaf 3) (Leaf 4))
+            in
+            (sizeViaFold tree) `shouldBe` 7
+        it "depthViaFold" $
+            let
+                tree = Branch (Leaf 1) (Branch (Leaf 2) (Branch (Leaf 3) (Leaf 3)))
+            in
+            (depthViaFold tree) `shouldBe` 3
+        it "mapViaFold" $
+            let
+                tree = Branch (Leaf 1) (Branch (Leaf 2) (Branch (Leaf 3) (Leaf 3)))
+                expect = Branch (Leaf "1") (Branch (Leaf "2") (Branch (Leaf "3") (Leaf "3")))
+            in
+            (mapViaFold tree (\x -> show x)) `shouldBe` expect

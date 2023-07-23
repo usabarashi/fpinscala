@@ -4,6 +4,9 @@ module FpInScala.Part1.Chapter3.Tree
   , maximum'
   , depth
   , map'
+  , sizeViaFold
+  , depthViaFold
+  , mapViaFold
   ) where
 
 data Tree a = Leaf a | Branch (Tree a) (Tree a)
@@ -29,3 +32,16 @@ depth (Branch l r) = 1 + (max (depth l) (depth r))
 map' :: Tree a -> (a -> b) -> Tree b
 map' (Leaf a) f = Leaf (f a)
 map' (Branch l r) f = Branch (map' l f) (map' r f)
+
+fold :: Tree a -> (a -> b) -> (b -> b -> b) -> b
+fold (Leaf value) f _ = f value
+fold (Branch left right) f g = g (fold left f g) (fold right f g)
+
+sizeViaFold :: Tree a -> Int
+sizeViaFold t = fold t (\_ -> 1) (\l r -> 1 + l + r)
+
+depthViaFold :: Tree a -> Int
+depthViaFold t =  fold t (\_ -> 0) (\left right -> 1 + (max left right))
+
+mapViaFold :: Tree a -> (a -> b) -> Tree b
+mapViaFold t f = fold t (\value -> Leaf (f value)) (\left right -> Branch left right)
