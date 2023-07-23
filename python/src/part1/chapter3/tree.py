@@ -28,6 +28,13 @@ class Tree(Generic[A]):
             case Branch(left, right):
                 return max(left.maximum(), right.maximum())
 
+    def depth(self: Tree[int]) -> int:
+        match self.pattern:
+            case Leaf():
+                return 0
+            case Branch(left, right):
+                return 1 + max(left.depth(), right.depth())
+
 
 @dataclass(frozen=True)
 class Leaf(Tree[A]):
