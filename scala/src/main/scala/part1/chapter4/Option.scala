@@ -4,8 +4,8 @@ package part1.chapter4
 import scala.{Option as _, Some as _, None as _}
 
 enum Option[+A]:
-    case Some(get: A)
     case None
+    case Some(get: A)
 
     def map[B](f: A => B): Option[B] =
         this match
