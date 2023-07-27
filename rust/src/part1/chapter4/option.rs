@@ -58,6 +58,18 @@ where
     }
 }
 
+fn mean(xs: &[f64]) -> MyOption<f64> {
+    if xs.is_empty() {
+        MyOption::MyNone
+    } else {
+        MyOption::MySome(xs.iter().sum::<f64>() / xs.len() as f64)
+    }
+}
+
+fn variance(xs: &[f64]) -> MyOption<f64> {
+    mean(xs).flat_map(|m| mean(&xs.iter().map(|x| (x - m).powf(2.0)).collect::<Vec<_>>()))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -86,5 +98,10 @@ mod tests {
             MyOption::MySome(42).filter(|x| x <= 42),
             MyOption::MySome(42)
         );
+    }
+
+    #[test]
+    fn test_exercise42() {
+        assert_eq!(variance(&[1.0, 2.0, 3.0, 4.0, 5.0]), MyOption::MySome(2.0))
     }
 }
