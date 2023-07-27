@@ -25,3 +25,11 @@ enum Option[+A]:
 
     def filter(f: A => Boolean): Option[A] =
         flatMap(value => if f(value) then Some(value) else None)
+
+object Option:
+    def mean(xs: Seq[Double]): Option[Double] =
+        if xs.isEmpty then None
+        else Some(xs.sum / xs.length)
+
+    def variance(xs: Seq[Double]): Option[Double] =
+        mean(xs).flatMap(m => mean(xs.map(x => math.pow(x - m, 2))))
