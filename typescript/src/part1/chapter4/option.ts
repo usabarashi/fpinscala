@@ -31,3 +31,11 @@ export const orElse = <T>(t: Option<T>, f: () => Option<T>): Option<T> =>
 
 export const filter = <T>(t: Option<T>, f: (t: T) => boolean): Option<T> =>
     flatMap(t, (x) => f(x) ? { type: 'Some', value: x } : { type: 'None' } as Option<T>)
+
+const mean = (xs: Array<number>): Option<number> =>
+    match(xs)
+        .with([], () => ({ type: 'None' } as Option<number>))
+        .otherwise(() => ({ type: 'Some', value: xs.reduce((accumulator, x) => accumulator + x, 0.0) / xs.length }))
+
+export const variance = (xs: Array<number>): Option<number> =>
+    flatMap(mean(xs), (m) => mean(xs.map((x) => Math.pow(x - m, 2))))

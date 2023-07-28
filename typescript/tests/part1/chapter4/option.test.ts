@@ -7,6 +7,7 @@ import {
     , getOrElse
     , orElse
     , filter
+    , variance
 } from 'src/part1/chapter4/option'
 
 describe("Exercise 4.1", () => {
@@ -20,4 +21,8 @@ describe("Exercise 4.1", () => {
     test("orElse Some", () => expect(orElse({ type: 'Some', value: 42 }, () => ({ type: 'None' }))).toStrictEqual({ type: 'Some', value: 42 }))
     test("filter None", () => expect(filter({ type: 'None' }, (value) => value == 42)).toStrictEqual({ type: 'None' }))
     test("filter Some", () => expect(filter({ type: 'Some', value: 42 }, (value) => value == 42)).toStrictEqual({ type: 'Some', value: 42 }))
+})
+
+describe("Exercise 4.2", () => {
+    test("variance", () => expect(variance([1.0, 2.0, 3.0, 4.0, 5.0])).toStrictEqual({ type: 'Some', value: 2.0 }))
 })
