@@ -28,3 +28,8 @@ def test_exercise41():
     filter_some = Some(42).filter(lambda x: x ==42)
     assert Some is type(filter_some)
     assert 42 == cast(Some[int], filter_some).value
+
+def test_exercise41():
+    result = Option.variance([1.0, 2.0, 3.0, 4.0, 5.0])
+    assert Some is type(result)
+    assert 2.0 == result.value
