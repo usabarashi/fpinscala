@@ -5,6 +5,7 @@ module FpInScala.Part1.Chapter4.Option
   , getOrElse
   , orElse
   , filter'
+  , variance
   ) where
 
 data Option a = None | Some a
@@ -28,3 +29,11 @@ orElse a f = getOrElse (map' a (\x -> Some x)) f
 
 filter' :: Option a -> (a -> Bool) -> Option a
 filter' a f = flatMap' a (\x -> if f(x) then Some x else None)
+
+mean :: [Double] -> Option Double
+mean [] = None
+mean xs = Some (sum xs / fromIntegral (length xs))
+
+variance :: [Double] -> Option Double
+variance [] = None
+variance xs = flatMap' (mean xs) (\m -> mean (map (\x -> (x - m) ^ 2) xs))

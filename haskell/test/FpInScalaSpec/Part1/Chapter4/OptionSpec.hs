@@ -10,6 +10,7 @@ import FpInScala.Part1.Chapter4.Option
   , getOrElse
   , orElse
   , filter'
+  , variance
   )
 
 exercise41Spec :: Spec
@@ -35,3 +36,9 @@ exercise41Spec = do
             (filter' None (\x -> x == 42)) `shouldBe` None
         it "filter' Some" $
             (filter' (Some 42) (\x -> x == 42)) `shouldBe` (Some 42)
+
+exercise42Spec :: Spec
+exercise42Spec = do
+    describe "Option" $ do
+        it "variance" $
+            (variance [1.0, 2.0, 3.0, 4.0, 5.0]) `shouldBe` (Some 2.0)
