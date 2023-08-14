@@ -57,6 +57,15 @@ where
             }
         })
     }
+
+    fn map2<B, C, F>(&self, other: MyOption<B>, f: F) -> MyOption<C>
+    where
+        B: Clone,
+        C: Clone,
+        F: Fn(A, B) -> C + Copy,
+    {
+        self.flat_map(|a| other.map(|b| f(a.clone(), b)))
+    }
 }
 
 fn mean(xs: &[f64]) -> MyOption<f64> {
@@ -103,6 +112,18 @@ mod tests {
 
     #[test]
     fn test_exercise42() {
-        assert_eq!(variance(&[1.0, 2.0, 3.0, 4.0, 5.0]), MyOption::MySome(2.0))
+        assert_eq!(variance(&[1.0, 2.0, 3.0, 4.0, 5.0]), MyOption::MySome(2.0));
+    }
+
+    #[test]
+    fn test_exercise43() {
+        assert_eq!(
+            MyOption::MySome(42).map2::<i32, i32, _>(MyOption::MyNone, |a, b| a + b),
+            MyOption::MyNone,
+        );
+        assert_eq!(
+            MyOption::MySome(42).map2::<i32, i32, _>(MyOption::MySome(42), |a, b| a + b),
+            MyOption::MySome(84)
+        );
     }
 }
