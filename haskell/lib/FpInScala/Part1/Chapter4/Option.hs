@@ -7,6 +7,7 @@ module FpInScala.Part1.Chapter4.Option
   , filter'
   , variance
   , map2
+  , sequence'
   ) where
 
 data Option a = None | Some a
@@ -41,3 +42,7 @@ variance xs = flatMap' (mean xs) (\m -> mean (map (\x -> (x - m) ^ 2) xs))
 
 map2 :: Option a -> Option b -> (a -> b -> c) -> Option c
 map2 a b f = flatMap' a (\a' -> map' b (\b' -> f a' b'))
+
+sequence' :: [Option a] -> Option [a]
+sequence' [] = Some []
+sequence' (h:t) = flatMap' h (\hh -> map' (sequence' t) (\tt -> hh:tt))

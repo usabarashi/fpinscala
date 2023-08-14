@@ -44,3 +44,4 @@ main = hspec $ do
     describe "Exercise 4.1" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise41Spec
     describe "Exercise 4.2" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise42Spec
     describe "Exercise 4.3" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise43Spec
+    describe "Exercise 4.4" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise44Spec

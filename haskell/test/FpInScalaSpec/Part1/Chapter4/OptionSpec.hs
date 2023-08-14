@@ -12,6 +12,7 @@ import FpInScala.Part1.Chapter4.Option
   , filter'
   , variance
   , map2
+  , sequence'
   )
 
 exercise41Spec :: Spec
@@ -51,3 +52,11 @@ exercise43Spec = do
             (map2 (Some 42) None (\a -> \b -> a + b)) `shouldBe` (None :: Option Int)
         it "map2 Some" $
             (map2 (Some 42) (Some 42) (\a -> \b -> a + b)) `shouldBe` (Some 84)
+
+exercise44Spec :: Spec
+exercise44Spec = do
+    describe "Sequence'" $ do
+        it "Sequence' None" $
+            (sequence' [Some "Hello!", None]) `shouldBe` (None :: Option [String])
+        it "Sequence' Some" $
+            (sequence' [Some "Hello!", Some "World!"]) `shouldBe` (Some ["Hello!", "World!"])
