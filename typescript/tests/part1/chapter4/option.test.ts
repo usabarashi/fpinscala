@@ -8,6 +8,7 @@ import {
     , orElse
     , filter
     , variance
+    , map2
 } from 'src/part1/chapter4/option'
 
 describe("Exercise 4.1", () => {
@@ -25,4 +26,9 @@ describe("Exercise 4.1", () => {
 
 describe("Exercise 4.2", () => {
     test("variance", () => expect(variance([1.0, 2.0, 3.0, 4.0, 5.0])).toStrictEqual({ type: 'Some', value: 2.0 }))
+})
+
+describe("Exercise 4.3", () => {
+    test("map2 None", () => expect(map2({ type: 'Some', value: 42 }, { type: 'None' } as Option<number>, (x, y) => x + y)).toStrictEqual({ type: 'None' }))
+    test("map2 Some", () => expect(map2({ type: 'Some', value: 42 }, { type: 'Some', value: 42 }, (x, y) => x + y)).toStrictEqual({ type: 'Some', value: 84 }))
 })

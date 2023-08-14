@@ -39,3 +39,6 @@ const mean = (xs: Array<number>): Option<number> =>
 
 export const variance = (xs: Array<number>): Option<number> =>
     flatMap(mean(xs), (m) => mean(xs.map((x) => Math.pow(x - m, 2))))
+
+export const map2 = <A, B, C>(a: Option<A>, b: Option<B>, f: (a: A, b: B) => C): Option<C> =>
+    flatMap(a, (a) => map(b, (b) => f(a, b)))
