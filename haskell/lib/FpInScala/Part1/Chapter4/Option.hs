@@ -6,6 +6,7 @@ module FpInScala.Part1.Chapter4.Option
   , orElse
   , filter'
   , variance
+  , map2
   ) where
 
 data Option a = None | Some a
@@ -37,3 +38,6 @@ mean xs = Some (sum xs / fromIntegral (length xs))
 variance :: [Double] -> Option Double
 variance [] = None
 variance xs = flatMap' (mean xs) (\m -> mean (map (\x -> (x - m) ^ 2) xs))
+
+map2 :: Option a -> Option b -> (a -> b -> c) -> Option c
+map2 a b f = flatMap' a (\a' -> map' b (\b' -> f a' b'))

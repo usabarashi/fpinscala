@@ -11,6 +11,7 @@ import FpInScala.Part1.Chapter4.Option
   , orElse
   , filter'
   , variance
+  , map2
   )
 
 exercise41Spec :: Spec
@@ -42,3 +43,11 @@ exercise42Spec = do
     describe "Option" $ do
         it "variance" $
             (variance [1.0, 2.0, 3.0, 4.0, 5.0]) `shouldBe` (Some 2.0)
+
+exercise43Spec :: Spec
+exercise43Spec = do
+    describe "Option" $ do
+        it "map2 None" $
+            (map2 (Some 42) None (\a -> \b -> a + b)) `shouldBe` (None :: Option Int)
+        it "map2 Some" $
+            (map2 (Some 42) (Some 42) (\a -> \b -> a + b)) `shouldBe` (Some 84)
