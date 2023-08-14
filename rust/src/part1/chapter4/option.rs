@@ -18,9 +18,10 @@ where
         }
     }
 
-    fn flat_map<F>(&self, f: F) -> MyOption<A>
+    fn flat_map<B, F>(&self, f: F) -> MyOption<B>
     where
-        F: Fn(A) -> MyOption<A> + Copy,
+        B: Clone,
+        F: Fn(A) -> MyOption<B> + Copy,
     {
         self.map(f).get_or_else(|| MyOption::MyNone)
     }
