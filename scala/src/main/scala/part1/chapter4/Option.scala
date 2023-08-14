@@ -36,3 +36,8 @@ object Option:
 
     def map2[A, B, C](a: Option[A], b: Option[B])(f: (A, B) => C): Option[C] =
         a.flatMap((a_) => b.map((b_) => f(a_, b_)))
+
+    def sequence[A](as: List[Option[A]]): Option[List[A]] =
+        as match
+            case Nil => Some(Nil)
+            case h :: t => h.flatMap(hh => sequence(t).map(hh :: _))
