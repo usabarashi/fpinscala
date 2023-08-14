@@ -29,7 +29,15 @@ def test_exercise41():
     assert Some is type(filter_some)
     assert 42 == cast(Some[int], filter_some).value
 
-def test_exercise41():
+def test_exercise42():
     result = Option.variance([1.0, 2.0, 3.0, 4.0, 5.0])
     assert Some is type(result)
     assert 2.0 == result.value
+
+def test_exercise43():
+    result_none = Some[int](42).map2(Void[int](), lambda a, b: a + b)
+    assert Void is type(result_none)
+
+    result_some = Some[int](42).map2(Some[int](42), lambda a, b: a + b)
+    assert Some is type(result_some)
+    assert 84 == cast(Some[int], result_some).value

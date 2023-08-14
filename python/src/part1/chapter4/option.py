@@ -5,6 +5,7 @@ from typing import Generic, TypeVar, TypeAlias, Callable
 
 Ap = TypeVar("Ap", covariant=True)
 Bp = TypeVar("Bp", covariant=True)
+Cp = TypeVar("Cp", covariant=True)
 
 
 class Option(Generic[Ap]):
@@ -30,6 +31,9 @@ class Option(Generic[Ap]):
 
     def filter(self, f: Callable[[Ap], bool]) -> Option[Ap]:
         return self.flat_map(lambda x: Some(x) if (x) else Void[Ap]())
+
+    def map2(self, other: Option[Bp], f: Callable[[Ap, Bp], Cp]) -> Option[Cp]:
+        return self.flat_map(lambda a: other.map(lambda b: f(a, b)))
 
     @staticmethod
     def mean(xs: list[float]) -> Option[float]:
