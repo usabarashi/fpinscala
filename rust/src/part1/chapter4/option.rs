@@ -1,3 +1,5 @@
+use std::iter;
+
 #[derive(Debug, Clone, PartialEq)]
 enum MyOption<A> {
     MyNone,
@@ -80,6 +82,18 @@ fn variance(xs: &[f64]) -> MyOption<f64> {
     mean(xs).flat_map(|m| mean(&xs.iter().map(|x| (x - m).powf(2.0)).collect::<Vec<_>>()))
 }
 
+fn sequence<A>(xs: &[MyOption<A>]) -> MyOption<Vec<A>>
+where
+    A: Clone,
+{
+    match xs {
+        [] => MyOption::MySome(Vec::<A>::new()),
+        [x, xs @ ..] => (*x).flat_map(|head| {
+            sequence(xs).map(|tail| iter::once(head.clone()).chain(tail).collect())
+        }),
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -124,6 +138,18 @@ mod tests {
         assert_eq!(
             MyOption::MySome(42).map2::<i32, i32, _>(MyOption::MySome(42), |a, b| a + b),
             MyOption::MySome(84)
+        );
+    }
+
+    #[test]
+    fn test_exercise44() {
+        assert_eq!(
+            sequence(&[MyOption::MySome(42), MyOption::MyNone]),
+            MyOption::MyNone
+        );
+        assert_eq!(
+            sequence(&[MyOption::MySome(42), MyOption::MySome(42)]),
+            MyOption::MySome(vec![42, 42])
         );
     }
 }
