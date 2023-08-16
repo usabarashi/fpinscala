@@ -41,3 +41,11 @@ def test_exercise43():
     result_some = Some[int](42).map2(Some[int](42), lambda a, b: a + b)
     assert Some is type(result_some)
     assert 84 == cast(Some[int], result_some).value
+
+def test_exercise44():
+    result_none = Option.sequence([Some(42), Void()])
+    assert Void is type(result_none)
+
+    result_some = Option.sequence([Some(42), Some(42)])
+    assert Some is type(result_some)
+    assert [42, 42] == result_some.value

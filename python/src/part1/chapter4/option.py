@@ -47,6 +47,14 @@ class Option(Generic[Ap]):
     def variance(xs: list[float]) -> Option[float]:
         return Option.mean(xs).flat_map(lambda m: Option.mean([pow(x - m, 2) for x in xs]))
 
+    @staticmethod
+    def sequence(xs: list[Option[Ap]]) -> Option[list[Ap]]:
+        match xs:
+            case []:
+                return Some([])
+            case [head, *tail]:
+                return head.flat_map(lambda h: Option.sequence(tail).map(lambda t: [h] + t))
+
     @property
     def pattern(self) -> SubType:
         ...
