@@ -42,3 +42,11 @@ export const variance = (xs: Array<number>): Option<number> =>
 
 export const map2 = <A, B, C>(a: Option<A>, b: Option<B>, f: (a: A, b: B) => C): Option<C> =>
     flatMap(a, (a) => map(b, (b) => f(a, b)))
+
+export const sequence = <T>(xs: Array<Option<T>>): Option<Array<T>> =>
+    match(xs)
+        .with([], () => ({ type: 'Some', value: [] } as Option<Array<T>>))
+        .otherwise((xs) => {
+            const [head, ...tail] = xs
+            return flatMap(head, (h) => map(sequence(tail), (t) => [h].concat(t)))
+        })

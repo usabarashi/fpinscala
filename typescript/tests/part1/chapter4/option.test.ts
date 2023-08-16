@@ -9,6 +9,7 @@ import {
     , filter
     , variance
     , map2
+    , sequence
 } from 'src/part1/chapter4/option'
 
 describe("Exercise 4.1", () => {
@@ -31,4 +32,9 @@ describe("Exercise 4.2", () => {
 describe("Exercise 4.3", () => {
     test("map2 None", () => expect(map2({ type: 'Some', value: 42 }, { type: 'None' } as Option<number>, (x, y) => x + y)).toStrictEqual({ type: 'None' }))
     test("map2 Some", () => expect(map2({ type: 'Some', value: 42 }, { type: 'Some', value: 42 }, (x, y) => x + y)).toStrictEqual({ type: 'Some', value: 84 }))
+})
+
+describe("Exercise 4.4", () => {
+    test("sequence None", () => expect(sequence([{ type: 'Some', value: 42 }, { type: 'None' }])).toStrictEqual({ type: 'None' }))
+    test("sequence Some", () => expect(sequence([{ type: 'Some', value: 42 }, { type: 'Some', value: 42 }])).toStrictEqual({ type: 'Some', value: [42, 42] }))
 })
