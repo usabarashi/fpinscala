@@ -31,9 +31,12 @@ class OptionSuite extends munit.FunSuite {
   }
 
   test("Exercise 4.4") {
-    //assertEquals(Option.map2(None, Some("World!"))((a, b) => a + b), None)
     assertEquals(Option.sequence(List(Some("Hello!"), None)), None)
     assertEquals(Option.sequence(List(Some("Hello!"), Some("World!"))), Some(List("Hello!", "World!")))
   }
 
+  test("Exercise 4.5") {
+    assertEquals(Option.sequenceFromTraverse(List(Some("Hello!"), None)), None)
+    assertEquals(Option.sequenceFromTraverse(List(Some("Hello!"), Some("World!"))), Some(List("Hello!", "World!")))
+  }
 }
