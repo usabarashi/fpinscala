@@ -94,6 +94,27 @@ where
     }
 }
 
+fn traverse<A, B, F>(xs: &[A], f: F) -> MyOption<Vec<B>>
+where
+    A: Clone,
+    B: Clone,
+    F: Fn(A) -> MyOption<B> + Copy,
+{
+    match xs {
+        [] => MyOption::MySome(Vec::new()),
+        [x, xs @ ..] => f((*x).clone()).map2(traverse(xs, f), |head, tail| {
+            iter::once(head).chain(tail).collect()
+        }),
+    }
+}
+
+fn sequence_from_traverse<A>(xs: &[MyOption<A>]) -> MyOption<Vec<A>>
+where
+    A: Clone,
+{
+    traverse(xs, |x| x)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -149,6 +170,18 @@ mod tests {
         );
         assert_eq!(
             sequence(&[MyOption::MySome(42), MyOption::MySome(42)]),
+            MyOption::MySome(vec![42, 42])
+        );
+    }
+
+    #[test]
+    fn test_exercise45() {
+        assert_eq!(
+            sequence_from_traverse(&[MyOption::MySome(42), MyOption::MyNone]),
+            MyOption::MyNone
+        );
+        assert_eq!(
+            sequence_from_traverse(&[MyOption::MySome(42), MyOption::MySome(42)]),
             MyOption::MySome(vec![42, 42])
         );
     }
