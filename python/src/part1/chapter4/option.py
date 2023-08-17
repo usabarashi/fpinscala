@@ -55,6 +55,19 @@ class Option(Generic[Ap]):
             case [head, *tail]:
                 return head.flat_map(lambda h: Option.sequence(tail).map(lambda t: [h] + t))
 
+    @staticmethod
+    def traverse(xs: list[Ap], f: Callable[[Ap], Option[Bp]]) -> Option[list[Bp]]:
+        match xs:
+            case []:
+                return Some([])
+            case [head, *tail]:
+                return f(head).map2(Option.traverse(tail, f), lambda h, t: [h] + t)
+
+    @staticmethod
+    def sequence_from_traverse(xs: list[Option[Ap]]) -> Option[list[Ap]]:
+        return Option.traverse(xs, lambda x: x)
+
+
     @property
     def pattern(self) -> SubType:
         ...

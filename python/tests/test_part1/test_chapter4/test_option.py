@@ -49,3 +49,11 @@ def test_exercise44():
     result_some = Option.sequence([Some(42), Some(42)])
     assert Some is type(result_some)
     assert [42, 42] == result_some.value
+
+def test_exercise45():
+    result_none = Option.sequence_from_traverse([Some(42), Void()])
+    assert Void is type(result_none)
+
+    result_some = Option.sequence_from_traverse([Some(42), Some(42)])
+    assert Some is type(result_some)
+    assert [42, 42] == result_some.value
