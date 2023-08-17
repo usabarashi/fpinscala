@@ -13,6 +13,7 @@ import FpInScala.Part1.Chapter4.Option
   , variance
   , map2
   , sequence'
+  , sequenceFromTraverse
   )
 
 exercise41Spec :: Spec
@@ -59,4 +60,12 @@ exercise44Spec = do
         it "Sequence' None" $
             (sequence' [Some "Hello!", None]) `shouldBe` (None :: Option [String])
         it "Sequence' Some" $
+            (sequence' [Some "Hello!", Some "World!"]) `shouldBe` (Some ["Hello!", "World!"])
+
+exercise45Spec :: Spec
+exercise45Spec = do
+    describe "SequenceFromTraverse'" $ do
+        it "SequenceFromTraverse None" $
+            (sequence' [Some "Hello!", None]) `shouldBe` (None :: Option [String])
+        it "SequenceFromTraverse Some" $
             (sequence' [Some "Hello!", Some "World!"]) `shouldBe` (Some ["Hello!", "World!"])

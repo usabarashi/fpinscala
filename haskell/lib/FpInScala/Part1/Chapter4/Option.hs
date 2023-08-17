@@ -8,6 +8,7 @@ module FpInScala.Part1.Chapter4.Option
   , variance
   , map2
   , sequence'
+  , sequenceFromTraverse
   ) where
 
 data Option a = None | Some a
@@ -46,3 +47,10 @@ map2 a b f = flatMap' a (\a' -> map' b (\b' -> f a' b'))
 sequence' :: [Option a] -> Option [a]
 sequence' [] = Some []
 sequence' (h:t) = flatMap' h (\hh -> map' (sequence' t) (\tt -> hh:tt))
+
+traverse' :: [a] -> (a -> Option b) -> Option [b]
+traverse' [] _ = Some []
+traverse' (h:t) f = map2 (f h) (traverse' t f) (\hh -> \tt -> hh:tt)
+
+sequenceFromTraverse :: [Option a] -> Option [a]
+sequenceFromTraverse xs = traverse' xs (\x -> x)
