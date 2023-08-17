@@ -50,3 +50,14 @@ export const sequence = <T>(xs: Array<Option<T>>): Option<Array<T>> =>
             const [head, ...tail] = xs
             return flatMap(head, (h) => map(sequence(tail), (t) => [h].concat(t)))
         })
+
+export const traverse = <A, B>(xs: Array<A>, f: (t: A) => Option<B>): Option<Array<B>> =>
+    match(xs)
+        .with([], () => ({ type: 'Some', value: [] }) as Option<Array<B>>)
+        .otherwise((xs) => {
+            const [head, ...tail] = xs
+            return map2(f(head), traverse(tail, f), (h, t) => [h].concat(t))
+        })
+
+export const sequenceFromTraverse = <T>(xs: Array<Option<T>>): Option<Array<T>> =>
+    traverse(xs, (x) => x)

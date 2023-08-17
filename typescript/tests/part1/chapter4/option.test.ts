@@ -10,6 +10,8 @@ import {
     , variance
     , map2
     , sequence
+    , traverse
+    , sequenceFromTraverse
 } from 'src/part1/chapter4/option'
 
 describe("Exercise 4.1", () => {
@@ -37,4 +39,9 @@ describe("Exercise 4.3", () => {
 describe("Exercise 4.4", () => {
     test("sequence None", () => expect(sequence([{ type: 'Some', value: 42 }, { type: 'None' }])).toStrictEqual({ type: 'None' }))
     test("sequence Some", () => expect(sequence([{ type: 'Some', value: 42 }, { type: 'Some', value: 42 }])).toStrictEqual({ type: 'Some', value: [42, 42] }))
+})
+
+describe("Exercise 4.5", () => {
+    test("sequenceFromTraverse None", () => expect(sequenceFromTraverse([{ type: 'Some', value: 42 }, { type: 'None' }])).toStrictEqual({ type: 'None' }))
+    test("sequenceFromTraverse Some", () => expect(sequenceFromTraverse([{ type: 'Some', value: 42 }, { type: 'Some', value: 42 }])).toStrictEqual({ type: 'Some', value: [42, 42] }))
 })
