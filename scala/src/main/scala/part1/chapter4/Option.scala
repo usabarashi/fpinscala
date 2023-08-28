@@ -1,4 +1,3 @@
-
 package part1.chapter4
 
 import scala.{Option as _, Some as _, None as _}
