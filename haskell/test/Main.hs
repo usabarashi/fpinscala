@@ -5,6 +5,7 @@ import FpInScalaSpec.Part1.Chapter2.GettingStartedSpec
 import FpInScalaSpec.Part1.Chapter3.ListSpec
 import FpInScalaSpec.Part1.Chapter3.TreeSpec
 import FpInScalaSpec.Part1.Chapter4.OptionSpec
+import FpInScalaSpec.Part1.Chapter4.MyEitherSpec
 
 main :: IO ()
 main = hspec $ do
@@ -46,3 +47,4 @@ main = hspec $ do
     describe "Exercise 4.3" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise43Spec
     describe "Exercise 4.4" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise44Spec
     describe "Exercise 4.5" FpInScalaSpec.Part1.Chapter4.OptionSpec.exercise45Spec
+    describe "Exercise 4.6" FpInScalaSpec.Part1.Chapter4.MyEitherSpec.exercise46Spec
