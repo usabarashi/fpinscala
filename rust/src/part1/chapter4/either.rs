@@ -1,4 +1,6 @@
-#[derive(Debug, PartialEq)]
+use std::iter;
+
+#[derive(Debug, Clone, PartialEq)]
 enum Either<L, R> {
     Left(L),
     Right(R),
@@ -52,6 +54,30 @@ where
     }
 }
 
+fn sequence<E, A>(xs: &[Either<E, A>]) -> Either<E, Vec<A>>
+where
+    E: Clone,
+    A: Clone,
+{
+    traverse(xs, |x| x)
+}
+
+fn traverse<E, A, B, F>(xs: &[A], f: F) -> Either<E, Vec<B>>
+where
+    E: Clone,
+    A: Clone,
+    B: Clone,
+    F: Fn(A) -> Either<E, B> + Copy,
+{
+    match xs {
+        [] => Either::Right(vec![]),
+        [x, xs @ ..] => {
+            let other = traverse(xs, f);
+            f(x.clone()).map2(&other, |head, tail| iter::once(head).chain(tail).collect())
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -80,5 +106,25 @@ mod tests {
         let right_map2 = right.map2(&right, |x, y| x + y);
         assert_eq!(left_map2, left);
         assert_eq!(right_map2, Either::Right(84));
+    }
+
+    #[test]
+    fn test_exercise47() {
+        assert_eq!(
+            sequence(&[Either::Right(42), Either::Left("error")]),
+            Either::Left("error")
+        );
+        assert_eq!(
+            sequence(&[Either::<&str, u32>::Right(42), Either::Right(42)]),
+            Either::Right(vec![42, 42])
+        );
+        assert_eq!(
+            traverse(&[Either::Right(42), Either::Left("error")], |x| x),
+            Either::Left("error")
+        );
+        assert_eq!(
+            traverse(&[Either::<&str, u32>::Right(42), Either::Right(42)], |x| x),
+            Either::Right(vec![42, 42])
+        );
     }
 }
