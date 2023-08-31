@@ -32,4 +32,10 @@ class EitherSuite extends munit.FunSuite {
     assertEquals(rightMap2, Right[String, Int](84))
   }
 
+  test("Exercise 4.7") {
+    assertEquals(Either.sequence(List(Right("Hello!"), Left(0))), Left(0))
+    assertEquals(Either.sequence(List(Right("Hello!"), Right("World!"))), Right(List("Hello!", "World!")))
+    assertEquals(Either.traverse(List(Right("Hello!"), Left(0)))(x => x), Left(0))
+    assertEquals(Either.traverse(List(Right("Hello!"), Right("World!")))(x => x), Right(List("Hello!", "World!")))
+  }
 }

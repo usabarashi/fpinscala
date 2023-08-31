@@ -28,6 +28,16 @@ enum Either[+E, +A]:
       b <- that
     yield f(a, b)
 
+object Either:
+
+  def sequence[E, A](as: List[Either[E, A]]): Either[E, List[A]] =
+    traverse(as)(x => x)
+
+  def traverse[E, A, B](as: List[A])(f: A => Either[E, B]): Either[E, List[B]] =
+    as match
+      case Nil => Right(Nil)
+      case h::t => f(h).map2(traverse(t)(f))(_ :: _)
+
 def mean(xs: Seq[Double]): Either[String, Double] =
   if xs.isEmpty then
     Either.Left("mean of empty list!")
