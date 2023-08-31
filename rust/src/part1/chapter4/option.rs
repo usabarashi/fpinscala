@@ -102,7 +102,7 @@ where
 {
     match xs {
         [] => MyOption::MySome(Vec::new()),
-        [x, xs @ ..] => f((*x).clone()).map2(traverse(xs, f), |head, tail| {
+        [x, xs @ ..] => f(x.clone()).map2(traverse(xs, f), |head, tail| {
             iter::once(head).chain(tail).collect()
         }),
     }
