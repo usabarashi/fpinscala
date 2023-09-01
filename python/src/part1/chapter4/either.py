@@ -34,10 +34,24 @@ class Either(Generic[Lp, Rp]):
 
     def map2(self, other: Either[Lp, RRp], f: Callable[[Rp, RRp], RRRp]) -> Either[Lp, RRRp]:
         match self.pattern, other.pattern:
-            case (Left(), _) | (_, Left()):
+            case Left(), _:
                 return cast(Either[Lp, RRRp], self)
+            case _, Left():
+                return cast(Either[Lp, RRRp], other)
             case Right(a), Right(b):
                 return Right[Lp, RRRp](f(a, b))
+
+    @staticmethod
+    def sequence(xs: list[Either[Lp, Rp]]) -> Either[Lp, list[Rp]]:
+        return Either.traverse(xs, lambda x: x)
+
+    @staticmethod
+    def traverse(xs: list[Rp], f: Callable[[Rp], Either[Lp, RRp]]) -> Either[Lp, list[RRp]]:
+        match xs:
+            case []:
+                return Right([])
+            case [head, *tail]:
+                return f(head).map2(Either.traverse(tail, f), lambda h, t: [h] + t)
 
     @property
     def pattern(self) -> SubType:
