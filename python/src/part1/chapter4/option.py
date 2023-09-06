@@ -67,7 +67,6 @@ class Option(Generic[Ap]):
     def sequence_from_traverse(xs: list[Option[Ap]]) -> Option[list[Ap]]:
         return Option.traverse(xs, lambda x: x)
 
-
     @property
     def pattern(self) -> SubType:
         ...
