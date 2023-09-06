@@ -1,7 +1,7 @@
 use std::iter;
 
 #[derive(Debug, Clone, PartialEq)]
-enum Either<L, R> {
+pub enum Either<L, R> {
     Left(L),
     Right(R),
 }
