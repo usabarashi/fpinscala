@@ -56,7 +56,7 @@ class Validated(Generic[E, A]):
         return reduce(lambda acc, a: f(a).map2(acc, lambda b, bs: [b] + bs), xs, Valid[E, B]([]))
 
     @staticmethod
-    def sequence(vs: list[Validated[E, A]]) -> Validated[E, list[A]]:
+    def sequence(vs: list[Validated[E, C]]) -> Validated[E, list[C]]:
         return Validated.traverse(vs, lambda x: x)
 
     @property

@@ -11,14 +11,14 @@ RRRp = TypeVar("RRRp", covariant=True)
 
 
 class Either(Generic[Lp, Rp]):
-    def map(self, f: Callable[[Rp], RRp]) -> Either[RRp]:
+    def map(self, f: Callable[[Rp], RRp]) -> Either[Lp, RRp]:
         match self.pattern:
             case Left():
-                return cast(Left[Lp, Rp], self)
+                return cast(Left[Lp, RRp], self)
             case Right(value):
                 return Right[Lp, RRp](f(value))
 
-    def flat_map(self, f: Callable[[Rp], Either[Lp, RRp]]) -> Either[RRp]:
+    def flat_map(self, f: Callable[[Rp], Either[Lp, RRp]]) -> Either[Lp, RRp]:
         match self.pattern:
             case Left():
                 return cast(Left[Lp, RRp], self)
@@ -42,7 +42,7 @@ class Either(Generic[Lp, Rp]):
                 return Right[Lp, RRRp](f(a, b))
 
     @staticmethod
-    def sequence(xs: list[Either[Lp, Rp]]) -> Either[Lp, list[Rp]]:
+    def sequence(xs: list[Either[Lp, RRp]]) -> Either[Lp, list[RRp]]:
         return Either.traverse(xs, lambda x: x)
 
     @staticmethod
@@ -52,6 +52,8 @@ class Either(Generic[Lp, Rp]):
                 return Right([])
             case [head, *tail]:
                 return f(head).map2(Either.traverse(tail, f), lambda h, t: [h] + t)
+            case _:
+                raise ValueError("Unreachable.", xs)
 
     @property
     def pattern(self) -> SubType:

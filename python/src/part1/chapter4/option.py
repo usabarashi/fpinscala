@@ -54,6 +54,8 @@ class Option(Generic[Ap]):
                 return Some([])
             case [head, *tail]:
                 return head.flat_map(lambda h: Option.sequence(tail).map(lambda t: [h] + t))
+            case _:
+                raise ValueError("Unreachable.", xs)
 
     @staticmethod
     def traverse(xs: list[Ap], f: Callable[[Ap], Option[Bp]]) -> Option[list[Bp]]:
@@ -62,9 +64,11 @@ class Option(Generic[Ap]):
                 return Some([])
             case [head, *tail]:
                 return f(head).map2(Option.traverse(tail, f), lambda h, t: [h] + t)
+            case _:
+                raise ValueError("Unreachable.", xs)
 
     @staticmethod
-    def sequence_from_traverse(xs: list[Option[Ap]]) -> Option[list[Ap]]:
+    def sequence_from_traverse(xs: list[Option[Cp]]) -> Option[list[Cp]]:
         return Option.traverse(xs, lambda x: x)
 
     @property
