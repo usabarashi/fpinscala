@@ -42,13 +42,13 @@ enum Validated[+E, +A]:
 
     def toEither: Either[List[E], A] =
         this match
-            case Valid(a) => Right(a)
             case Invalid(es) => Left(es)
+            case Valid(a) => Right(a)
 
     def map[B](f: A => B): Validated[E, B] =
         this match
-            case Valid(a) => Valid(f(a))
             case Invalid(es) => Invalid(es)
+            case Valid(a) => Valid(f(a))
 
     def map2[EE >: E, B, C](b: Validated[EE, B])(f: (A, B) => C): Validated[EE, C] =
         (this, b) match
