@@ -18,6 +18,7 @@ library
                       FpInScala.Part1.Chapter3.Tree
                       FpInScala.Part1.Chapter4.Option
                       FpInScala.Part1.Chapter4.MyEither
+                      FpInScala.Part1.Chapter5.LazyList
     build-depends:    base ^>=4.17.1.0
     hs-source-dirs:   lib
     default-language: Haskell2010
@@ -33,6 +34,7 @@ test-suite fpinscala-test
                       FpInScalaSpec.Part1.Chapter3.TreeSpec
                       FpInScalaSpec.Part1.Chapter4.OptionSpec
                       FpInScalaSpec.Part1.Chapter4.MyEitherSpec
+                      FpInScalaSpec.Part1.Chapter5.LazyListSpec
     build-depends:
         base ^>=4.17.1.0,
         hspec,
