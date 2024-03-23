@@ -1,0 +1,23 @@
+{
+    "files": {
+        "insertFinalNewline": true,
+        "trimFinalNewlines": true,
+        "trimTrailingWhitespace": true
+    },
+    "files.watcherExclude": {
+        "**/target": true
+    },
+    //"java.jdt.ls.java.home": "/nix/store/3sj3i50aglr7wiv0fdw352gc8wkha2an-zulu17.44.53-ca-jdk-17.0.8.1",
+    "metals.javaHome": "/nix/store/3sj3i50aglr7wiv0fdw352gc8wkha2an-zulu17.44.53-ca-jdk-17.0.8.1",
+    "metals.sbtScript": "/nix/store/mfv6blpgz9yi908n2aki6qxyf6xmj4r8-sbt-1.9.7/bin/sbt",
+    //"metals.scalafmtConfigPath": ".scalafmt.conf",
+    "metals.bloopSbtAlreadyInstalled": false,
+    "metals.enableIndentOnPaste": true,
+    "metals.fallbackScalaVersion": "automatic",
+    "metals.showImplicitArguments": true,
+    "metals.showImplicitConversionsAndClasses": true,
+    "metals.showInferredType": "true",
+    "metals.suggestLatestUpgrade": true,
+    "editor.acceptSuggestionOnEnter": "on",
+    "editor.formatOnSave": true,
+}
