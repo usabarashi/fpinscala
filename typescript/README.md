@@ -2,12 +2,12 @@
 
 # Setup
 
-```console
+```sh
 npm install
 ```
 
 # Test
 
-```console
+```sh
 npm run test
 ```
