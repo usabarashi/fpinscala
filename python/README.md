@@ -2,13 +2,13 @@
 
 # Setup
 
-```console
+```sh
 nix develop
 poetry install
 ```
 
 # Test
 
-```console
+```sh
 make test
 ```
