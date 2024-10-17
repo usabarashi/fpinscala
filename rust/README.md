@@ -2,6 +2,6 @@
 
 # Test
 
-```console
+```sh
 cargo test
 ```

@@ -1,20 +1,24 @@
 {
+  description = "rust-experiment";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/23.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
+    utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = inputs:
-    let
-      pkgs = import inputs.nixpkgs { system = "aarch64-darwin"; };
-    in
-    {
-      devShells."aarch64-darwin".default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          rustc
-          cargo
-          rustfmt
-          clippy
-        ];
-      };
-    };
+  outputs = { self, nixpkgs, utils }:
+    utils.lib.eachDefaultSystem (system:
+      let
+        pkgs = import nixpkgs { inherit system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            rustc
+            cargo
+            rustfmt
+            clippy
+          ];
+        };
+      }
+    );
 }
