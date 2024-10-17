@@ -1,5 +1,4 @@
 {
-  description = "scala-experiment";
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
     utils.url = "github:numtide/flake-utils";
