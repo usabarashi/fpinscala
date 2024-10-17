@@ -2,6 +2,6 @@
 
 # Test
 
-```console
-sbt ~test
+```sh
+sbt "~testOnly"
 ```

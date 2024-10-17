@@ -1,20 +1,24 @@
 {
+  description = "scala-experiment";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/23.11";
+    nixpkgs.url = "github:nixos/nixpkgs?ref=24.05";
+    utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = inputs:
-    let
-      pkgs = import inputs.nixpkgs { system = "aarch64-darwin"; };
-    in
-    {
-      devShells."aarch64-darwin".default = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          coursier
-          jdk17
-          sbt
-          scala_3
-        ];
-      };
-    };
+  outputs = { self, nixpkgs, utils }:
+    utils.lib.eachDefaultSystem (system:
+      let
+        overlays = [ (final: prev: { sbt = prev.sbt.overrideAttrs (oldAttrs: { postPatch = ""; }); }) ];
+        pkgs = import nixpkgs { inherit overlays system; };
+      in
+      {
+        devShells.default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            sbt
+            scala-cli
+            temurin-bin-17
+          ];
+        };
+      }
+    );
 }
