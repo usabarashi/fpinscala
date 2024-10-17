@@ -2,7 +2,7 @@
 
 # Test
 
-```console
+```sh
 cabal update
 cabal build --enable-tests
 cabal test --test-show-details=always
